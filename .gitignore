@@ -3,4 +3,5 @@ dist/
 .env
 .DS_Store
 .vscode/
-
+code_gather.py
+project_summary.txt

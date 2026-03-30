@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useRef,useState } from 'react';
+import {useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Project.css';
@@ -97,6 +98,7 @@ const projects = [
 ];
 
 export default function Project() {
+  const navigate = useNavigate();
   const [filter, setFilter]= useState('All');
   const [selectedProject, setSelectedProject] = useState(null);// 상세 정보 모달을 위한 상태
   const sectionRef = useRef(null);
@@ -160,7 +162,7 @@ export default function Project() {
             key={project.id}
             ref={el => cardsRef.current[index] = el}
             className={`project-card ${project.size}`}
-            onClick={() => setSelectedProject(project)}
+            onClick={() => navigate(`/project/${project.id}`)} 
           >
             {/* 💊 1. 카드 우측 상단 알약 배지 (중복 제거) */}
             {project.status === "In Progress" && (
