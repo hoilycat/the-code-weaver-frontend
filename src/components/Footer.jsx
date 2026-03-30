@@ -1,5 +1,5 @@
 
-import { motion } from "framer-motion";
+import React from 'react';
 import './Footer.css';
 import bneedle from "../assets/images/bneedle.svg";
 import phoneIcon from '../assets/icons/phone-alt.svg';

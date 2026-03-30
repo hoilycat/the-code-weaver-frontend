@@ -1,0 +1,47 @@
+.project-detail-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  text-align: left;
+  line-height: 1.8;
+  color: #213448;
+}
+
+.detail-nav button {
+  background: none;
+  border: 1px solid #547792;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 40px;
+}
+
+.detail-header h1 {
+  font-size: 3rem;
+  margin-top: 10px;
+  font-family: "Superclarendon", serif;
+}
+
+.detail-tag {
+  color: #94B4C1;
+  font-weight: bold;
+}
+
+.detail-description {
+  margin-top: 50px;
+  font-size: 1.1rem;
+}
+
+.detail-link-section {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.visit-btn {
+  background-color: #213448;
+  color: white;
+  padding: 15px 40px;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+}

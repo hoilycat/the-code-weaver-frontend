@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";// eslint-disable-line no-unused-vars
 import './Hero.css'; // ★ CSS 파일 임포트 필수!
 
 export default function Hero() {
@@ -11,16 +11,23 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
+  // 🌟 핵심: scrollYProgress에 '탄성'이라는 옷을 입힘
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100, // 뻣뻣함 (숫자가 높을수록 탄력이 강함)
+    damping: 30,    // 저항 (숫자가 낮을수록 많이 출렁거림)
+    restDelta: 0.001
+  });
+
 // 2. 뜨개질 움직임 공식 (Oscillation)
   // Math.sin(v * 속도) * 각도
   
   // 왼쪽 바늘: 스크롤 내릴 때마다 0도 ↔ -15도를 왔다 갔다 함
-  const rotateLeft = useTransform(scrollYProgress, (v) => {
+  const rotateLeft = useTransform(smoothProgress, (v) => {
     return Math.sin(v * 30) * -15; 
   });
 
   // 오른쪽 바늘: 스크롤 내릴 때마다 0도 ↔ 15도를 왔다 갔다 함 (왼쪽과 반대 타이밍)
-  const rotateRight = useTransform(scrollYProgress, (v) => {
+  const rotateRight = useTransform(smoothProgress, (v) => {
     return Math.sin(v * 30) * 15;
   });
 

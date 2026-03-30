@@ -1,6 +1,7 @@
 /* About.css */
 .about-section {
   height: 100vh;
+  position: relative !important;
   display: flex;
   align-items: center;
   justify-content: center;

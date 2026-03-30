@@ -2,14 +2,15 @@
     justify-content: center;
     background-image:url("../assets/images/herob.svg");
     background-repeat:no-repeat;
-    background-position : 0% 50%
+    background-position : 0% 50%;
+    position: relative !important;
 }
 .needles{
     width:40%;
 }
 /* 화면에 고정되는 스티키 영역 */
 .hero-sticky {
-  position: sticky;
+  position: sticky !important;
   top: 0;
   height: 100vh;
   display: flex;
@@ -41,6 +42,7 @@
 /* SVG 캔버스 스타일 */
 .needle-svg {
   overflow: visible; /* 바늘이 회전하다 잘리지 않게 */
+  position: relative !important;
 }
 
 /* ★ 바늘 공통 스타일 (모양, 두께, 색상) */
@@ -57,7 +59,7 @@
 .scroll-text {
   position: absolute;
   /* 위치 잡기 (부모 기준) */
-  top: 70%;  /* 위에서 50% 지점 (바늘 교차점 근처로 조정하세요) */
+  top: 70%;  /* 위에서 50% 지점 (바늘 교차점 근처로 조정) */
   left: 48%; /* 왼쪽에서 50% 지점 */
   
   /* 정중앙 정렬 보정 (자신 크기의 절반만큼 되돌리기) */
@@ -103,7 +105,7 @@
 
   /* 3. 뜨개질 바늘(SVG): 핸드폰 화면에 쏙 들어오게 */
   .needle-svg {
-    width: 90% !important; /* 양옆에 여백을 조금 줘요 */
+    width: 90% !important; /* 양옆에 여백을 조금 주기 */
     height: auto !important;
     top: 55% !important; /* 제목 밑에 예쁘게 걸리도록 위치 조정 */
   }

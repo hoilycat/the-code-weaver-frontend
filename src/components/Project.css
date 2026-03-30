@@ -1,6 +1,7 @@
 /* Project.css */
 .project-section {
   min-height: 100vh;
+  position: relative;
 }
 
 #project-title{
