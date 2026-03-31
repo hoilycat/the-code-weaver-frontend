@@ -89,7 +89,7 @@ export default function About() {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end end"] });
  
-  // 🌟 핵심: scrollYProgress에 '탄성'이라는 옷을 입힘
+  // 핵심: scrollYProgress에 '탄성'이라는 옷을 입힘
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 200, // 뻣뻣함 (숫자가 높을수록 탄력이 강함)
     damping: 40,    // 저항 (숫자가 낮을수록 많이 출렁거림)

@@ -6,8 +6,10 @@ import Project from './components/Project';
 import Footer from './components/Footer';
 import ScrollToTop from "./components/ScrollToTop";
 import ProjectDetail from './components/ProjectDetail'; // 상세페이지
+import ProjectWrite from './components/ProjectWrite';
 
-// 🏠 [메인 화면 컴포넌트] 기존의 스크롤 구조를 하나로 묶음
+
+// [메인 화면 컴포넌트] 기존의 스크롤 구조를 하나로 묶음
 const MainPage = () => {
   return (
     <>
@@ -30,6 +32,8 @@ function App() {
 
           {/* 프로젝트 상세 페이지(/project/숫자) 주소일 때 */}
           <Route path="/project/:id" element={<ProjectDetail />} />
+          {/* ✍️ 글쓰기 경로 추가! */}
+          <Route path="/admin/write" element={<ProjectWrite />} /> 
         </Routes>
       </div>
     </BrowserRouter>

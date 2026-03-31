@@ -26,8 +26,13 @@
   flex-direction: column;
   justify-content: flex-end;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  
-  /* GSAP 애니메이션을 위해 초기 위치를 위로 잡아줍니다 */
+  position: relative;
+  overflow: hidden; /* 호버 시 이미지가 튀어나가지 않게 */
+  background-color: #94B4C1; 
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+
+  /* GSAP 애니메이션을 위해 초기 위치를 위로 잡아주기 */
   opacity: 0;
   transform: translateY(-50px);
 }
@@ -48,6 +53,101 @@
   font-size: 1.5rem;
   font-weight: 300;
   margin-bottom: 5px;
+}
+
+/* 카드 배경 이미지 (snapshot) */
+.project-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: var(--bg-image); /* 인라인 스타일로 넣어줄 예정 */
+  background-size: cover;
+  background-position: center;
+  opacity: 0; /* 평소엔 안 보임 */
+  transition: opacity 0.5s ease;
+  z-index: 1;
+}
+
+/* 호버 시 배경 이미지 살리기 */
+.project-card:hover::before {
+  opacity: 0.3; /* 사진이 은은하게 깔림 */
+}
+
+/* 호버 시 정보창 애니메이션 */
+.card-info {
+  position: relative;
+  z-index: 2;
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .card-info {
+  transform: translateY(-10px); /* 살짝 위로 이동 */
+}
+
+/* 요약 설명 (평소엔 숨김) */
+.card-summary {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-top: 10px;
+  opacity: 0;
+  max-height: 0;
+  transition: all 0.5s ease;
+}
+
+.project-card:hover .card-summary {
+  opacity: 1;
+  max-height: 100px; /* 슥 나타남 */
+}
+
+
+.empty-announcement {
+  grid-column: 1 / -1; /* 그리드 전체 칸을 다 차지하도록 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 0;
+  min-height: 300px;
+}
+
+.announcement-border {
+  border: 1px solid #213448;
+  padding: 40px 60px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.1); /* 살짝 밝게 */
+  border-radius: 2px; /* 잡지 느낌은 각진 게 예뻐요 */
+}
+
+.announcement-border h4 {
+  font-family: "Superclarendon", serif;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  letter-spacing: 5px;
+}
+
+.announcement-border p {
+  margin: 5px 0;
+  font-family: "RIDIBatang", sans-serif;
+}
+
+.sub-text {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  margin-top: 10px;
+}
+
+.reset-filter-btn {
+  margin-top: 25px;
+  background-color: #213448;
+  color: #EAE0CF;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: opacity 0.3s;
+}
+
+.reset-filter-btn:hover {
+  opacity: 0.8;
 }
 
 
@@ -167,6 +267,7 @@
     flex: 0 0 auto; /* 버튼이 찌그러지지 않게 유지 */
     white-space: nowrap; /* 글자가 줄바꿈되지 않게 함 */
   }
+
 /* 1.모달 창 설정*/
   .modal-content {
     width: 90% !important; 

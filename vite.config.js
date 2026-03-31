@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server:{
     proxy:{
-      '/api': 'http:://localhost:8080' //api로 시작하는 요청은 localhost:8080으로 프록시 처리
+      '/api': 'http://localhost:8080' //api로 시작하는 요청은 localhost:8080으로 프록시 처리
     }
   }
 })

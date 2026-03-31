@@ -31,11 +31,14 @@ export default function Project() {
   const filtered = filter === 'All' ? projects : projects.filter(p => p.category === filter);
 
   useLayoutEffect(() => {
-    // 데이터가 로딩된 후에 애니메이션이 돌아가도록 설정
-    if (projects.length === 0) return;
+   
+    if (filtered.length === 0) return;
 
     const ctx = gsap.context(() => {
-      gsap.fromTo(cardsRef.current, 
+      // ref가 잘 잡혔는지 필터링 (null 제외)
+      const validCards = cardsRef.current.filter(el => el !== null);
+
+      gsap.fromTo(validCards, 
         { y: 30, opacity: 0 },
         {
           y: 0,
@@ -53,11 +56,15 @@ export default function Project() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [filter, projects]); // filter나 projects가 바뀔 때 실행
+  }, [filter, projects, filtered.length]); // filtered.length가 변할 때도 감지
 
  return (
     <section id="Projects" className="project-section" ref={sectionRef}>
-      <h3 id="project-title">Projects</h3>
+      <h3 id="project-title">
+        Projects
+        <span onClick={() => navigate('/admin/write')} style={{cursor:'pointer', fontSize:'0.5rem', opacity:0.3}}> .
+        </span>
+      </h3>
 
       {/* 카테고리 필터 */}
       <div className="filter-nav" style={{ marginBottom: '20px', display: 'flex', gap: '10px' }}>
@@ -83,13 +90,16 @@ export default function Project() {
       </div>
 
       <div className="woven-grid">
-        {filtered.map((project, index) => (
-          <div 
-            key={project.id}
-            ref={el => cardsRef.current[index] = el}
-            className={`project-card ${project.size || 'small'}`}
-            // 6. 🚀 클릭하면 상세 페이지로 이동!
+
+        {filtered.length > 0 ? (
+          filtered.map((project, index) => (
+            <div 
+              key={project.id}
+              ref={el => cardsRef.current[index] = el}
+              className={`project-card ${project.size || 'small'}`}
+            // 6. 클릭하면 상세 페이지로 이동!
             onClick={() => navigate(`/project/${project.id}`)}
+            style={{ "--bg-image": `url(${project.snapshot || '기본이미지주소'})` }} // 배경 이미지 전달
           >
             {project.status === "In Progress" && (
               <div className="status-pill">Working...</div>
@@ -98,11 +108,26 @@ export default function Project() {
             <div className="card-info">
               <span className="tag">{project.category}</span>
               <h3>{project.title}</h3>
-              <p className="click-guide">Click to see details</p>
+              
+              {/* 요약 설명 추가 (description의 앞부분만 자르기) */}
+              <p className="card-summary">{project.description?.substring(0, 50)}...</p>
+              <p className="click-guide">Read More →</p>
             </div>
           </div>
-        ))}
-      </div>
-    </section>
-  );
-}
+        ))
+      ) : (
+        /* 전시물이 없을 때 보여줄 안내판 (Magazine Style) */
+        <div className="empty-announcement">
+          <div className="announcement-border">
+            <h4>COMING SOON</h4>
+            <p>"{filter}" 카테고리의 작품을 준비 중입니다.</p>
+            <p className="sub-text">조금만 기다려 주세요. 엮는 자가 열심히 작업 중입니다.</p>
+            <button onClick={() => setFilter('All')} className="reset-filter-btn">
+              모든 전시물 보기
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+)};
