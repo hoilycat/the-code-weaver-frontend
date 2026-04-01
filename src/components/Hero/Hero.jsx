@@ -11,7 +11,7 @@ export default function Hero() {
     offset: ["start start", "end start"],
   });
 
-  // 🌟 핵심: scrollYProgress에 '탄성'이라는 옷을 입힘
+  // scrollYProgress에 '탄성'이라는 옷을 입힘
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 100, // 뻣뻣함 (숫자가 높을수록 탄력이 강함)
     damping: 30,    // 저항 (숫자가 낮을수록 많이 출렁거림)

@@ -1,4 +1,19 @@
 /* 1. 배경 격자무늬 & 기본 폰트 */
+.mag-editorial-container{
+  background-color: #EAE0CF;
+  background-image: 
+    linear-gradient(rgba(33, 52, 72, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(33, 52, 72, 0.04) 1px, transparent 1px);
+  background-size: 50px 50px;
+  min-height: 100vh;
+  color: #213448;
+  font-family: "RIDIBatang", serif;
+  padding-bottom: 150px ; 
+  flex-direction: column;
+  align-items: center;
+}
+
+
 .mag-clean-page {
   background-color: #EAE0CF;
   background-image: 
@@ -8,7 +23,10 @@
   min-height: 100vh;
   color: #213448;
   font-family: "RIDIBatang", serif;
+  align-items: center;
 }
+
+
 
 /* 2. 🔒 전체 너비 제한 컨테이너 */
 .mag-main-container {
@@ -16,7 +34,61 @@
   margin: 0 auto;
   padding: 0 60px;
   box-sizing: border-box;
+  flex: 1;
 }
+
+/* 2. 상단 헤더 섹션 여백 줄이기 */
+.mag-header-hero {
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 30px; /* 제목과 입력창 사이 간격 */
+  text-align: center;
+}
+
+.mag-hero-title {
+  font-family: "Superclarendon", serif;
+  font-size: clamp(3rem, 6vw, 5rem);
+  text-transform: uppercase;
+  border-bottom: 2px solid #213448;
+  padding-bottom: 10px;
+  display: inline-block;
+}
+
+/* 3. 입력 폼 영역 */
+.mag-article {
+  width: 100%;
+  max-width: 800px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* 4. 마지막 버튼과 하단 사이의 숨통 트기 */
+.mag-visit-btn, .back-btn-minimal {
+  margin-bottom: 40px; /* 버튼 아래 여백 추가 */
+  transition: all 0.3s ease;
+}
+
+/* 5. 쉐브론 푸터 위치 고정 */
+.mag-weaver-footer, .weaver-final-footer {
+  width: 100%;
+  background-color: #213448;
+  height: 200px;
+  margin-top: auto; /* 컨텐츠가 적어도 맨 아래 붙게 함 */
+  clip-path: polygon(0 30%, 50% 0, 100% 30%, 100% 100%, 0 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mag-clean-footer {
+  /* 🌟 추가: 푸터가 항상 맨 아래에 위치하도록 강제 */
+  margin-top: auto; 
+  padding: 100px 0 40px 0; /* 여백 넉넉히 */
+  background-color: #213448; /* 스케치 느낌의 짙은 네이비 */
+  clip-path: polygon(0 30%, 50% 0, 100% 30%, 100% 100%, 0 100%);
+  color: #EAE0CF;
+}
+
 
 /* 3. 우측 상단 닫기 버튼 */
 .mag-fixed-nav {
@@ -66,6 +138,7 @@
   margin: 20px 0 10px 0;
   line-height: 1;
   text-transform: uppercase;
+  margin-top:20vh;
 }
 
 .hero-meta-info {
@@ -96,7 +169,7 @@
   align-items: center;
 }
 
-/* 🌟 홀수/짝수 줄 자동 반전 */
+/* 홀수/짝수 줄 자동 반전 */
 .content-row.even { flex-direction: row; }
 .content-row.odd { flex-direction: row-reverse; }
 
@@ -115,7 +188,7 @@
   float: left;
   margin-right: 20px;
   color: #94B4C1;
-  font-family: "Superclarendon";
+  font-family: "Superclarendon","RIDIBatang", serif;
   line-height: 0.8;
   margin-top: 10px;
 }

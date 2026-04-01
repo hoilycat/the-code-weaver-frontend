@@ -27,28 +27,40 @@ const ProjectWrite = () => {
     }
   }, [navigate]);
 
-
+  // 입력 필드 변경 시 formData 업데이트ß
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-// 핵심: 제출 버튼을 누르면 이미지 먼저 업로드 -> 그 다음 프로젝트 정보 저장
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (isSubmitting) return;
-  setIsSubmitting(true);
-
-  try {
-    let imagePaths = [];
-    // 1. 이미지 먼저 보내기 (성공 가정)
-    if (selectedFiles.length > 0) {
-      const uploadData = new FormData();
-      Array.from(selectedFiles).forEach(file => uploadData.append("files", file));
-      const res = await fetch("http://localhost:8080/api/projects/upload-multiple", {
-        method: "POST", body: uploadData
-      });
-      imagePaths = await res.json();
+  // 사진 선택 시 최대 10장 제한
+  const handleFileChange = (e) => {
+    const selected = Array.from(e.target.files);
+    if (selected.length > 10) {
+      alert("사진은 최대 10장까지만 가능합니다!");
+      e.target.value = ""; // 선택 취소
+      return;
     }
+    setSelectedFiles(selected);
+  };
+
+
+  // 핵심: 제출 버튼을 누르면 이미지 먼저 업로드 -> 그 다음 프로젝트 정보 저장
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    try {
+      let imagePaths = [];
+      // 1. 이미지 먼저 보내기 (성공 가정)
+      if (selectedFiles.length > 0) {
+        const uploadData = new FormData();
+        Array.from(selectedFiles).forEach(file => uploadData.append("files", file));
+        const res = await fetch("http://localhost:8080/api/projects/upload-multiple", {
+          method: "POST", body: uploadData
+        });
+        imagePaths = await res.json();
+      }
 
     // 2. 최종 저장 시에는 반드시 '성공 확인'을 합니다!
     const projectRes = await fetch("http://localhost:8080/api/projects", {
@@ -138,9 +150,9 @@ const handleSubmit = async (e) => {
               multiple 
               accept="image/*" 
               onChange={handleFileChange} 
-              style={{ display: 'none' }} // 👈 실제 못생긴 버튼은 숨기고
+              style={{ display: 'none' }} //실제 못생긴 버튼은 숨기고
             />
-            <div className="custom-upload-btn">파일 선택하기</div> {/* 👈 대신 예쁜 가짜 버튼을 보여줌 */}
+            <div className="custom-upload-btn">파일 선택하기</div> {/* 대신 예쁜 가짜 버튼을 보여줌 */}
           </label>
           <input type="file" multiple accept="image/*" onChange={(e) => setSelectedFiles(e.target.files)} />
         </div>

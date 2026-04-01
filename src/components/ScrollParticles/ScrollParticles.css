@@ -1,0 +1,24 @@
+.particle-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 100000;
+}
+
+/* 🧶 털실: 뽀송뽀송한 글로우 효과 */
+.particle-yarn {
+  filter: blur(0.4px);
+}
+
+/* ✨ 별: 얇은 선과 함께 반짝임 */
+.particle-star {
+  animation: star-pulse 1s infinite ease-in-out alternate;
+}
+
+@keyframes star-pulse {
+  from { transform: scale(1); filter: brightness(1) drop-shadow(0 0 2px #fff); }
+  to { transform: scale(1.1); filter: brightness(1.2) drop-shadow(0 0 5px #fff); }
+}

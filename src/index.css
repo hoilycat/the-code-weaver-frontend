@@ -70,8 +70,9 @@ nav a {
 h1 {
   font-size: 3rem;
   text-align: center;
-  margin-top: 40vh;
+  
 }
+
 /* 전체 화면에 노이즈 질감 입히기 */
 body::before {
   content: "";
