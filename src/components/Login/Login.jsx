@@ -19,7 +19,7 @@ const Login = () => {
 
     if (res.ok) {
       const data = await res.json();
-      localStorage.setItem("adminToken", data.token); // "secret-key-12345" 저장됨
+      localStorage.setItem("adminToken", data.token); 
       alert("관리자님 환영합니다! 🧶");
       navigate("/");
     } else {
@@ -32,13 +32,32 @@ const Login = () => {
 
 
   return (
-    <div className="magazine-layout" style={{textAlign:'center', paddingTop:'150px'}}>
-      <form onSubmit={handleLogin} style={{maxWidth:'300px', margin:'0 auto', display:'flex', flexDirection:'column', gap:'15px'}}>
-        <h2 className="mag-title" style={{fontSize:'2rem'}}>Staff Only</h2>
-        <input type="text" placeholder="Username" value={username} onChange={(e)=>setUsername(e.target.value)} style={{padding:'10px'}} />
-        <input type="password" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)} style={{padding:'10px'}} />
-        <button type="submit" className="mag-visit-link" style={{border:'none', cursor:'pointer'}}>LOGIN</button>
-      </form>
+    <div className="login-container">
+      <div className="login-box">
+        <h2 className="login-title">Staff Only</h2>
+        <form onSubmit={handleLogin} className="login-form">
+          <input 
+            type="text" 
+            className="login-input"
+            placeholder="USERNAME" 
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <input 
+            type="password" 
+            className="login-input"
+            placeholder="PASSWORD" 
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit" className="login-submit-btn">
+            AUTHENTICATE
+          </button>
+        </form>
+        <p className="login-footer-text">© THE WEAVER ARCHIVE</p>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,40 @@
+footer {
+  background-color: var(--dark-color); /* 하이픈 사용, 따옴표 제거, 세미콜론 필수 */
+  color: var(--bg-color);
+  padding: 100px 0 20px 0;
+  display: flex;
+  flex-direction: column; /* flexDirection -> flex-direction */
+  align-items: center;    /* alignItems -> align-items */
+  clip-path: polygon(0 15%, 50% 0, 100% 15%, 100% 100%, 0 100%); /* clipPath -> clip-path */
+}
+
+h3{
+    font-size: 1.8rem; 
+    font-weight: 300; 
+    margin: 20px 0;
+}
+
+.admin-zone {
+  margin-top: 50px;
+  border-top: 1px solid rgba(234, 224, 207, 0.1); /* 아주 연한 베이지색 선 */
+  width: 100%;
+  padding-top: 20px;
+}
+
+.logout-minimal-btn {
+  background: none;
+  border: none;
+  color: #EAE0CF;
+  font-family: "Superclarendon", serif;
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  cursor: pointer;
+  opacity: 0.3; /* 평소엔 아주 연하게 */
+  transition: all 0.4s ease;
+}
+
+.logout-minimal-btn:hover {
+  opacity: 1; /* 마우스 올리면 선명해짐 */
+  letter-spacing: 6px; /* 글자가 슥 벌어지는 고급진 효과 */
+  color: #94B4C1; /* 포인트 컬러 */
+}

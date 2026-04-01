@@ -1,6 +1,6 @@
 #hero{
     justify-content: center;
-    background-image:url("../assets/images/herob.svg");
+    background-image:url("../../assets/images/herob.svg");
     background-repeat:no-repeat;
     background-position : 0% 50%;
     position: relative !important;

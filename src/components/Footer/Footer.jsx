@@ -1,10 +1,10 @@
 
 import React from 'react';
 import './Footer.css';
-import bneedle from "../assets/images/bneedle.svg";
-import phoneIcon from '../assets/icons/phone-alt.svg';
-import emailIcon from '../assets/icons/envelope.svg';
-import githubIcon from '../assets/icons/github-alt.svg';
+import bneedle from "../../assets/images/bneedle.svg";
+import phoneIcon from '../../assets/icons/phone-alt.svg';
+import emailIcon from '../../assets/icons/envelope.svg';
+import githubIcon from '../../assets/icons/github-alt.svg';
 
 /* Icons used in this project are from Font Awesome (Free License).
   License: CC BY 4.0
@@ -16,6 +16,13 @@ const contacts = [
         { id: 3, icon:githubIcon, link:'https://github.com/hoilycat'}
       ];
 
+const isAdmin = localStorage.getItem("adminToken") === "secret-key-12345";
+
+const handleLogout = () => {
+  localStorage.removeItem("adminToken");
+  alert("로그아웃 되었습니다.");
+  window.location.reload(); // 화면 새로고침해서 버튼들 숨기기
+};
 
 
 export default function Footer() {
@@ -57,11 +64,20 @@ export default function Footer() {
         
           > 
           {/* 아이콘 이미지 */}
-           <img src= {item.icon} alt="" style={{ width: '16px', height: '16px',              filter:'invert(96%) sepia(6%) saturate(692%) hue-rotate(345deg) brightness(101%) contrast(89%)'
- }}/>
+           <img src= {item.icon} alt="" style={{ width: '16px', height: '16px', 
+           filter:'invert(96%) sepia(6%) saturate(692%) hue-rotate(345deg) brightness(101%) contrast(89%)'}}/>
           </a>
         ))}
       </div>
+
+      {/* 관리자면 로그아웃 버튼 보여주기 */}
+      {isAdmin && (
+        <div className="admin-zone">
+          <button onClick={handleLogout} className="logout-minimal-btn">
+            LOGOUT
+          </button>
+        </div>
+      )}
 
       <p style={{ fontSize: '0.7rem', opacity: 0.6 }}>
         Privacy policy ©The Weaver
