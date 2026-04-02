@@ -82,3 +82,25 @@
   z-index: 4; /* 양말이 맨 위에서 포인트를 주도록 */
   transform: rotate(10deg);
 }
+
+
+@media (max-width: 768px) {
+ .clothing-pile {
+    width: 100% !important;
+    height: 300px !important;
+    transform: scale(1.2); /* 모바일에서 옷 무더기를 더 크게! */
+    bottom: 10%;
+  }
+
+  /* ClothingStack 내부의 이미지를 강제로 키움 */
+  .clothing-pile motion.img, 
+  .clothing-pile img {
+    max-width: 280px !important; /* 바지/티셔츠 크기 확보 */
+  }
+
+  .eng-text, .kor-text {
+    font-size: 1.2rem !important; /* 2.5rem은 모바일에서 너무 큼 */
+  }
+
+  
+}

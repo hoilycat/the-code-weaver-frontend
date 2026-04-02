@@ -38,6 +38,7 @@ body {
   color: var(--text-main);
 }
 
+
 section {
   width: 100%;
   min-height: 100vh;
@@ -84,11 +85,27 @@ body::before {
   
   /* 자글자글한 노이즈 패턴 (Base64 이미지) */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.15; 
+  opacity: 0.15; /* 노이즈의 투명도 조절 */
   /* 배경과 자연스럽게 섞이기 */
-  mix-blend-mode: overlay;
+  mix-blend-mode: multiply;
   /* (중요) 노이즈가 버튼 클릭을 방해하지 않게 하기 */
   pointer-events: none; 
   /* 제일 위에 덮어씌우기 */
   z-index: 9999;
+}
+
+@media (max-width: 768px) {
+  h1 { 
+    font-size: 2.2rem !important; 
+    margin-top: 25vh !important; /* 히어로 섹션 제목 위치 조정 */
+  }
+  nav {
+    padding: 15px !important;
+    gap: 15px !important;
+    font-size: 0.8rem !important;
+    justify-content: center;
+  }
+  body::before {
+    opacity: 0.08; /* 노이즈를 더 연하게 해서 렌더링 부하 줄임 */
+  }
 }

@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ProjectDetail.css'; 
 
-const ProjectDetail = () => {
+export default function ProjectDetail() {
   const { id } = useParams(); 
   const navigate = useNavigate();
   const [project, setProject] = useState(null); 
   const isAdmin = localStorage.getItem("adminToken") === "secret-key-12345";
   const SERVER_URL = "http://localhost:8080";
+
+  // 사진 확대 모달 상태
+  const [zoomImg, setZoomImg] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -84,7 +87,13 @@ const ProjectDetail = () => {
                 {galleryImages[index] && (
                   <div className="image-col">
                     <div className="image-frame">
-                      <img src={`${SERVER_URL}${galleryImages[index]}`} alt={`Detail ${index}`} />
+                      <img 
+                        src={`${SERVER_URL}${galleryImages[index]}`} 
+                        alt={`Detail ${index}`} 
+                        // 사진을 클릭하면 스위치에 이 사진 주소를 넣어준다! 마우스도 돋보기로!
+                        onClick={() => setZoomImg(`${SERVER_URL}${galleryImages[index]}`)}
+                        style={{ cursor: "zoom-in" }}
+                      />
                       <span className="fig-tag">FIG. {index + 1}</span>
                     </div>
                   </div>
@@ -97,7 +106,13 @@ const ProjectDetail = () => {
               <div className="extra-gallery-grid">
                 {galleryImages.slice(paragraphs.length).map((img, idx) => (
                   <div key={idx} className="extra-img-box">
-                    <img src={`${SERVER_URL}${img}`} alt="More" />
+                    <img 
+                      src={`${SERVER_URL}${img}`} 
+                      alt="More" 
+                      //  똑같이 클릭 이벤트와 마우스 모양 추가!
+                      onClick={() => setZoomImg(`${SERVER_URL}${img}`)}
+                      style={{ cursor: "zoom-in" }}
+                    />
                   </div>
                 ))}
               </div>
@@ -118,8 +133,15 @@ const ProjectDetail = () => {
         <div className="footer-line"></div>
         <p>© 2026 THE WEAVER - EDITORIAL ARCHIVE</p>
       </footer>
+
+      {/* 사진 확대 모달 */}
+      {zoomImg && (
+              <div className="image-modal" onClick={() => setZoomImg(null)}>
+                {/* 까만 배경 아무 데나 클릭하면 스위치가 꺼짐(null) */}
+                <img src={zoomImg} alt="Enlarged Detail" />
+              </div>
+            )}
     </div>
   );
 };
 
-export default ProjectDetail;

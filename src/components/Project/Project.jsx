@@ -25,7 +25,16 @@ export default function Project() {
       })
       .then(data => {
         console.log("백엔드에서 받은 데이터:", data);
+        
+        // 1. 기존처럼 데이터를 상태에 저장합니다. (데이터는 변하지 않음!)
         setProjects(data);
+
+        // 2. [추가] 데이터가 화면에 그려진 '직후'에 애니메이션 위치를 새로고침합니다.
+        // setTimeout을 아주 짧게(100ms) 주는 이유는 리액트가 카드를 그릴 시간을 벌어주기 위해서입니다.
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+          console.log("애니메이션 위치 재계산 완료!");
+        }, 100);
       })
       .catch(err => console.error("데이터 로딩 실패:", err));
   }, []);

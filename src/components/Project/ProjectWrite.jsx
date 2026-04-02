@@ -89,7 +89,7 @@ const ProjectWrite = () => {
 
   return (
     <div className="magazine-layout" style={{ paddingTop: '50px' }}>
-      <form onSubmit={handleSubmit} className="mag-article" style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+      <form onSubmit={handleSubmit} className="mag-article" style={{ width: '100%', maxWidth: '600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '15px' }}>
         <h2 className="mag-title" style={{fontSize: '2.5rem'}}>New Post</h2>
         
         {/*프로젝트 제목 입력*/}

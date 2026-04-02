@@ -37,6 +37,39 @@
   flex: 1;
 }
 
+/* 글쓰기 화면 전체 레이아웃 */
+.magazine-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+/* 화면 전체를 덮는 반투명 까만 막 */
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.85); /* 👈 고급스러운 반투명 블랙 */
+  z-index: 999999; /* 👈 화면의 제일 꼭대기 층으로! */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out; /* 👈 끄고 싶을 땐 마우스가 돋보기 축소 모양으로! */
+}
+
+/* 짤리지 않고 다 나오는 원본 사진 */
+.image-modal img {
+  max-width: 90%;
+  max-height: 90vh; /* 👈 모니터 높이의 90%까지만 커지도록 제한 */
+  object-fit: contain; /* 👈 [중요] 모달창 안에서는 무조건 짤림 없이 다 보이게 마법! */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* 그림자 추가로 퀄리티 업 */
+  border-radius: 8px; /* 모서리 살짝 둥글게 */
+}
+
+
 /* 2. 상단 헤더 섹션 여백 줄이기 */
 .mag-header-hero {
   width: 100%;
@@ -66,6 +99,7 @@
 .mag-visit-btn, .back-btn-minimal {
   margin-bottom: 40px; /* 버튼 아래 여백 추가 */
   transition: all 0.3s ease;
+
 }
 
 /* 5. 쉐브론 푸터 위치 고정 */
@@ -81,8 +115,8 @@
 }
 
 .mag-clean-footer {
-  /* 🌟 추가: 푸터가 항상 맨 아래에 위치하도록 강제 */
-  margin-top: auto; 
+  /* 추가: 푸터가 항상 맨 아래에 위치하도록 강제 */
+  margin-top: 200px; 
   padding: 100px 0 40px 0; /* 여백 넉넉히 */
   background-color: #213448; /* 스케치 느낌의 짙은 네이비 */
   clip-path: polygon(0 30%, 50% 0, 100% 30%, 100% 100%, 0 100%);
@@ -94,8 +128,14 @@
 .mag-fixed-nav {
   position: fixed;
   top: 30px;
-  right: 40px;
+  right: -80px;
   z-index: 1000;
+  padding:0px;
+}
+
+.mag-fixed-nav:hover{
+  right:-10px;
+  transition: all 0.3s ease;
 }
 
 .back-btn-minimal {
@@ -166,20 +206,27 @@
   display: flex;
   gap: 60px;
   margin-bottom: 120px;
-  align-items: center;
+  align-items: flex-start;
+  /* align-items: center; */
 }
 
 /* 홀수/짝수 줄 자동 반전 */
 .content-row.even { flex-direction: row; }
 .content-row.odd { flex-direction: row-reverse; }
 
-.text-col { flex: 1; }
+.text-col {
+  flex: 1; 
+  padding: 0 40px;
+  
+  }
+
 .image-col { flex: 1.3; }
 
 .para-text {
   font-size: 1.3rem;
   line-height: 2.3;
   text-align: justify;
+  color: #333;
 }
 
 /* 드롭캡 디자인 강화 */
@@ -198,9 +245,21 @@
   padding: 12px;
   border: 1px solid #213448;
   box-shadow: 20px 20px 0px rgba(33, 52, 72, 0.05);
+  /* 핵심: 틀의 크기를 일정하게 유지 */
+  width: 100%;
+  aspect-ratio: 4 / 3; /* 사진 비율을 4:3으로 통일 (혹은 16:9) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.image-frame img { width: 100%; display: block; }
+.image-frame img { 
+  width: 100%;
+  height: 100%;
+  object-fit: cover;/* 핵심: 사진이 작든 크든 틀에 꽉 채우거나 맞춰줌 */ 
+  object-position: top center;/* 사진이 너무 작으면 틀에 맞춰 늘어나고, 너무 크면 잘려서라도 꽉 채워짐 */
+}
 
 .fig-tag {
   font-size: 0.65rem;
@@ -240,10 +299,195 @@
 .edit-btn { background: #94B4C1; color: white; }
 .del-btn { background: #e74c3c; color: white; }
 
-/* 모바일 대응 */
+
 @media (max-width: 900px) {
-  .mag-main-grid { grid-template-columns: 1fr; }
-  .content-row { flex-direction: column !important; gap: 30px; }
-  .mag-main-container { padding: 0 20px; }
-  .hero-img-wrapper { aspect-ratio: 16 / 9; }
+  .mag-clean-page { padding-top: 60px; overflow-x: hidden; }
+  .mag-wide-hero {
+    margin-bottom: 40px !important;
+  }
+  /* 1. 배너 높이 줄이기 */
+  .hero-img-wrapper { height: 30vh !important; width: 100vw; margin-left: -20px; }
+  
+  /* 2. 컨테이너 여백 확보 */
+  .mag-main-container { padding: 0 20px 100px 20px !important; max-width: 100%; }
+
+  /* 3. 제목 크기 & 간격 */
+  .mag-title-large { 
+    font-size: 1.8rem !important;
+    margin-top: 20px !important;
+    padding: 0 20px;
+    line-height: 1.2;
+  }
+
+  /* 4. 지그재그 해제 (가장 중요) */
+    .mag-main-grid {
+    display: flex !important;
+    flex-direction: column;
+    gap: 20px !important;
+    margin-top: 20px !important;
+  }
+
+    .mag-sidebar-mini {
+    width: 100% !important;
+    border-bottom: 1px solid rgba(33, 52, 72, 0.1);
+    padding-bottom: 20px;
+  }
+
+ .sidebar-sticky {
+    position: static !important; /* 고정 해제 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+.editor-credit {
+    text-align: right;
+  }
+
+  /* 3. 본문 텍스트 정돈 */
+  .content-row {
+    margin-bottom: 40px !important;
+  }
+  .para-text {
+    font-size: 1rem !important;
+    line-height: 1.7 !important;
+    color: #444;
+    text-align: left !important; /* 양끝정렬 해제 */
+  }
+
+  /* 4. 이미지 프레임 그림자 및 여백 축소 */
+  .image-frame {
+    padding: 8px !important;
+    box-shadow: 10px 10px 0px rgba(33, 52, 72, 0.05) !important;
+    aspect-ratio: auto !important; /* 이미지 비율 유지 */
+  }
+
+  /* 5. 닫기 버튼 위치 조정 */
+  .mag-fixed-nav {
+    top: 15px !important;
+    right: 15px !important;
+  }
+  .back-btn-minimal {
+    padding: 8px 15px !important;
+    font-size: 0.7rem !important;
+  }
+
+  .content-row, .content-row.even, .content-row.odd {
+    flex-direction: column !important;
+    direction: ltr !important; /* 방향 초기화 */
+    gap: 20px !important;
+    margin-bottom: 60px !important;
+  }
+
+  /* 5. 텍스트와 이미지 너비 100% */
+  .text-col, .image-col { width: 100% !important; padding: 0 !important; }
+  .para-text { font-size: 1.1rem !important; line-height: 1.8 !important; }
+
+  /* 6. 이미지 프레임 꽉 차게 */
+  .image-frame { aspect-ratio: 16/9 !important; }
+
+  /* 7. 관리자 버튼 가로 배치 */
+  .admin-actions-bar { 
+    position: fixed; bottom: 0; left: 0; width: 100%; 
+    background: white; padding: 15px; z-index: 100;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+    margin-top: 0;
+  }
+
+  .drop-cap::first-letter {
+    font-size: 3.5rem !important; /* 6.5rem에서 축소 */
+    margin-right: 10px;
+    margin-top: 5px;
+  }
+  
+  .para-text {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+    text-align: left; /* 모바일에서 양끝정렬(justify)은 가끔 이상한 공백을 만듦 */
+  }
+
+  .mag-main-container {
+    padding: 0 15px !important; /* 여백을 줄여서 화면을 넓게 쓰기 */
+  }
+}
+
+/* 1. PC 버전: 이미지와 텍스트의 균형 */
+.mag-main-grid {
+  display: grid;
+  grid-template-columns: 180px 1fr !important;
+  gap: 50px !important; /* 간격을 줄여서 밀도 높임 */
+  margin-top: 50px !important;
+}
+
+.content-row {
+  align-items: flex-start !important;
+  margin-bottom: 100px !important;
+  gap: 40px !important;
+}
+
+.para-text {
+  font-size: 1.15rem !important; /* 살짝 줄여서 가독성 업 */
+  line-height: 2 !important;
+  text-align: left !important; /* 양끝정렬보다는 왼쪽정렬이 깔끔함 */
+}
+
+/* 2. 이미지 프레임 통일 (가장 중요) */
+.image-frame {
+  width: 100% !important;
+  max-width: 600px;
+  aspect-ratio: 4/3 !important; /* 모든 사진 비율 강제 통일 */
+  background: #fff;
+  border: 1px solid #213448 !important;
+}
+
+/* 3. 모바일 버전: "잡지 레이아웃" 강제 적용 */
+@media (max-width: 768px) {
+  .mag-main-container {
+    padding: 0 20px !important;
+  }
+
+  .hero-titles {
+    padding: 0 10px;
+    text-align: center;
+  }
+
+  .mag-title-large {
+    font-size: 1.8rem !important;
+    margin: 15px 0 !important;
+  }
+
+  /* 사이드바 정보를 상단에 박스형으로 배치 */
+  .mag-sidebar-mini {
+    background: rgba(33, 52, 72, 0.05);
+    padding: 15px !important;
+    border-radius: 4px;
+    border: none !important;
+    margin-bottom: 30px !important;
+  }
+
+  .sidebar-sticky {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mag-visit-btn {
+    margin-bottom: 0 !important; /* 불필요한 마진 제거 */
+    padding: 8px 15px !important;
+    font-size: 0.75rem !important;
+  }
+
+  /* 본문 가독성 */
+  .para-text {
+    font-size: 1rem !important;
+    line-height: 1.8 !important;
+    letter-spacing: -0.01em;
+  }
+
+  .drop-cap::first-letter {
+    font-size: 3.5rem !important;
+    margin-right: 10px !important;
+    line-height: 0.9 !important;
+  }
 }

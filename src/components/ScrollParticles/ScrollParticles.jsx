@@ -26,25 +26,42 @@ const ScrollParticles = () => {
     }
 
 const timer = setTimeout(() => {   
+    const aboutSection = document.getElementById('About');
     const projectSection = document.getElementById('Projects');
     
     const createParticle = (direction) => {
       const container = containerRef.current;
       if (!container) return;
 
+      // 모바일 여부 확인 (화면 너비 768px 이하)
+      const isMobile = window.innerWidth <= 768;
+
+      // [최적화] 모바일이면 생성 확률을 더 낮춤 (0.2 -> 0.05)
+      const mobileChance = isMobile ? 0.3 : 0.6; 
+      if (Math.random() > mobileChance) return;
+
       const scrollY = window.scrollY;
-      const projectTop = projectSection ? projectSection.getBoundingClientRect().top + window.scrollY : 99999;
+      const aboutTop = aboutSection ? aboutSection.offsetTop : 0; // About 섹션의 시작 지점
+      const aboutHeight = aboutSection ? aboutSection.offsetHeight : 0; // About 섹션의 80% 지점 계산
+      const clothesDonePoint = aboutTop + (aboutHeight * 0.8); // 털실이 더 이상 생성되지 않는 지점 (About 섹션의 80% 지점)
 
-      // [개수 조절] 확률을 넣어 10번 중 2번만 생성되게 함 (너무 많지 않게)
-      if (Math.random() > 0.2) return;
-
+  
       if (direction === 'down') {
+
+        const aboutProgress = (scrollY - aboutTop) / aboutHeight; // About 섹션에서의 스크롤 진행률 (0~1)
+        const peakChance = isMobile ? 0.6 : 0.8; // 모바일은 확률 자체도 낮추고, 피크 확률도 낮춤
+        const fadeFactor = isMobile ? 1.5 : 2.5; // 모바일은 더 넓은 범위에서 발생
+        const distFromCenter = Math.abs(aboutProgress - 0.4);
+
+        const spawnChance = Math.max(0, peakChance * (1 - (distFromCenter * fadeFactor)));
+
+        if (Math.random() > spawnChance) return;
         // 1. 내려갈 때: 구불구불한 도톰한 털실
-        if (scrollY > projectTop - 500) return; 
+        if (scrollY > clothesDonePoint) return;
 
         const yarn = document.createElement('div');
         yarn.className = 'particle-yarn';
-        
+
         const color = themeColors.yarns[Math.floor(Math.random() * themeColors.yarns.length)];
         const size = Math.random() * 100 + 50;//실 길이
         const yarnWidth = Math.random() * 100 + 80; //실 두께
@@ -62,29 +79,55 @@ const timer = setTimeout(() => {
           </svg>
         `;
 
+        const startY = Math.random() * 20; // 0~20vh 사이 랜덤 시작 높이
+
         Object.assign(yarn.style, {
           left: Math.random() * 100 + 'vw',
-          top: '-100px',
+          top: startY + 'vh',
           position: 'fixed',
           zIndex: '100001',
           opacity: 0.7,
           filter: 'blur(0.5px)',
-          transform: `rotate(${Math.random() * 360}deg)`
+          transform: `rotate(${Math.random() * 360}deg)`,
+          pointerEvents: 'none'
         });
         
         container.appendChild(yarn);
 
-        gsap.to(yarn, {
-          y: window.innerHeight + 150,
-          x: `+=${(Math.random() - 0.5) * 300}`,
-          rotation: Math.random() * 360,
-          duration: Math.random() * 2 + 2,
-          duration: 3, // 좀 더 천천히 떨어지게
-          ease: "none",
-          onComplete: () => yarn.remove()
+      // 애니메이션: 나타나면서 살짝 커졌다가, 구불구불하게 내려가면서 회전하고, 마지막에 사라짐
+      const tl = gsap.timeline({ onComplete: () => yarn.remove() });
+
+     // 1. 제자리에서 아주 작게(scale: 0) 시작해서 퐁신하게 커짐
+      tl.fromTo(yarn, 
+          { opacity: 0, scale: 0, y: 50 }, // 화면 살짝 아래에서 점처럼 대기
+          { 
+            opacity: 0.8, 
+            scale: 1,     // 원래 크기로 뿅! 커짐
+            y: 0,         // 위로 살짝 떠오름
+            duration: 0.8, 
+            ease: "back.out(1.5)" // '퐁신' 느낌을 살리는 고무공 텐션 부활!
+          } 
+        )
+        // 2. 극강의 쫀득함: 슉! 떨어지며 빙그르르 돌고 멀어짐
+        .to(yarn, {
+          y: window.innerHeight * (0.8 + Math.random() * 0.4), 
+          x: `+=${(Math.random() - 0.5) * 500}`,
+          
+          //  회전 각도를 키워서 털실이 떨어지면서 더 생동감 있게 돌도록!
+          rotation: (Math.random() - 0.5) * 1080, // 최대 1080도 회전 (3바퀴)
+
+          //  스르륵 사라지는 동시에 크기도 살짝 작아져서 멀어지는 느낌 추가!
+          opacity: 0,
+          scale: 0.2, 
+
+          duration: 2.5 + Math.random() * 2,
+          
+          // 처음과 끝을 부드럽고 쫀득하게 잡아주는 power2.inOut 마법!
+          ease: "power2.inOut" 
         });
 
-      } else {
+        
+        } else {
         if (scrollY > 1500) return; // 스크롤이 너무 많이 올라갔을 때는 별이 안 생기도록 (너무 아래에서 갑자기 별이 막 튀어나오는 걸 방지)
 
         const starBaseSize = 20; 
@@ -135,26 +178,13 @@ const timer = setTimeout(() => {
       triggerRef.current = ScrollTrigger.create({
         onUpdate: (self) => {
           const velocity = Math.abs(self.getVelocity());
-          if (velocity > 300) {
+          if (velocity > 100) {
             createParticle(self.direction === 1 ? 'down' : 'up');
           }
         }
       });
 
-    ScrollTrigger.create({
-      onUpdate: (self) => {
-        const velocity = Math.abs(self.getVelocity());
-        if (velocity > 200) { 
-          if (self.direction === 1) {
-            createParticle('down');
-          } else {
-            createParticle('up');
-          }
-        }
-      }
-    });
-
-          //  중요: 감지기를 다시 활성화하고 위치를 새로 고침
+      //  중요: 감지기를 다시 활성화하고 위치를 새로 고침
       ScrollTrigger.refresh();
 
     }, 100); // 0.1초의 여유를 줌
