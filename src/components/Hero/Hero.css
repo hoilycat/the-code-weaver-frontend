@@ -79,6 +79,12 @@
 
 /* --- Hero 섹션 모바일 수선 --- */
 @media (max-width: 768px) {
+  #hero {
+    /* 배경 이미지를 좀 더 위로 올리거나 크기를 키워 화면을 채움 */
+    background-size: 350%; 
+    background-position: center 20%;
+  }
+
   /* 1. 네비게이션 메뉴: 화면 크기에 맞게 재배치 */
   .hero-nav {
     right: auto !important; 
@@ -96,11 +102,23 @@
     letter-spacing: 0.05em;
   }
 
+  /* 화면에 고정되는 스티키 영역 */
+  .hero-sticky {
+    position: sticky !important;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start !important; 
+    flex-direction: column;
+    align-items: center;
+  }
+
+
   /* 2. 메인 제목: 화면 밖으로 나가지 않게 크기 조절 */
   .hero-title {
     font-size: 10vw !important; 
     letter-spacing: -0.02em;  
-    margin-top: 30vh !important; 
+    margin-top: -10vh !important; 
     white-space: nowrap; /* 글자가 두 줄로 깨지는 걸 방지 */
   }
 
@@ -108,16 +126,13 @@
   .needle-svg {
     width: 90% !important; /* 양옆에 여백을 조금 주기 */
     height: auto !important;
-    top: 55% !important; /* 제목 밑에 예쁘게 걸리도록 위치 조정 */
+    top: 0% !important; /* 제목 밑에 예쁘게 걸리도록 위치 조정 */
   }
 
   /* 4. 스크롤 텍스트 */
   .scroll-text {
     font-size: 0.7rem;
-
-    top: auto !important;
-    bottom: 28% !important;
-
+    top: 35% !important;
     left: 53% !important;
     transform: translateX(-50%) !important;
   }

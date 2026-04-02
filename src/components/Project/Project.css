@@ -225,7 +225,6 @@
 
 
 /* 화면 가로가 768px보다 작아질 때 (태블릿/모바일) */
-/* 화면 가로가 768px보다 작아질 때 (태블릿/모바일) */
 @media (max-width: 768px) {
   .woven-grid {
     display: flex; 
@@ -237,7 +236,7 @@
     margin: 50px auto;
   }
 
-  .project-card.large, .project-card.small {
+  .project-card, .project-card.large, .project-card.small {
     grid-column: auto !important;/* 그리드 설정 무시 */
     width: 90% !important;
     max-width:400px; 

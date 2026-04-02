@@ -19,8 +19,12 @@ export default function ScrollToTop() {
 
   return (
     <>
-      {isVisible && (
-        <button onClick={scrollToTop} className="yarn-btn" aria-label="Scroll to top">
+      {/*  껍데기를 싹 지우고 button 태그가 항상 렌더링되게 꺼내둔다! */}
+      <button 
+        onClick={scrollToTop} 
+        className={`yarn-btn ${isVisible ? "show" : ""}`} 
+        aria-label="Scroll to top"
+      >
           
           {/* 털실 일러스트 (Clean Code Ver) */}
           <svg
@@ -60,7 +64,7 @@ export default function ScrollToTop() {
           </svg>
 
         </button>
-      )}
+
     </>
   );
 }
