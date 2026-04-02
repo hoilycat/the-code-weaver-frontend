@@ -37,7 +37,7 @@ const timer = setTimeout(() => {
       const isMobile = window.innerWidth <= 768;
 
       // [최적화] 모바일이면 생성 확률을 더 낮춤 (0.2 -> 0.05)
-      const mobileChance = isMobile ? 0.3 : 0.6; 
+      const mobileChance = isMobile ? 0.3 : 0.25; 
       if (Math.random() > mobileChance) return;
 
       const scrollY = window.scrollY;
@@ -99,11 +99,11 @@ const timer = setTimeout(() => {
 
      // 1. 제자리에서 아주 작게(scale: 0) 시작해서 퐁신하게 커짐
       tl.fromTo(yarn, 
-          { opacity: 0, scale: 0, y: 50 }, // 화면 살짝 아래에서 점처럼 대기
+          { opacity: 0, scale: 0, y: 0 }, // 시작 상태: 투명하고 아주 작게, 원래 위치에서 시작
           { 
-            opacity: 0.8, 
+            opacity: 0.5, 
             scale: 1,     // 원래 크기로 뿅! 커짐
-            y: 0,         // 위로 살짝 떠오름
+            y: -40,         // 위로 살짝 떠오름
             duration: 0.8, 
             ease: "back.out(1.5)" // '퐁신' 느낌을 살리는 고무공 텐션 부활!
           } 
@@ -124,7 +124,7 @@ const timer = setTimeout(() => {
           
           // 처음과 끝을 부드럽고 쫀득하게 잡아주는 power2.inOut 마법!
           ease: "power2.inOut" 
-        });
+        }, "-=0.2");
 
         
         } else {
