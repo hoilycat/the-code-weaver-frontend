@@ -107,7 +107,7 @@ export default function Footer() {
             key={item.id}
             className="contact-item" // 아이콘들을 한 번에 조종하기 위해 이름표 달기     
             href={item.link}
-            target="_blank"// 새 탭에서 열기
+            target={item.link.startsWith('http') ? "_blank" : "_self"}// 외부 링크는 새 탭, 전화/이메일은 현재 탭에서 열기
             rel="noopener noreferrer" // 보안 강화
             style={{
               width:'30px',
@@ -139,7 +139,7 @@ export default function Footer() {
       )}
 
       <p style={{ fontSize: '0.7rem', opacity: 0.6 }}>
-        Privacy policy ©The Weaver
+        Privacy policy ©The Code Weaver
       </p>
     </footer>
   );
