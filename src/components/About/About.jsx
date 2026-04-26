@@ -131,7 +131,7 @@ export default function About() {
         {/* STEP 1: 영어 텍스트 - 모바일에서는 좀 더 중앙 상단으로 */}
         <div style={{ 
           position: "absolute", 
-          top: isMobile ? "20%" : "30%", 
+          top: isMobile ? "20%" : "25%", 
           left: isMobile ? "10%" : "15%", 
           fontSize: isMobile ? "1.5rem" : "2rem",
           width: isMobile ? "80%" : "auto"
@@ -144,7 +144,7 @@ export default function About() {
         {/* STEP 2: 한글 텍스트 - 모바일에서는 영어 아래쪽에 배치 */}
         <div style={{ 
           position: "absolute", 
-          top: isMobile ? "30%" : "30%", 
+          top: isMobile ? "50%" : "55%", 
           right: isMobile ? "10%" : "15%", 
           fontSize: isMobile ? "1.5rem" : "2rem",
           textAlign: isMobile ? "right" : "left",
