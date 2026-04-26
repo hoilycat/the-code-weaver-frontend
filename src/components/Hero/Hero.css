@@ -37,8 +37,19 @@
 .hero-title {
   font-size: 4rem;
   margin-bottom: 10px;
-  padding-top:30vh;
+  padding-top:40vh;
 }
+
+/* 설명 */
+.hero-description {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  font-family: "RIDIBatang", sans-serif;
+  font-weight: 400;        /* 얇게 */
+  letter-spacing: 0.2em;   /* 자간 넓게 */
+  color: var(--accent-warm);
+}
+
 
 /* SVG 캔버스 스타일 */
 .needle-svg {

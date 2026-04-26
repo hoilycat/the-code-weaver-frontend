@@ -45,6 +45,10 @@ export default function Hero() {
 
         {/* 제목 */}
         <h1 className="hero-title">The Weaver</h1>
+        {/* 설명 */}
+        <p className="hero-description">
+         Designing. Building. Weaving.
+        </p>  
 
         {/* SVG 영역 */}
         <svg
