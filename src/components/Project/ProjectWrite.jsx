@@ -163,7 +163,7 @@ const ProjectWrite = () => {
           type="submit" 
           className="mag-visit-link" 
           disabled={isSubmitting}
-          style={{border:'none', cursor:'pointer', width:'100%', padding:'25px', fontSize:'1.2rem', 
+          style={{border:'none', width:'100%', padding:'25px', fontSize:'1.2rem', 
                   marginTop:'20px', cursor: isSubmitting ? 'not-allowed' : 'pointer', opacity: isSubmitting ? 0.5 : 1}}
         >
           {isSubmitting ? "등록 중..." : "전시물 등록하기"}
