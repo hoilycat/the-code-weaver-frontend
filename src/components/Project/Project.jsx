@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useRef, useState, useEffect } from 'react'; // 1. useEffect 추가 확인
 import { useNavigate } from 'react-router-dom'; // 2. useNavigate 추가 확인
+import { API_BASE_URL } from '../../config';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Project.css';
@@ -18,7 +19,7 @@ export default function Project() {
 
   // 백엔드에서 데이터 가져오는 핵심 로직 
   useEffect(() => {
-    fetch("http://localhost:8080/api/projects")
+    fetch(`${API_BASE_URL}/api/projects`)
       .then(res => {
         if(!res.ok) throw new Error("서버 응답 에러");
         return res.json();
@@ -117,7 +118,7 @@ export default function Project() {
               className={`project-card ${project.size || 'small'}`}
             // 6. 클릭하면 상세 페이지로 이동!
             onClick={() => navigate(`/project/${project.id}`)}
-            style={{ "--bg-image": `url(http://localhost:8080${project.snapshot})` }} // 배경 이미지 전달
+            style={{ "--bg-image": `url(${API_BASE_URL}${project.snapshot})` }} // 배경 이미지 전달
           >
             {project.status === "In Progress" && (
               <div className="status-pill">Working...</div>

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { API_BASE_URL } from '../../config';
 import './ProjectDetail.css'; 
 
 const ProjectEdit = () => {
   const { id } = useParams(); // 어떤 글을 고칠지 ID 가져오기
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const SERVER_URL = "http://localhost:8080";
 
   const [formData, setFormData] = useState({
     title: '', category: 'AI Design', status: 'In Progress',
@@ -24,7 +24,7 @@ const ProjectEdit = () => {
     }
 
     // 수정할 기존 데이터를 서버에서 가져옴
-    fetch(`${SERVER_URL}/api/projects/${id}`)
+    fetch(`${API_BASE_URL}/api/projects/${id}`)
       .then(res => res.json())
       .then(data => {
         setFormData({
@@ -55,14 +55,14 @@ const ProjectEdit = () => {
       if (selectedFiles.length > 0) {
         const uploadData = new FormData();
         Array.from(selectedFiles).forEach(file => uploadData.append("files", file));
-        const res = await fetch(`${SERVER_URL}/api/projects/upload-multiple`, {
+        const res = await fetch(`${API_BASE_URL}/api/projects/upload-multiple`, {
           method: "POST", body: uploadData
         });
         imagePaths = await res.json(); // 새 사진 경로로 교체
       }
 
       // 3. 수정 요청 (PUT)
-      const projectRes = await fetch(`${SERVER_URL}/api/projects/${id}`, {
+      const projectRes = await fetch(`${API_BASE_URL}/api/projects/${id}`, {
         method: "PUT", 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../config';
 import './ProjectDetail.css'; 
 
 export default function ProjectDetail() {
@@ -7,14 +8,13 @@ export default function ProjectDetail() {
   const navigate = useNavigate();
   const [project, setProject] = useState(null); 
   const isAdmin = localStorage.getItem("adminToken") === "secret-key-12345";
-  const SERVER_URL = "http://localhost:8080";
 
   // 사진 확대 모달 상태
   const [zoomImg, setZoomImg] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    fetch(`http://localhost:8080/api/projects/${id}`)
+    fetch(`${API_BASE_URL}/api/projects/${id}`)
       .then(res => res.json())
       .then(data => setProject(data))
       .catch(err => console.error(err));
@@ -39,7 +39,7 @@ export default function ProjectDetail() {
       {/* 4. 와이드 썸네일 섹션 */}
       <header className="mag-wide-hero">
         <div className="hero-img-wrapper">
-          <img src={`${SERVER_URL}${project.snapshot}`} alt="Main Wide" />
+          <img src={`${API_BASE_URL}${project.snapshot}`} alt="Main Wide" />
         </div>
         <div className="hero-titles">
           <span className="mag-issue-no">ISSUE NO. 0{project.id}</span>
@@ -88,10 +88,10 @@ export default function ProjectDetail() {
                   <div className="image-col">
                     <div className="image-frame">
                       <img 
-                        src={`${SERVER_URL}${galleryImages[index]}`} 
+                        src={`${API_BASE_URL}${galleryImages[index]}`} 
                         alt={`Detail ${index}`} 
                         // 사진을 클릭하면 스위치에 이 사진 주소를 넣어준다! 마우스도 돋보기로!
-                        onClick={() => setZoomImg(`${SERVER_URL}${galleryImages[index]}`)}
+                        onClick={() => setZoomImg(`${API_BASE_URL}${galleryImages[index]}`)}
                         style={{ cursor: "zoom-in" }}
                       />
                       <span className="fig-tag">FIG. {index + 1}</span>
@@ -107,10 +107,10 @@ export default function ProjectDetail() {
                 {galleryImages.slice(paragraphs.length).map((img, idx) => (
                   <div key={idx} className="extra-img-box">
                     <img 
-                      src={`${SERVER_URL}${img}`} 
+                      src={`${API_BASE_URL}${img}`} 
                       alt="More" 
                       //  똑같이 클릭 이벤트와 마우스 모양 추가!
-                      onClick={() => setZoomImg(`${SERVER_URL}${img}`)}
+                      onClick={() => setZoomImg(`${API_BASE_URL}${img}`)}
                       style={{ cursor: "zoom-in" }}
                     />
                   </div>
