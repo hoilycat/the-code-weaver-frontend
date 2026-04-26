@@ -3,6 +3,7 @@
   --dark-color: #213448;
   --accent-blue: #94B4C1;
   --text-main: #213448;
+  --accent-warm: #8B7355; 
 }
 
 html{
@@ -22,7 +23,7 @@ html{
   src: url("./assets/fonts/RIDIBatang.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
-  unicode-range: U+AC00-D7A3; /* 한글 음절 */
+  unicode-range: U+AC00-D7A3,U+0000-00FF; /* 한글 음절 */
 }
 
 
@@ -32,8 +33,8 @@ body {
   padding: 0;
   background-color: var(--bg-color);
   font-family: 
-    "RIDIBatang",
     "Superclarendon",
+    "RIDIBatang",
     sans-serif;
   color: var(--text-main);
 }
