@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../config';
 import './ProjectDetail.css';
 
 const ProjectWrite = () => {
@@ -56,14 +57,14 @@ const ProjectWrite = () => {
       if (selectedFiles.length > 0) {
         const uploadData = new FormData();
         Array.from(selectedFiles).forEach(file => uploadData.append("files", file));
-        const res = await fetch("http://localhost:8080/api/projects/upload-multiple", {
+        const res = await fetch(`${API_BASE_URL}/api/projects/upload-multiple`, {
           method: "POST", body: uploadData
         });
         imagePaths = await res.json();
       }
 
     // 2. 최종 저장 시에는 반드시 '성공 확인'을 합니다!
-    const projectRes = await fetch("http://localhost:8080/api/projects", {
+    const projectRes = await fetch(`${API_BASE_URL}/api/projects`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 
