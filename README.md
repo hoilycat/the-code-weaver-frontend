@@ -1,6 +1,15 @@
 # 🧶 Frontend: The Weaver Interactive UI
 
 > **"Weaving ideas into form."**
+> <br><br>
+><div align="center">
+>  <img src="https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React"/>
+>  <img src="https://img.shields.io/badge/Vite_5-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite"/>
+>  <img src="https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white" alt="Framer Motion"/>
+>  <img src="https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=white" alt="GSAP"/>
+>  <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel"/>
+></div>
+
 > 사용자의 스크롤을 **'실을 엮는 행위'** 로 치환하여, 단순한 포트폴리오 나열을 넘어 몰입감 있는 경험을 설계한 프론트엔드 저장소입니다.
 
 ---
@@ -9,7 +18,7 @@
 
 | Hero Needle Interaction | Scattering & Weaving Text | Particle System |
 | :---: | :---: | :---: |
-| ![Hero GIF](이미지_주소) | ![About GIF](이미지_주소) | ![Particle GIF](이미지_주소) |
+| ![Hero GIF](./Hero.gif) | ![About GIF](./About.gif) | ![Particle GIF](./Particle.gif) |
 
 ---
 
@@ -92,10 +101,10 @@ the-code-weaver-frontend/
 
 | 분류 | 기술 |
 |---|---|
-| Framework | React 19 + Vite |
-| Routing | React Router DOM |
-| Animation | Framer Motion, GSAP (ScrollTrigger) |
-| Styling | Vanilla CSS |
+| **Framework** | <img src="https://img.shields.io/badge/React_19-20232A?style=flat-square&logo=react&logoColor=61DAFB"/> <img src="https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white"/> |
+| **Routing** | <img src="https://img.shields.io/badge/React_Router_DOM-CA4245?style=flat-square&logo=react-router&logoColor=white"/> |
+| **Animation** | <img src="https://img.shields.io/badge/Framer_Motion-0055FF?style=flat-square&logo=framer&logoColor=white"/> <img src="https://img.shields.io/badge/GSAP-88CE02?style=flat-square&logo=greensock&logoColor=white"/> |
+| **Styling** | <img src="https://img.shields.io/badge/Vanilla_CSS-1572B6?style=flat-square&logo=css3&logoColor=white"/> |
 
 ---
 
