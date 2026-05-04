@@ -18,7 +18,7 @@
 
 | Hero Needle Interaction | Scattering & Weaving Text | Particle System |
 | :---: | :---: | :---: |
-| ![Hero GIF](이미지_주소) | ![About GIF](이미지_주소) | ![Particle GIF](이미지_주소) |
+| ![Hero GIF](./Hero-GIF.gif) | ![About GIF](./About-GIF.gif) | ![Particle GIF](./Particle-GIF.gif) |
 
 ---
 
