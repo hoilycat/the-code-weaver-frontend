@@ -13,7 +13,9 @@ const ProjectEdit = () => {
     description: '', link: '', period: ''
   });
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [headerFile, setHeaderFile] = useState(null); // [추가] 새 헤더 이미지
   const [existingImages, setExistingImages] = useState([]); // 기존 사진 보관용
+  const [existingSnapshot, setExistingSnapshot] = useState(""); // [추가] 기존 헤더 보관
 
   // 1. 🛡️ 보안 및 기존 데이터 불러오기
   useEffect(() => {
@@ -36,6 +38,7 @@ const ProjectEdit = () => {
           period: data.period
         });
         setExistingImages(data.images || []);
+        setExistingSnapshot(data.snapshot || ""); // [추가] 기존 스냅샷 저장
       });
   }, [id, navigate]);
 
@@ -49,26 +52,38 @@ const ProjectEdit = () => {
     setIsSubmitting(true);
 
     try {
-      let imagePaths = existingImages; // 기본은 기존 사진 유지
+      let imagePaths = existingImages; 
+      let headerPath = existingSnapshot;
 
-      // 2. 만약 새 사진을 선택했다면 업로드 진행
+      // 2. 새 헤더 이미지 업로드
+      if (headerFile) {
+        const headerData = new FormData();
+        headerData.append("files", headerFile);
+        const hRes = await fetch(`${API_BASE_URL}/api/projects/upload-multiple`, {
+          method: "POST", body: headerData
+        });
+        const hPaths = await hRes.json();
+        headerPath = hPaths[0] || existingSnapshot;
+      }
+
+      // 3. 만약 새 갤러리 사진을 선택했다면 업로드 진행
       if (selectedFiles.length > 0) {
         const uploadData = new FormData();
         Array.from(selectedFiles).forEach(file => uploadData.append("files", file));
         const res = await fetch(`${API_BASE_URL}/api/projects/upload-multiple`, {
           method: "POST", body: uploadData
         });
-        imagePaths = await res.json(); // 새 사진 경로로 교체
+        imagePaths = await res.json(); 
       }
 
-      // 3. 수정 요청 (PUT)
+      // 4. 수정 요청 (PUT)
       const projectRes = await fetch(`${API_BASE_URL}/api/projects/${id}`, {
         method: "PUT", 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           ...formData, 
           images: imagePaths,
-          snapshot: imagePaths.length > 0 ? imagePaths[0] : "" 
+          snapshot: headerPath // 새 헤더 혹은 기존 헤더 유지
         })
       });
 
@@ -115,8 +130,22 @@ const ProjectEdit = () => {
           <textarea name="description" value={formData.description} rows="15" onChange={handleChange} required 
                     style={{padding:'20px', background:'transparent', border:'1px solid #213448', fontSize:'1.1rem', lineHeight:'1.8'}} />
 
+          {/* [추가] 헤더 이미지 수정 영역 */}
+          <div style={{border: '1px solid #213448', padding: '20px', textAlign: 'center', backgroundColor: 'rgba(84, 119, 146, 0.1)'}}>
+            <p style={{fontFamily:'Superclarendon', fontSize:'0.7rem', marginBottom:'10px'}}>MAIN HERO IMAGE (CURRENTLY SET)</p>
+            {existingSnapshot && (
+              <img src={`${API_BASE_URL}${existingSnapshot}`} alt="Current Hero" style={{height:'80px', marginBottom:'10px', border:'1px solid #213448'}} />
+            )}
+            <label style={{ cursor: 'pointer', display:'block' }}>
+              <input type="file" accept="image/*" onChange={(e) => setHeaderFile(e.target.files[0])} style={{ display: 'none' }} />
+              <div className="custom-upload-btn" style={{ background: '#547792', color: 'white', margin:'0 auto', width:'fit-content' }}>
+                {headerFile ? `변경됨: ${headerFile.name.substring(0,10)}...` : "헤더 이미지 변경하기"}
+              </div>
+            </label>
+          </div>
+
           <div style={{border: '1px dashed #213448', padding: '40px', textAlign: 'center'}}>
-            <p style={{marginBottom:'15px', fontFamily:'Superclarendon', fontSize:'0.8rem'}}>새 사진으로 교체하려면 선택하세요 (기존 사진은 사라집니다)</p>
+            <p style={{marginBottom:'15px', fontFamily:'Superclarendon', fontSize:'0.8rem'}}>갤러리 사진 교체 (기존 사진은 사라집니다)</p>
             <input type="file" multiple accept="image/*" onChange={(e) => setSelectedFiles(e.target.files)} />
           </div>
 
