@@ -16,6 +16,7 @@ const ProjectWrite = () => {
     period: ''
   });
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [headerFile, setHeaderFile] = useState(null); // [추가] 헤더 전용 이미지 상태
   const [isSubmitting, setIsSubmitting] = useState(false);
 
 
@@ -31,6 +32,13 @@ const ProjectWrite = () => {
   // 입력 필드 변경 시 formData 업데이트ß
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // [추가] 헤더 이미지 선택
+  const handleHeaderChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setHeaderFile(e.target.files[0]);
+    }
   };
 
   // 사진 선택 시 최대 10장 제한
@@ -53,7 +61,20 @@ const ProjectWrite = () => {
 
     try {
       let imagePaths = [];
-      // 1. 이미지 먼저 보내기 (성공 가정)
+      let headerPath = "";
+
+      // 1. 헤더 이미지 먼저 업로드 (있을 경우)
+      if (headerFile) {
+        const headerData = new FormData();
+        headerData.append("files", headerFile); // 기존 API가 multiple용이라 "files"로 보냄
+        const hRes = await fetch(`${API_BASE_URL}/api/projects/upload-multiple`, {
+          method: "POST", body: headerData
+        });
+        const hPaths = await hRes.json();
+        headerPath = hPaths[0] || "";
+      }
+
+      // 2. 갤러리 이미지 업로드
       if (selectedFiles.length > 0) {
         const uploadData = new FormData();
         Array.from(selectedFiles).forEach(file => uploadData.append("files", file));
@@ -63,14 +84,15 @@ const ProjectWrite = () => {
         imagePaths = await res.json();
       }
 
-    // 2. 최종 저장 시에는 반드시 '성공 확인'을 합니다!
+    // 3. 최종 저장
     const projectRes = await fetch(`${API_BASE_URL}/api/projects`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 
         ...formData, 
         images: imagePaths,
-        snapshot: imagePaths.length > 0 ? imagePaths[0] : "" 
+        // 헤더 이미지가 있으면 그걸 쓰고, 없으면 갤러리 첫 번째 사진을 snapshot으로 사용
+        snapshot: headerPath || (imagePaths.length > 0 ? imagePaths[0] : "") 
       })
     });
 
@@ -131,7 +153,20 @@ const ProjectWrite = () => {
                   rows="15" onChange={handleChange} required 
                   style={{padding:'20px', background:'transparent', border:'1px solid #213448', fontSize:'1.1rem', lineHeight:'1.8'}} />
 
-        {/* 사진 파일 선택 */}
+        {/* [추가] 헤더 이미지 선택 영역 */}
+        <div style={{border: '1px solid #213448', padding: '20px', textAlign: 'center', backgroundColor: 'rgba(84, 119, 146, 0.1)'}}>
+          <label style={{ cursor: 'pointer' }}>
+            <p style={{ fontFamily: 'Superclarendon', fontSize: '0.7rem', letterSpacing: '1px', marginBottom: '10px' }}>
+              MAIN HERO IMAGE (WIDE 21:9 RECOMMENDED)
+            </p>
+            <input type="file" accept="image/*" onChange={handleHeaderChange} style={{ display: 'none' }} />
+            <div className="custom-upload-btn" style={{ background: '#547792', color: 'white' }}>
+              {headerFile ? `선택됨: ${headerFile.name.substring(0, 15)}...` : "헤더 이미지 선택"}
+            </div>
+          </label>
+        </div>
+
+        {/* 사진 파일 선택 (갤러리) */}
         <div style={{border: '1px dashed #213448', padding: '40px', textAlign: 'center', backgroundColor: 'rgba(255,255,255,0.2)'}}>
           <label style={{ cursor: 'pointer' }}>
             <p style={{
@@ -150,10 +185,12 @@ const ProjectWrite = () => {
               onChange={handleFileChange} 
               style={{ display: 'none' }} //실제 못생긴 버튼은 숨기고
             />
-            <div className="custom-upload-btn">파일 선택하기</div> {/* 대신 예쁜 가짜 버튼을 보여줌 */}
+            <div className="custom-upload-btn">갤러리 사진 선택</div> {/* 대신 예쁜 가짜 버튼을 보여줌 */}
           </label>
-          <input type="file" multiple accept="image/*" onChange={(e) => setSelectedFiles(e.target.files)} />
+          {selectedFiles.length > 0 && <p style={{fontSize: '0.8rem', marginTop: '10px'}}>{selectedFiles.length}개의 파일 선택됨</p>}
         </div>
+        <input type="file" multiple accept="image/*" onChange={(e) => setSelectedFiles(e.target.files)} />
+
 
         {/* 등록 버튼 */}
         <button 
