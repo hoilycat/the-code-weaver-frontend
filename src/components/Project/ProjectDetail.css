@@ -190,22 +190,23 @@
   padding: 0 40px;
   text-align: center;
   box-sizing: border-box;
-  margin-top: -60px; /* 👈 제목을 이미지 위로 살짝 걸치게 (고급 잡지 스타일) */
+  margin-top: -50px; /* 👈 이미지와 글자 사이 간격 살짝 조정 */
   position: relative;
   z-index: 10;
+  margin-bottom: 60px; /* 👈 아래쪽 여백 추가 */
 }
 
 .mag-title-large {
   font-family: "Superclarendon", serif;
-  font-size: clamp(2.5rem, 8vw, 6rem); /* 👈 제목 크기 시원하게 키움 */
+  font-size: clamp(2rem, 6vw, 4.5rem); /* 👈 한 치수 줄여서 더 정갈하게 */
   margin: 0;
-  line-height: 0.9;
+  line-height: 1.1;
   text-transform: uppercase;
-  background-color: #EAE0CF; /* 👈 배경색과 같은 색으로 글자 뒤를 가려줌 */
+  background-color: #EAE0CF;
   display: inline-block;
-  padding: 10px 30px;
+  padding: 20px 50px; /* 👈 안쪽 여백을 늘려서 답답함 해소 */
   border: 2px solid #213448;
-  box-shadow: 15px 15px 0px rgba(33, 52, 72, 0.1);
+  box-shadow: 12px 12px 0px rgba(33, 52, 72, 0.1);
 }
 
 
