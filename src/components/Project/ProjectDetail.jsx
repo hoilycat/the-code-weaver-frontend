@@ -25,6 +25,24 @@ export default function ProjectDetail() {
   const paragraphs = project.description ? project.description.split('\n\n') : [];
   const galleryImages = project.images || [];
 
+  // [추가] 텍스트 안에 있는 http:// 나 https:// 주소를 찾아서 클릭 가능한 링크(<a>)로 바꿔주는 마법의 함수!
+  const renderTextWithLinks = (text) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g; // 주소 찾는 정규식
+    const parts = text.split(urlRegex); // 주소 기준으로 텍스트 쪼개기
+    
+    return parts.map((part, i) => {
+      if (part.match(urlRegex)) {
+        // 주소인 부분은 <a> 태그로 감싸서 반환
+        return (
+          <a key={i} href={part} target="_blank" rel="noopener noreferrer" style={{ color: '#547792', textDecoration: 'underline', fontWeight: 'bold' }}>
+            {part}
+          </a>
+        );
+      }
+      return part; // 주소가 아닌 일반 글씨는 그냥 반환
+    });
+  };
+
   return (
     // 1. 전체 페이지 (격자무늬 배경이 깔리는 곳)
     <div className="mag-clean-page">
@@ -81,7 +99,7 @@ export default function ProjectDetail() {
               <div key={index} className={`content-row ${index % 2 === 0 ? 'even' : 'odd'}`}>
                 <div className="text-col">
                   <p className={`para-text ${index === 0 ? 'drop-cap' : ''}`}>
-                    {para}
+                    {renderTextWithLinks(para)}
                   </p>
                 </div>
                 {galleryImages[index] && (
