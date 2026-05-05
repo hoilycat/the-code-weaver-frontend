@@ -181,6 +181,12 @@
   margin-top:20vh;
 }
 
+.hero-titles {
+  padding: 0 40px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
 .hero-meta-info {
   font-family: "Superclarendon", serif;
   font-size: 0.85rem;
