@@ -95,29 +95,41 @@ export default function ProjectDetail() {
 
           {/* [글-사진] 지그재그 리스트  */}
           <section className="mag-content-flow">
-            {paragraphs.map((para, index) => (
-              <div key={index} className={`content-row ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                <div className="text-col">
-                  <p className={`para-text ${index === 0 ? 'drop-cap' : ''}`}>
-                    {renderTextWithLinks(para)}
-                  </p>
-                </div>
-                {galleryImages[index] && (
-                  <div className="image-col">
-                    <div className="image-frame">
-                      <img 
-                        src={`${API_BASE_URL}${galleryImages[index]}`} 
-                        alt={`Detail ${index}`} 
-                        // 사진을 클릭하면 스위치에 이 사진 주소를 넣어준다! 마우스도 돋보기로!
-                        onClick={() => setZoomImg(`${API_BASE_URL}${galleryImages[index]}`)}
-                        style={{ cursor: "zoom-in" }}
-                      />
-                      <span className="fig-tag">FIG. {index + 1}</span>
+            {paragraphs.map((para, index) => {
+              const hasImage = !!galleryImages[index];
+
+              if (hasImage) {
+                return (
+                  <div key={index} className={`content-row ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                    <div className="text-col">
+                      <p className={`para-text ${index === 0 ? 'drop-cap' : ''}`} style={{ whiteSpace: 'pre-wrap' }}>
+                        {renderTextWithLinks(para)}
+                      </p>
+                    </div>
+                    <div className="image-col">
+                      <div className="image-frame">
+                        <img 
+                          src={`${API_BASE_URL}${galleryImages[index]}`} 
+                          alt={`Detail ${index}`} 
+                          onClick={() => setZoomImg(`${API_BASE_URL}${galleryImages[index]}`)}
+                          style={{ cursor: "zoom-in" }}
+                        />
+                        <span className="fig-tag">FIG. {index + 1}</span>
+                      </div>
                     </div>
                   </div>
-                )}
-              </div>
-            ))}
+                );
+              } else {
+                // 이미지가 없는 문단은 지그재그 레이아웃과 큰 여백을 빼고 자연스럽게 아래로 이어지도록 렌더링
+                return (
+                  <div key={index} style={{ marginBottom: '30px', padding: '0 40px' }}>
+                    <p className={`para-text ${index === 0 ? 'drop-cap' : ''}`} style={{ whiteSpace: 'pre-wrap' }}>
+                      {renderTextWithLinks(para)}
+                    </p>
+                  </div>
+                );
+              }
+            })}
 
             {/* 남은 사진들 하단 갤러리 처리 */}
             {galleryImages.length > paragraphs.length && (
