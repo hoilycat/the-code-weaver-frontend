@@ -87,7 +87,7 @@ export default function Project() {
 
       {/* 카테고리 필터 */}
       <div className="filter-nav" style={{ marginBottom: '20px', display: 'flex', gap: '10px' }}>
-        {['All', 'AI Design', 'Public Data Viz', 'AIoT Service', 'Data Storytelling', 'Lifestyle Viz', 'Tableau Viz'].map(cat => (
+        {['All', 'AI Projects', 'Team Project', 'Data Visualization'].map(cat => (
           <button 
             key={cat} 
             onClick={() => setFilter(cat)} 

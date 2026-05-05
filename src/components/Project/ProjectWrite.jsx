@@ -8,7 +8,7 @@ const ProjectWrite = () => {
 
    const [formData, setFormData] = useState({
     title: '', 
-    category: 'AI Design', 
+    category: 'AI Projects', 
     size: 'small',
     description: '', 
     status: 'In Progress', 
@@ -98,12 +98,9 @@ const ProjectWrite = () => {
         
         <div style={{display: 'flex', gap: '10px'}}>
           <select name="category" onChange={handleChange} style={{flex: 1, padding: '10px'}}>
-              <option value="AI Design">AI Design</option>
-              <option value="Public Data Viz">Public Data Viz</option>
-              <option value="AIoT Service">AIoT Service</option>
-              <option value="Data Storytelling">Data Storytelling</option>
-              <option value="Lifestyle Viz">Lifestyle Viz</option>
-              <option value="Tableau Viz">Tableau Viz</option>
+              <option value="AI Projects">AI Projects</option>
+              <option value="Team Project">Team Project</option>
+              <option value="Data Visualization">Data Visualization</option>
             </select>
 
           {/* 개발 상태 선택 추가 */}
