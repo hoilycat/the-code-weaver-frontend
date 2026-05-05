@@ -120,10 +120,11 @@ export default function ProjectDetail() {
                   </div>
                 );
               } else {
-                // 이미지가 없는 문단은 지그재그 레이아웃과 큰 여백을 빼고 자연스럽게 아래로 이어지도록 렌더링
+                // 이미지가 없는 문단: 좌측 정렬 + 자연스러운 줄 간격으로 깔끔하게
                 return (
-                  <div key={index} style={{ marginBottom: '30px', padding: '0 40px' }}>
-                    <p className={`para-text ${index === 0 ? 'drop-cap' : ''}`} style={{ whiteSpace: 'pre-wrap' }}>
+                  <div key={index} style={{ marginBottom: '20px', padding: '0 40px' }}>
+                    <p className={`para-text ${index === 0 ? 'drop-cap' : ''}`} 
+                       style={{ whiteSpace: 'pre-wrap', textAlign: 'left', lineHeight: '1.9' }}>
                       {renderTextWithLinks(para)}
                     </p>
                   </div>
