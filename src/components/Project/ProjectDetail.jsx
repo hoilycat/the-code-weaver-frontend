@@ -23,7 +23,8 @@ export default function ProjectDetail() {
   if (!project) return <div className="loading">아카이브 여는 중... 🕯️</div>;
 
   const paragraphs = project.description ? project.description.split('\n\n') : [];
-  const galleryImages = project.images || [];
+  // [수정] 갤러리 이미지에서 '헤더 이미지(snapshot)'와 중복되는 사진은 제외하기 (깔끔한 레이아웃을 위해)
+  const galleryImages = (project.images || []).filter(img => img !== project.snapshot);
 
   // [추가] 텍스트 안에 있는 http:// 나 https:// 주소를 찾아서 클릭 가능한 링크(<a>)로 바꿔주는 마법의 함수!
   const renderTextWithLinks = (text) => {
