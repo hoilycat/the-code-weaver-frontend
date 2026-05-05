@@ -306,194 +306,141 @@
 .del-btn { background: #e74c3c; color: white; }
 
 
-@media (max-width: 900px) {
-  .mag-clean-page { padding-top: 60px; overflow-x: hidden; }
+/* --- 7. Responsive Design (Mobile Optimization) --- */
+
+@media (max-width: 1024px) {
+  .mag-main-container {
+    padding: 0 40px;
+  }
+  .mag-main-grid {
+    gap: 40px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* 1. 배경 및 컨테이너 */
+  .mag-clean-page {
+    padding-bottom: 100px;
+  }
+  .mag-main-container {
+    padding: 0 20px !important;
+  }
+
+  /* 2. 헤더 섹션 (슬림화) */
   .mag-wide-hero {
-    margin-bottom: 40px !important;
+    margin-bottom: 40px;
   }
-  /* 1. 배너 높이 줄이기 */
-  .hero-img-wrapper { height: 30vh !important; width: 100vw; margin-left: -20px; }
-  
-  /* 2. 컨테이너 여백 확보 */
-  .mag-main-container { padding: 0 20px 100px 20px !important; max-width: 100%; }
-
-  /* 3. 제목 크기 & 간격 */
-  .mag-title-large { 
-    font-size: 1.8rem !important;
-    margin-top: 20px !important;
-    padding: 0 20px;
-    line-height: 1.2;
+  .hero-img-wrapper {
+    height: 35vh;
+  }
+  .hero-titles {
+    padding: 0 10px;
+  }
+  .mag-title-large {
+    font-size: clamp(1.8rem, 8vw, 2.5rem) !important;
+    margin: 15px 0 10px 0 !important;
+    line-height: 1.1;
+  }
+  .hero-meta-info {
+    font-size: 0.75rem;
+    justify-content: center;
+    gap: 10px;
   }
 
-  /* 4. 지그재그 해제 (가장 중요) */
-    .mag-main-grid {
+  /* 3. 사이드바 -> 상단 인포 바 변환 */
+  .mag-main-grid {
     display: flex !important;
     flex-direction: column;
-    gap: 20px !important;
-    margin-top: 20px !important;
+    margin-top: 30px !important;
+    gap: 30px !important;
   }
 
-    .mag-sidebar-mini {
-    width: 100% !important;
-    border-bottom: 1px solid rgba(33, 52, 72, 0.1);
-    padding-bottom: 20px;
+  .mag-sidebar-mini {
+    width: 100%;
+    background: rgba(33, 52, 72, 0.03);
+    padding: 20px !important;
+    border: 1px solid rgba(33, 52, 72, 0.1) !important;
+    border-radius: 4px;
   }
 
- .sidebar-sticky {
-    position: static !important; /* 고정 해제 */
+  .sidebar-sticky {
+    position: static !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-.editor-credit {
-    text-align: right;
+  .mag-visit-btn {
+    margin: 0 !important;
+    padding: 10px 20px !important;
+    font-size: 0.7rem !important;
   }
 
-  /* 3. 본문 텍스트 정돈 */
-  .content-row {
-    margin-bottom: 40px !important;
+  .editor-credit label {
+    font-size: 0.6rem;
   }
+  .editor-credit p {
+    font-size: 0.8rem;
+    margin-top: 2px;
+  }
+
+  /* 4. 본문 스토리 흐름 (스택 구조) */
+  .content-row, .content-row.even, .content-row.odd {
+    flex-direction: column !important;
+    gap: 25px !important;
+    margin-bottom: 60px !important;
+  }
+
+  .text-col, .image-col {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* 5. 타이포그래피 (모바일 가독성) */
   .para-text {
-    font-size: 1rem !important;
-    line-height: 1.7 !important;
-    color: #444;
+    font-size: 1.05rem !important;
+    line-height: 1.8 !important;
     text-align: left !important; /* 양끝정렬 해제 */
+    letter-spacing: -0.01em;
   }
 
-  /* 4. 이미지 프레임 그림자 및 여백 축소 */
+  .drop-cap::first-letter {
+    font-size: 3.8rem !important;
+    margin-right: 12px !important;
+    margin-top: 4px !important;
+    line-height: 0.85 !important;
+  }
+
+  /* 6. 이미지 프레임 */
   .image-frame {
+    aspect-ratio: 16 / 10 !important;
     padding: 8px !important;
-    box-shadow: 10px 10px 0px rgba(33, 52, 72, 0.05) !important;
-    aspect-ratio: auto !important; /* 이미지 비율 유지 */
+    box-shadow: 12px 12px 0px rgba(33, 52, 72, 0.05) !important;
   }
 
-  /* 5. 닫기 버튼 위치 조정 */
+  /* 7. 고정 네비게이션 & 기타 */
   .mag-fixed-nav {
     top: 15px !important;
     right: 15px !important;
   }
   .back-btn-minimal {
     padding: 8px 15px !important;
-    font-size: 0.7rem !important;
+    font-size: 0.65rem !important;
+    box-shadow: 5px 5px 0px rgba(33, 52, 72, 0.1);
   }
 
-  .content-row, .content-row.even, .content-row.odd {
-    flex-direction: column !important;
-    direction: ltr !important; /* 방향 초기화 */
-    gap: 20px !important;
-    margin-bottom: 60px !important;
+  .extra-gallery-grid {
+    grid-template-columns: 1fr; /* 모바일은 갤러리도 한 줄로 */
+    gap: 15px;
   }
 
-  /* 5. 텍스트와 이미지 너비 100% */
-  .text-col, .image-col { width: 100% !important; padding: 0 !important; }
-  .para-text { font-size: 1.1rem !important; line-height: 1.8 !important; }
-
-  /* 6. 이미지 프레임 꽉 차게 */
-  .image-frame { aspect-ratio: 16/9 !important; }
-
-  /* 7. 관리자 버튼 가로 배치 */
-  .admin-actions-bar { 
-    position: fixed; bottom: 0; left: 0; width: 100%; 
-    background: white; padding: 15px; z-index: 100;
-    box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
-    margin-top: 0;
-  }
-
-  .drop-cap::first-letter {
-    font-size: 3.5rem !important; /* 6.5rem에서 축소 */
-    margin-right: 10px;
-    margin-top: 5px;
-  }
-  
-  .para-text {
-    font-size: 1rem !important;
-    line-height: 1.6 !important;
-    text-align: left; /* 모바일에서 양끝정렬(justify)은 가끔 이상한 공백을 만듦 */
-  }
-
-  .mag-main-container {
-    padding: 0 15px !important; /* 여백을 줄여서 화면을 넓게 쓰기 */
-  }
-}
-
-/* 1. PC 버전: 이미지와 텍스트의 균형 */
-.mag-main-grid {
-  display: grid;
-  grid-template-columns: 180px 1fr !important;
-  gap: 50px !important; /* 간격을 줄여서 밀도 높임 */
-  margin-top: 50px !important;
-}
-
-.content-row {
-  align-items: flex-start !important;
-  margin-bottom: 100px !important;
-  gap: 40px !important;
-}
-
-.para-text {
-  font-size: 1.15rem !important; /* 살짝 줄여서 가독성 업 */
-  line-height: 2 !important;
-  text-align: left !important; /* 양끝정렬보다는 왼쪽정렬이 깔끔함 */
-}
-
-/* 2. 이미지 프레임 통일 (가장 중요) */
-.image-frame {
-  width: 100% !important;
-  max-width: 600px;
-  aspect-ratio: 4/3 !important; /* 모든 사진 비율 강제 통일 */
-  background: #fff;
-  border: 1px solid #213448 !important;
-}
-
-/* 3. 모바일 버전: "잡지 레이아웃" 강제 적용 */
-@media (max-width: 768px) {
-  .mag-main-container {
-    padding: 0 20px !important;
-  }
-
-  .hero-titles {
-    padding: 0 10px;
-    text-align: center;
-  }
-
-  .mag-title-large {
-    font-size: 1.8rem !important;
-    margin: 15px 0 !important;
-  }
-
-  /* 사이드바 정보를 상단에 박스형으로 배치 */
-  .mag-sidebar-mini {
-    background: rgba(33, 52, 72, 0.05);
-    padding: 15px !important;
-    border-radius: 4px;
-    border: none !important;
-    margin-bottom: 30px !important;
-  }
-
-  .sidebar-sticky {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .admin-actions-bar {
+    margin-top: 50px;
+    padding: 20px;
+    flex-direction: column;
     gap: 10px;
   }
-
-  .mag-visit-btn {
-    margin-bottom: 0 !important; /* 불필요한 마진 제거 */
-    padding: 8px 15px !important;
-    font-size: 0.75rem !important;
-  }
-
-  /* 본문 가독성 */
-  .para-text {
-    font-size: 1rem !important;
-    line-height: 1.8 !important;
-    letter-spacing: -0.01em;
-  }
-
-  .drop-cap::first-letter {
-    font-size: 3.5rem !important;
-    margin-right: 10px !important;
-    line-height: 0.9 !important;
+  .admin-actions-bar button {
+    width: 100%;
   }
 }
