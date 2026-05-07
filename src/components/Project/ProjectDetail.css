@@ -128,13 +128,13 @@
 .mag-fixed-nav {
   position: fixed;
   top: 30px;
-  right: -80px;
+  right: 24px;
   z-index: 1000;
   padding:0px;
 }
 
 .mag-fixed-nav:hover{
-  right:-10px;
+  right:24px;
   transition: all 0.3s ease;
 }
 
@@ -156,7 +156,7 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
-  margin-bottom: 100px;
+  margin-bottom: 24px;
 }
 
 .hero-img-wrapper {
@@ -193,7 +193,7 @@
   margin-top: -50px; /* 👈 이미지와 글자 사이 간격 살짝 조정 */
   position: relative;
   z-index: 10;
-  margin-bottom: 60px; /* 👈 아래쪽 여백 추가 */
+  margin-bottom: 24px; /* 👈 아래쪽 여백 추가 */
 }
 
 .mag-title-large {
@@ -282,7 +282,7 @@
   display: grid;
   grid-template-columns: 200px 1fr;
   gap: 100px;
-  margin-top: 80px;
+  margin-top: 28px;
 }
 
 .mag-sidebar-mini .sidebar-sticky {
@@ -293,7 +293,7 @@
 .content-row {
   display: flex;
   gap: 60px;
-  margin-bottom: 120px;
+  margin-bottom: 96px;
   align-items: flex-start;
   /* align-items: center; */
 }
