@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { API_BASE_URL } from '../../config';
+import { API_BASE_URL, getImageUrl } from '../../config';
 import './ProjectDetail.css'; 
 
 const ProjectEdit = () => {
@@ -62,6 +62,7 @@ const ProjectEdit = () => {
         const hRes = await fetch(`${API_BASE_URL}/api/projects/upload-multiple`, {
           method: "POST", body: headerData
         });
+        if (!hRes.ok) throw new Error("Image upload failed");
         const hPaths = await hRes.json();
         headerPath = hPaths[0] || existingSnapshot;
       }
@@ -73,6 +74,7 @@ const ProjectEdit = () => {
         const res = await fetch(`${API_BASE_URL}/api/projects/upload-multiple`, {
           method: "POST", body: uploadData
         });
+        if (!res.ok) throw new Error("Image upload failed");
         imagePaths = await res.json(); 
       }
 
@@ -134,7 +136,7 @@ const ProjectEdit = () => {
           <div style={{border: '1px solid #213448', padding: '20px', textAlign: 'center', backgroundColor: 'rgba(84, 119, 146, 0.1)'}}>
             <p style={{fontFamily:'Superclarendon', fontSize:'0.7rem', marginBottom:'10px'}}>MAIN HERO IMAGE (CURRENTLY SET)</p>
             {existingSnapshot && (
-              <img src={`${API_BASE_URL}${existingSnapshot}`} alt="Current Hero" style={{height:'80px', marginBottom:'10px', border:'1px solid #213448'}} />
+              <img src={getImageUrl(existingSnapshot)} alt="Current Hero" style={{height:'80px', marginBottom:'10px', border:'1px solid #213448'}} />
             )}
             <label style={{ cursor: 'pointer', display:'block' }}>
               <input type="file" accept="image/*" onChange={(e) => setHeaderFile(e.target.files[0])} style={{ display: 'none' }} />

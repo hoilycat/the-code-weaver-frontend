@@ -70,6 +70,7 @@ const ProjectWrite = () => {
         const hRes = await fetch(`${API_BASE_URL}/api/projects/upload-multiple`, {
           method: "POST", body: headerData
         });
+        if (!hRes.ok) throw new Error("Image upload failed");
         const hPaths = await hRes.json();
         headerPath = hPaths[0] || "";
       }
@@ -81,6 +82,7 @@ const ProjectWrite = () => {
         const res = await fetch(`${API_BASE_URL}/api/projects/upload-multiple`, {
           method: "POST", body: uploadData
         });
+        if (!res.ok) throw new Error("Image upload failed");
         imagePaths = await res.json();
       }
 

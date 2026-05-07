@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef, useState, useEffect } from 'react'; // 1. useEffect 추가 확인
 import { useNavigate } from 'react-router-dom'; // 2. useNavigate 추가 확인
-import { API_BASE_URL } from '../../config';
+import { API_BASE_URL, getImageUrl } from '../../config';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Project.css';
@@ -118,7 +118,7 @@ export default function Project() {
               className={`project-card ${project.size || 'small'}`}
             // 6. 클릭하면 상세 페이지로 이동!
             onClick={() => navigate(`/project/${project.id}`)}
-            style={{ "--bg-image": `url(${API_BASE_URL}${project.snapshot})` }} // 배경 이미지 전달
+            style={{ "--bg-image": `url(${getImageUrl(project.snapshot)})` }} // 배경 이미지 전달
           >
             {project.status === "In Progress" && (
               <div className="status-pill">Working...</div>

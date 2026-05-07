@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../../config';
+import { API_BASE_URL, getImageUrl } from '../../config';
 import './ProjectDetail.css'; 
 
 export default function ProjectDetail() {
@@ -58,7 +58,7 @@ export default function ProjectDetail() {
       {/* 4. 와이드 썸네일 섹션 */}
       <header className="mag-wide-hero">
         <div className="hero-img-wrapper">
-          <img src={`${API_BASE_URL}${project.snapshot}`} alt="Main Wide" />
+          <img src={getImageUrl(project.snapshot)} alt="Main Wide" />
         </div>
         <div className="hero-titles">
           <span className="mag-issue-no">ISSUE NO. 0{project.id}</span>
@@ -110,9 +110,9 @@ export default function ProjectDetail() {
                     <div className="image-col">
                       <div className="image-frame">
                         <img 
-                          src={`${API_BASE_URL}${galleryImages[index]}`} 
+                          src={getImageUrl(galleryImages[index])} 
                           alt={`Detail ${index}`} 
-                          onClick={() => setZoomImg(`${API_BASE_URL}${galleryImages[index]}`)}
+                          onClick={() => setZoomImg(getImageUrl(galleryImages[index]))}
                           style={{ cursor: "zoom-in" }}
                         />
                         <span className="fig-tag">FIG. {index + 1}</span>
@@ -139,10 +139,10 @@ export default function ProjectDetail() {
                 {galleryImages.slice(paragraphs.length).map((img, idx) => (
                   <div key={idx} className="extra-img-box">
                     <img 
-                      src={`${API_BASE_URL}${img}`} 
+                      src={getImageUrl(img)} 
                       alt="More" 
                       //  똑같이 클릭 이벤트와 마우스 모양 추가!
-                      onClick={() => setZoomImg(`${API_BASE_URL}${img}`)}
+                      onClick={() => setZoomImg(getImageUrl(img))}
                       style={{ cursor: "zoom-in" }}
                     />
                   </div>
