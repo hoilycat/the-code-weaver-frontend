@@ -38,6 +38,10 @@ export default function ProjectDetail() {
   // [수정] 갤러리 이미지에서 '헤더 이미지(snapshot)'와 중복되는 사진은 제외하기 (깔끔한 레이아웃을 위해)
   const galleryImages = (project.images || []).filter(img => img !== project.snapshot);
 
+  const goBackToProjects = () => {
+    navigate('/#Projects');
+  };
+
   // [추가] 텍스트 안에 있는 http:// 나 https:// 주소를 찾아서 클릭 가능한 링크(<a>)로 바꿔주는 마법의 함수!
   const renderTextWithLinks = (text) => {
     const urlRegex = /(https?:\/\/[^\s]+)/g; // 주소 찾는 정규식
@@ -60,10 +64,11 @@ export default function ProjectDetail() {
     // 1. 전체 페이지 (격자무늬 배경이 깔리는 곳)
     <div className="mag-clean-page">
       
-      {/* 2. 우측 상단 고정 네비게이션 */}
+      {/* 2. 좌측 상단 프로젝트 목록 복귀 네비게이션 */}
       <nav className="mag-fixed-nav">
-        <button onClick={() => navigate('/')} className="back-btn-minimal">
-          CLOSE ✕
+        <button onClick={goBackToProjects} className="back-btn-minimal">
+          <span className="back-arrow-line">←</span>
+          <span>Back to Projects</span>
         </button>
       </nav>
 
@@ -246,4 +251,3 @@ export default function ProjectDetail() {
     </div>
   );
 };
-

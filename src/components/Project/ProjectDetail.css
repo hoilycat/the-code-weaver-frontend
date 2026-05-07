@@ -124,30 +124,48 @@
 }
 
 
-/* 3. 우측 상단 닫기 버튼 */
+/* 3. 좌측 상단 뒤로가기 버튼 */
 .mag-fixed-nav {
   position: fixed;
   top: 30px;
-  right: 24px;
+  left: 34px;
   z-index: 1000;
-  padding:0px;
-}
-
-.mag-fixed-nav:hover{
-  right:24px;
-  transition: all 0.3s ease;
+  padding: 0;
 }
 
 .back-btn-minimal {
-  background: #213448;
-  color: #EAE0CF;
+  background: transparent;
+  color: #213448;
   border: none;
-  padding: 10px 25px;
+  padding: 8px 0;
   font-family: "Superclarendon", serif;
-  font-size: 0.75rem;
-  letter-spacing: 2px;
+  font-size: 0.78rem;
   cursor: pointer;
-  box-shadow: 10px 10px 0px rgba(33, 52, 72, 0.1);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-transform: uppercase;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.back-btn-minimal:hover {
+  transform: translateX(-8px);
+  opacity: 0.72;
+}
+
+.back-arrow-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 2.7rem;
+  line-height: 0.7;
+}
+
+.back-arrow-line::after {
+  content: "";
+  width: 54px;
+  height: 1px;
+  background: currentColor;
 }
 
 /* 4. 와이드 썸네일 */
@@ -735,13 +753,16 @@
 
   /* 7. 고정 네비게이션 & 기타 */
   .mag-fixed-nav {
-    top: 15px !important;
-    right: 15px !important;
+    top: 14px !important;
+    left: 18px !important;
   }
   .back-btn-minimal {
-    padding: 8px 15px !important;
-    font-size: 0.65rem !important;
-    box-shadow: 5px 5px 0px rgba(33, 52, 72, 0.1);
+    padding: 8px 0 !important;
+    font-size: 0.62rem !important;
+    gap: 8px;
+  }
+  .back-arrow-line {
+    font-size: 2.1rem;
   }
 
   .extra-gallery-grid {
