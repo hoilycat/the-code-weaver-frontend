@@ -2,16 +2,28 @@ export const NOTES_MARKER = "[Project Notes]";
 
 export const NOTE_SECTION_TITLES = [
   "Role",
+  "Project Type",
   "Tech Stack",
   "Core Features",
   "Technical Challenge",
   "Result / Status"
 ];
 
-export const TECH_OPTIONS = [
+export const PROJECT_TYPE_OPTIONS = [
   "Full-stack",
   "Frontend",
   "Backend",
+  "AI",
+  "GraphRAG",
+  "Computer Vision",
+  "UX",
+  "Health Tech",
+  "Design Tool",
+  "Architecture",
+  "Data Visualization"
+];
+
+export const TECH_OPTIONS = [
   "Python",
   "FastAPI",
   "React",
@@ -32,8 +44,6 @@ export const TECH_OPTIONS = [
   "Google Gemini",
   "Groq",
   "Ollama",
-  "AI",
-  "GraphRAG",
   "LangChain",
   "LlamaIndex",
   "Neo4j",
@@ -43,13 +53,7 @@ export const TECH_OPTIONS = [
   "Tavily API",
   "SerpApi",
   "Uvicorn",
-  "KakaoTalk API",
-  "Computer Vision",
-  "UX",
-  "Health Tech",
-  "Design Tool",
-  "Architecture",
-  "Data Visualization"
+  "KakaoTalk API"
 ];
 
 export const BADGE_ICONS = {
@@ -117,6 +121,7 @@ const BADGES_BY_PROJECT = [
 
 export const EMPTY_PROJECT_NOTES = {
   role: "",
+  projectTypes: [],
   techStack: [],
   coreFeatures: "",
   challenge: "",
@@ -167,15 +172,21 @@ export const parseProjectNotes = (notesText) => {
 export const parseTechStack = (lines = []) => {
   return lines
     .join(",")
-    .split(/[,/|]/)
+    .split(/[,/|·]/)
     .map((item) => item.replace(/^-+\s*/, "").trim())
     .filter(Boolean);
 };
 
 export const getProjectBadges = (project, sections = []) => {
-  const techSection = sections.find((section) => section.title === "Tech Stack");
-  const techBadges = parseTechStack(techSection?.lines || []);
-  if (techBadges.length > 0) return techBadges;
+  const typeSection = sections.find((section) => section.title === "Project Type");
+  const typeBadges = parseTechStack(typeSection?.lines || []);
+  if (typeBadges.length > 0) return typeBadges;
+
+  const legacyTechSection = sections.find((section) => section.title === "Tech Stack");
+  const legacyTypeBadges = parseTechStack(legacyTechSection?.lines || []).filter((item) =>
+    PROJECT_TYPE_OPTIONS.includes(item)
+  );
+  if (legacyTypeBadges.length > 0) return legacyTypeBadges;
 
   const matched = BADGES_BY_PROJECT.find(({ match }) => project.title?.includes(match));
   if (matched) return matched.badges;
@@ -183,6 +194,11 @@ export const getProjectBadges = (project, sections = []) => {
   if (project.category === "Data Visualization") return ["Data Visualization", "Frontend"];
   if (project.category === "Team Project") return ["Frontend", "UX"];
   return ["Full-stack"];
+};
+
+export const getTechBadges = (sections = []) => {
+  const techSection = sections.find((section) => section.title === "Tech Stack");
+  return parseTechStack(techSection?.lines || []).filter((item) => !PROJECT_TYPE_OPTIONS.includes(item));
 };
 
 const cleanLines = (text = "") => {
@@ -197,6 +213,10 @@ export const buildProjectDescription = (storyText = "", notes = EMPTY_PROJECT_NO
 
   if (notes.role?.trim()) {
     sections.push(["Role", notes.role.trim()]);
+  }
+
+  if (notes.projectTypes?.length) {
+    sections.push(["Project Type", notes.projectTypes.join(", ")]);
   }
 
   if (notes.techStack?.length) {
@@ -235,6 +255,7 @@ export const extractProjectDraft = (description = "") => {
 
   sections.forEach((section) => {
     if (section.title === "Role") notes.role = section.lines.join("\n");
+    if (section.title === "Project Type") notes.projectTypes = parseTechStack(section.lines);
     if (section.title === "Tech Stack") notes.techStack = parseTechStack(section.lines);
     if (section.title === "Core Features") {
       notes.coreFeatures = section.lines
@@ -244,6 +265,12 @@ export const extractProjectDraft = (description = "") => {
     if (section.title === "Technical Challenge") notes.challenge = section.lines.join("\n");
     if (section.title === "Result / Status") notes.result = section.lines.join("\n");
   });
+
+  const legacyTypes = notes.techStack.filter((item) => PROJECT_TYPE_OPTIONS.includes(item));
+  if (!notes.projectTypes.length && legacyTypes.length) {
+    notes.projectTypes = legacyTypes;
+    notes.techStack = notes.techStack.filter((item) => !PROJECT_TYPE_OPTIONS.includes(item));
+  }
 
   return { storyText, notes };
 };

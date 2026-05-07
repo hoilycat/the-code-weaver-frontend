@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { API_BASE_URL, getImageUrl } from '../../config';
-import { buildProjectDescription, EMPTY_PROJECT_NOTES, extractProjectDraft, TECH_OPTIONS } from './projectNotes';
+import { buildProjectDescription, EMPTY_PROJECT_NOTES, extractProjectDraft, PROJECT_TYPE_OPTIONS, TECH_OPTIONS } from './projectNotes';
 import './ProjectDetail.css'; 
 
 const ProjectEdit = () => {
@@ -54,12 +54,12 @@ const ProjectEdit = () => {
     setProjectNotes({ ...projectNotes, [e.target.name]: e.target.value });
   };
 
-  const toggleTech = (tech) => {
+  const toggleNoteOption = (field, value) => {
     setProjectNotes((prev) => ({
       ...prev,
-      techStack: prev.techStack.includes(tech)
-        ? prev.techStack.filter((item) => item !== tech)
-        : [...prev.techStack, tech]
+      [field]: prev[field].includes(value)
+        ? prev[field].filter((item) => item !== value)
+        : [...prev[field], value]
     }));
   };
 
@@ -161,13 +161,28 @@ const ProjectEdit = () => {
               placeholder="Role / 맡은 역할"
             />
 
+            <div className="option-group-label">Project Type</div>
+            <div className="type-picker" aria-label="Project type">
+              {PROJECT_TYPE_OPTIONS.map((type) => (
+                <button
+                  key={type}
+                  type="button"
+                  className={`type-choice ${projectNotes.projectTypes.includes(type) ? 'selected' : ''}`}
+                  onClick={() => toggleNoteOption('projectTypes', type)}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+
+            <div className="option-group-label">Tech Stack</div>
             <div className="tech-picker" aria-label="Tech stack">
               {TECH_OPTIONS.map((tech) => (
                 <button
                   key={tech}
                   type="button"
                   className={`tech-choice ${projectNotes.techStack.includes(tech) ? 'selected' : ''}`}
-                  onClick={() => toggleTech(tech)}
+                  onClick={() => toggleNoteOption('techStack', tech)}
                 >
                   {tech}
                 </button>

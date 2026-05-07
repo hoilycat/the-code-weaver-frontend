@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { API_BASE_URL, getImageUrl } from '../../config';
-import { BADGE_ICONS, getProjectBadges, parseProjectNotes, splitDescription } from './projectNotes';
+import { BADGE_ICONS, getProjectBadges, getTechBadges, parseProjectNotes, splitDescription } from './projectNotes';
 import './ProjectDetail.css'; 
 
 export default function ProjectDetail() {
@@ -29,6 +29,12 @@ export default function ProjectDetail() {
   const bodyParagraphs = paragraphs.slice(1);
   const noteSections = parseProjectNotes(notesText);
   const projectBadges = getProjectBadges(project, noteSections);
+  const techBadges = getTechBadges(noteSections);
+  const displayedNoteSections = noteSections.filter((section) => {
+    if (section.title === "Project Type") return false;
+    if (section.title === "Tech Stack" && techBadges.length === 0) return false;
+    return true;
+  });
   // [수정] 갤러리 이미지에서 '헤더 이미지(snapshot)'와 중복되는 사진은 제외하기 (깔끔한 레이아웃을 위해)
   const galleryImages = (project.images || []).filter(img => img !== project.snapshot);
 
@@ -177,7 +183,7 @@ export default function ProjectDetail() {
               <section className="project-notes-panel" aria-labelledby="project-notes-title">
                 <div className="notes-kicker">Project Notes</div>
                 <h2 id="project-notes-title">What I Built</h2>
-                <div className="notes-badge-row">
+                <div className="notes-badge-row" aria-label="Project type tags">
                   {projectBadges.map((badge) => (
                     <span key={badge} className="project-pill compact">
                       <span className="pill-icon">{BADGE_ICONS[badge] || badge.slice(0, 2).toUpperCase()}</span>
@@ -186,14 +192,13 @@ export default function ProjectDetail() {
                   ))}
                 </div>
                 <div className="notes-grid">
-                  {noteSections.map((section) => (
+                  {displayedNoteSections.map((section) => (
                     <article key={section.title} className="note-block">
                       <h3>{section.title}</h3>
                       {section.title === "Tech Stack" ? (
                         <div className="note-tech-list">
-                          {projectBadges.map((badge) => (
-                            <span key={badge} className="project-pill compact">
-                              <span className="pill-icon">{BADGE_ICONS[badge] || badge.slice(0, 2).toUpperCase()}</span>
+                          {techBadges.map((badge) => (
+                            <span key={badge} className="tech-pill">
                               <span>{badge}</span>
                             </span>
                           ))}
