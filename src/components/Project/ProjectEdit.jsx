@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { API_BASE_URL, getImageUrl } from '../../config';
+import { buildProjectDescription, EMPTY_PROJECT_NOTES, extractProjectDraft, TECH_OPTIONS } from './projectNotes';
 import './ProjectDetail.css'; 
 
 const ProjectEdit = () => {
@@ -12,6 +13,7 @@ const ProjectEdit = () => {
     title: '', category: 'AI Projects', status: 'In Progress',
     description: '', link: '', period: ''
   });
+  const [projectNotes, setProjectNotes] = useState(EMPTY_PROJECT_NOTES);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [headerFile, setHeaderFile] = useState(null); // [추가] 새 헤더 이미지
   const [existingImages, setExistingImages] = useState([]); // 기존 사진 보관용
@@ -29,14 +31,16 @@ const ProjectEdit = () => {
     fetch(`${API_BASE_URL}/api/projects/${id}`)
       .then(res => res.json())
       .then(data => {
+        const draft = extractProjectDraft(data.description || "");
         setFormData({
           title: data.title,
           category: data.category,
           status: data.status,
-          description: data.description,
+          description: draft.storyText,
           link: data.link,
           period: data.period
         });
+        setProjectNotes(draft.notes);
         setExistingImages(data.images || []);
         setExistingSnapshot(data.snapshot || ""); // [추가] 기존 스냅샷 저장
       });
@@ -44,6 +48,19 @@ const ProjectEdit = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleNoteChange = (e) => {
+    setProjectNotes({ ...projectNotes, [e.target.name]: e.target.value });
+  };
+
+  const toggleTech = (tech) => {
+    setProjectNotes((prev) => ({
+      ...prev,
+      techStack: prev.techStack.includes(tech)
+        ? prev.techStack.filter((item) => item !== tech)
+        : [...prev.techStack, tech]
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -83,7 +100,8 @@ const ProjectEdit = () => {
         method: "PUT", 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
-          ...formData, 
+          ...formData,
+          description: buildProjectDescription(formData.description, projectNotes),
           images: imagePaths,
           snapshot: headerPath // 새 헤더 혹은 기존 헤더 유지
         })
@@ -131,6 +149,55 @@ const ProjectEdit = () => {
 
           <textarea name="description" value={formData.description} rows="15" onChange={handleChange} required 
                     style={{padding:'20px', background:'transparent', border:'1px solid #213448', fontSize:'1.1rem', lineHeight:'1.8'}} />
+
+          <section className="project-form-card">
+            <div className="notes-kicker">Project Notes Builder</div>
+            <h3>Portfolio Summary</h3>
+            <textarea
+              name="role"
+              value={projectNotes.role}
+              onChange={handleNoteChange}
+              rows="3"
+              placeholder="Role / 맡은 역할"
+            />
+
+            <div className="tech-picker" aria-label="Tech stack">
+              {TECH_OPTIONS.map((tech) => (
+                <button
+                  key={tech}
+                  type="button"
+                  className={`tech-choice ${projectNotes.techStack.includes(tech) ? 'selected' : ''}`}
+                  onClick={() => toggleTech(tech)}
+                >
+                  {tech}
+                </button>
+              ))}
+            </div>
+
+            <div className="notes-form-grid">
+              <textarea
+                name="coreFeatures"
+                value={projectNotes.coreFeatures}
+                onChange={handleNoteChange}
+                rows="5"
+                placeholder={"Core Features / 핵심 기능\n한 줄에 하나씩 적으면 목록으로 보여요"}
+              />
+              <textarea
+                name="challenge"
+                value={projectNotes.challenge}
+                onChange={handleNoteChange}
+                rows="5"
+                placeholder="Technical Challenge / 어려웠던 기술 포인트"
+              />
+              <textarea
+                name="result"
+                value={projectNotes.result}
+                onChange={handleNoteChange}
+                rows="4"
+                placeholder="Result / Status / 결과와 현재 상태"
+              />
+            </div>
+          </section>
 
           {/* [추가] 헤더 이미지 수정 영역 */}
           <div style={{border: '1px solid #213448', padding: '20px', textAlign: 'center', backgroundColor: 'rgba(84, 119, 146, 0.1)'}}>

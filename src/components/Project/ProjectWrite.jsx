@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../../config';
+import { buildProjectDescription, EMPTY_PROJECT_NOTES, TECH_OPTIONS } from './projectNotes';
 import './ProjectDetail.css';
 
 const ProjectWrite = () => {
@@ -15,6 +16,7 @@ const ProjectWrite = () => {
     link: '', 
     period: ''
   });
+  const [projectNotes, setProjectNotes] = useState(EMPTY_PROJECT_NOTES);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [headerFile, setHeaderFile] = useState(null); // [추가] 헤더 전용 이미지 상태
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,6 +34,19 @@ const ProjectWrite = () => {
   // 입력 필드 변경 시 formData 업데이트ß
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleNoteChange = (e) => {
+    setProjectNotes({ ...projectNotes, [e.target.name]: e.target.value });
+  };
+
+  const toggleTech = (tech) => {
+    setProjectNotes((prev) => ({
+      ...prev,
+      techStack: prev.techStack.includes(tech)
+        ? prev.techStack.filter((item) => item !== tech)
+        : [...prev.techStack, tech]
+    }));
   };
 
   // [추가] 헤더 이미지 선택
@@ -91,7 +106,8 @@ const ProjectWrite = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 
-        ...formData, 
+        ...formData,
+        description: buildProjectDescription(formData.description, projectNotes),
         images: imagePaths,
         // 헤더 이미지가 있으면 그걸 쓰고, 없으면 갤러리 첫 번째 사진을 snapshot으로 사용
         snapshot: headerPath || (imagePaths.length > 0 ? imagePaths[0] : "") 
@@ -155,6 +171,55 @@ const ProjectWrite = () => {
                   rows="15" onChange={handleChange} required 
                   style={{padding:'20px', background:'transparent', border:'1px solid #213448', fontSize:'1.1rem', lineHeight:'1.8'}} />
 
+        <section className="project-form-card">
+          <div className="notes-kicker">Project Notes Builder</div>
+          <h3>Portfolio Summary</h3>
+          <textarea
+            name="role"
+            value={projectNotes.role}
+            onChange={handleNoteChange}
+            rows="3"
+            placeholder="Role / 맡은 역할"
+          />
+
+          <div className="tech-picker" aria-label="Tech stack">
+            {TECH_OPTIONS.map((tech) => (
+              <button
+                key={tech}
+                type="button"
+                className={`tech-choice ${projectNotes.techStack.includes(tech) ? 'selected' : ''}`}
+                onClick={() => toggleTech(tech)}
+              >
+                {tech}
+              </button>
+            ))}
+          </div>
+
+          <div className="notes-form-grid">
+            <textarea
+              name="coreFeatures"
+              value={projectNotes.coreFeatures}
+              onChange={handleNoteChange}
+              rows="5"
+              placeholder={"Core Features / 핵심 기능\n한 줄에 하나씩 적으면 목록으로 보여요"}
+            />
+            <textarea
+              name="challenge"
+              value={projectNotes.challenge}
+              onChange={handleNoteChange}
+              rows="5"
+              placeholder="Technical Challenge / 어려웠던 기술 포인트"
+            />
+            <textarea
+              name="result"
+              value={projectNotes.result}
+              onChange={handleNoteChange}
+              rows="4"
+              placeholder="Result / Status / 결과와 현재 상태"
+            />
+          </div>
+        </section>
+
         {/* [추가] 헤더 이미지 선택 영역 */}
         <div style={{border: '1px solid #213448', padding: '20px', textAlign: 'center', backgroundColor: 'rgba(84, 119, 146, 0.1)'}}>
           <label style={{ cursor: 'pointer' }}>
@@ -191,9 +256,6 @@ const ProjectWrite = () => {
           </label>
           {selectedFiles.length > 0 && <p style={{fontSize: '0.8rem', marginTop: '10px'}}>{selectedFiles.length}개의 파일 선택됨</p>}
         </div>
-        <input type="file" multiple accept="image/*" onChange={(e) => setSelectedFiles(e.target.files)} />
-
-
         {/* 등록 버튼 */}
         <button 
           type="submit" 
