@@ -5,6 +5,7 @@ export const NOTE_SECTION_TITLES = [
   "Project Type",
   "Tech Stack",
   "Core Features",
+  "Visual Decision",
   "Technical Challenge",
   "Result / Status"
 ];
@@ -17,6 +18,7 @@ export const PROJECT_TYPE_OPTIONS = [
   "GraphRAG",
   "Computer Vision",
   "UX",
+  "Storytelling",
   "Health Tech",
   "Design Tool",
   "Architecture",
@@ -53,7 +55,10 @@ export const TECH_OPTIONS = [
   "Tavily API",
   "SerpApi",
   "Uvicorn",
-  "KakaoTalk API"
+  "KakaoTalk API",
+  "Tableau Public",
+  "Data Analysis",
+  "Map Visualization"
 ];
 
 export const BADGE_ICONS = {
@@ -93,10 +98,14 @@ export const BADGE_ICONS = {
   "SerpApi": "SP",
   "Uvicorn": "UV",
   "KakaoTalk API": "KT",
+  "Tableau Public": "TB",
+  "Data Analysis": "DA",
+  "Map Visualization": "MV",
   "Health Tech": "HT",
   "Design Tool": "DT",
   "Architecture": "AR",
   "UX": "UX",
+  "Storytelling": "ST",
   "Data Visualization": "DV"
 };
 
@@ -124,6 +133,7 @@ export const EMPTY_PROJECT_NOTES = {
   projectTypes: [],
   techStack: [],
   coreFeatures: "",
+  visualDecision: "",
   challenge: "",
   result: ""
 };
@@ -230,6 +240,10 @@ export const buildProjectDescription = (storyText = "", notes = EMPTY_PROJECT_NO
     sections.push(["Core Features", featureLines.join("\n")]);
   }
 
+  if (notes.visualDecision?.trim()) {
+    sections.push(["Visual Decision", notes.visualDecision.trim()]);
+  }
+
   if (notes.challenge?.trim()) {
     sections.push(["Technical Challenge", notes.challenge.trim()]);
   }
@@ -262,6 +276,7 @@ export const extractProjectDraft = (description = "") => {
         .map((line) => line.replace(/^-+\s*/, ""))
         .join("\n");
     }
+    if (section.title === "Visual Decision") notes.visualDecision = section.lines.join("\n");
     if (section.title === "Technical Challenge") notes.challenge = section.lines.join("\n");
     if (section.title === "Result / Status") notes.result = section.lines.join("\n");
   });

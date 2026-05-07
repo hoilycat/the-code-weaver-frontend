@@ -198,6 +198,13 @@ const ProjectEdit = () => {
                 placeholder={"Core Features / 핵심 기능\n한 줄에 하나씩 적으면 목록으로 보여요"}
               />
               <textarea
+                name="visualDecision"
+                value={projectNotes.visualDecision}
+                onChange={handleNoteChange}
+                rows="5"
+                placeholder="Visual Decision / 차트와 화면 구성을 왜 이렇게 설계했는지"
+              />
+              <textarea
                 name="challenge"
                 value={projectNotes.challenge}
                 onChange={handleNoteChange}
