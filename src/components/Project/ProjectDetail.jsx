@@ -25,6 +25,8 @@ export default function ProjectDetail() {
 
   const { storyText, notesText } = splitDescription(project.description);
   const paragraphs = storyText ? storyText.split('\n\n') : [];
+  const introParagraph = paragraphs[0] || "";
+  const bodyParagraphs = paragraphs.slice(1);
   const noteSections = parseProjectNotes(notesText);
   const projectBadges = getProjectBadges(project, noteSections);
   // [수정] 갤러리 이미지에서 '헤더 이미지(snapshot)'와 중복되는 사진은 제외하기 (깔끔한 레이아웃을 위해)
@@ -108,14 +110,23 @@ export default function ProjectDetail() {
 
           {/* [글-사진] 지그재그 리스트  */}
           <section className="mag-content-flow">
-            {paragraphs.map((para, index) => {
+            {introParagraph && (
+              <div className="story-intro-block">
+                <span className="story-intro-label">Opening Note</span>
+                <p className="para-text intro-text drop-cap" style={{ whiteSpace: 'pre-wrap' }}>
+                  {renderTextWithLinks(introParagraph)}
+                </p>
+              </div>
+            )}
+
+            {bodyParagraphs.map((para, index) => {
               const hasImage = !!galleryImages[index];
 
               if (hasImage) {
                 return (
                   <div key={index} className={`content-row ${index % 2 === 0 ? 'even' : 'odd'}`}>
                     <div className="text-col">
-                      <p className={`para-text ${index === 0 ? 'drop-cap' : ''}`} style={{ whiteSpace: 'pre-wrap' }}>
+                      <p className="para-text" style={{ whiteSpace: 'pre-wrap' }}>
                         {renderTextWithLinks(para)}
                       </p>
                     </div>
@@ -136,7 +147,7 @@ export default function ProjectDetail() {
                 // 이미지가 없는 문단: 좌측 정렬 + 자연스러운 줄 간격으로 깔끔하게
                 return (
                   <div key={index} style={{ marginBottom: '20px', padding: '0 40px' }}>
-                    <p className={`para-text ${index === 0 ? 'drop-cap' : ''}`} 
+                    <p className="para-text" 
                        style={{ whiteSpace: 'pre-wrap', textAlign: 'left', lineHeight: '1.9' }}>
                       {renderTextWithLinks(para)}
                     </p>
@@ -146,9 +157,9 @@ export default function ProjectDetail() {
             })}
 
             {/* 남은 사진들 하단 갤러리 처리 */}
-            {galleryImages.length > paragraphs.length && (
+            {galleryImages.length > bodyParagraphs.length && (
               <div className="extra-gallery-grid">
-                {galleryImages.slice(paragraphs.length).map((img, idx) => (
+                {galleryImages.slice(bodyParagraphs.length).map((img, idx) => (
                   <div key={idx} className="extra-img-box">
                     <img 
                       src={getImageUrl(img)} 

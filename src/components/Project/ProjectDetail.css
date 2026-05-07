@@ -290,6 +290,29 @@
   top: 120px;
 }
 
+.story-intro-block {
+  max-width: 760px;
+  margin: 0 auto 92px;
+  padding: 0 32px 42px;
+  border-bottom: 1px solid rgba(33, 52, 72, 0.25);
+}
+
+.story-intro-label {
+  display: block;
+  margin-bottom: 18px;
+  font-family: "Superclarendon", serif;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #547792;
+}
+
+.intro-text {
+  font-size: 1.45rem;
+  line-height: 2.05;
+  text-align: left;
+}
+
 .content-row {
   display: flex;
   gap: 60px;
@@ -631,6 +654,16 @@
   }
 
   /* 4. 본문 스토리 흐름 (스택 구조) */
+  .story-intro-block {
+    margin-bottom: 54px;
+    padding: 0 4px 32px;
+  }
+
+  .intro-text {
+    font-size: 1.1rem !important;
+    line-height: 1.85 !important;
+  }
+
   .content-row, .content-row.even, .content-row.odd {
     flex-direction: column !important;
     gap: 25px !important;
