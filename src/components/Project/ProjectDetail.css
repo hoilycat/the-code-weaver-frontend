@@ -230,6 +230,53 @@
   margin-top: 20px;
 }
 
+.project-badge-row,
+.notes-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.project-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding: 7px 14px 7px 8px;
+  border: 1px solid rgba(33, 52, 72, 0.45);
+  border-radius: 999px;
+  background: rgba(234, 224, 207, 0.94);
+  color: #213448;
+  font-family: "Superclarendon", "RIDIBatang", serif;
+  font-size: 0.72rem;
+  line-height: 1;
+  box-shadow: 6px 6px 0 rgba(33, 52, 72, 0.06);
+  white-space: nowrap;
+}
+
+.project-pill.compact {
+  min-height: 30px;
+  padding: 6px 12px 6px 7px;
+  background: #f6efe4;
+  font-size: 0.68rem;
+}
+
+.pill-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #213448;
+  color: #EAE0CF;
+  font-family: "Superclarendon", sans-serif;
+  font-size: 0.56rem;
+  line-height: 1;
+}
+
 /* 5. 지그재그 본문 (침범 금지) */
 .mag-main-grid {
   display: grid;
@@ -321,6 +368,76 @@
 
 .extra-img-box img { width: 100%; border: 1px solid #213448; }
 
+.project-notes-panel {
+  margin: 120px 0 40px;
+  padding: 48px 52px;
+  border-top: 2px solid #213448;
+  border-bottom: 2px solid #213448;
+  background:
+    linear-gradient(rgba(33, 52, 72, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(33, 52, 72, 0.035) 1px, transparent 1px),
+    rgba(246, 239, 228, 0.78);
+  background-size: 24px 24px;
+}
+
+.notes-kicker {
+  font-family: "Superclarendon", serif;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #547792;
+  text-align: center;
+}
+
+.project-notes-panel h2 {
+  margin: 10px 0 0;
+  font-family: "Superclarendon", serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1;
+  text-align: center;
+  color: #213448;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 34px 42px;
+  margin-top: 46px;
+}
+
+.note-block {
+  min-width: 0;
+}
+
+.note-block h3 {
+  display: inline-block;
+  margin: 0 0 14px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #94B4C1;
+  font-family: "Superclarendon", serif;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  color: #213448;
+}
+
+.note-block p,
+.note-block li {
+  margin: 0 0 10px;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.85;
+  text-align: left;
+}
+
+.note-block ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.note-block li::marker {
+  color: #547792;
+}
+
 /* 관리자 버튼 바 */
 .admin-actions-bar {
   margin-top: 100px;
@@ -380,6 +497,25 @@
     font-size: 0.75rem;
     justify-content: center;
     gap: 10px;
+  }
+
+  .project-badge-row,
+  .notes-badge-row {
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .project-pill {
+    min-height: 30px;
+    padding: 6px 11px 6px 7px;
+    font-size: 0.64rem;
+    box-shadow: 4px 4px 0 rgba(33, 52, 72, 0.06);
+  }
+
+  .pill-icon {
+    width: 21px;
+    height: 21px;
+    font-size: 0.5rem;
   }
 
   /* 3. 사이드바 -> 상단 인포 바 변환 */
@@ -467,6 +603,27 @@
   .extra-gallery-grid {
     grid-template-columns: 1fr; /* 모바일은 갤러리도 한 줄로 */
     gap: 15px;
+  }
+
+  .project-notes-panel {
+    margin: 70px 0 30px;
+    padding: 34px 20px;
+  }
+
+  .project-notes-panel h2 {
+    font-size: 2rem;
+  }
+
+  .notes-grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    margin-top: 34px;
+  }
+
+  .note-block p,
+  .note-block li {
+    font-size: 0.95rem;
+    line-height: 1.75;
   }
 
   .admin-actions-bar {

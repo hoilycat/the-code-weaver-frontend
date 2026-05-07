@@ -3,6 +3,92 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { API_BASE_URL, getImageUrl } from '../../config';
 import './ProjectDetail.css'; 
 
+const NOTES_MARKER = "[Project Notes]";
+
+const BADGES_BY_PROJECT = [
+  {
+    match: "Focus Mate Berry",
+    badges: ["Full-stack", "AI", "Computer Vision", "UX"]
+  },
+  {
+    match: "Cof/fee",
+    badges: ["Full-stack", "AI", "GraphRAG", "Health Tech"]
+  },
+  {
+    match: "Mood-DNA",
+    badges: ["Full-stack", "AI", "Computer Vision", "Design Tool"]
+  },
+  {
+    match: "Y-Insight",
+    badges: ["Backend", "AI", "GraphRAG", "Architecture"]
+  }
+];
+
+const BADGE_ICONS = {
+  "Full-stack": "FS",
+  "Frontend": "FE",
+  "Backend": "BE",
+  "AI": "AI",
+  "Computer Vision": "CV",
+  "GraphRAG": "GR",
+  "Health Tech": "HT",
+  "Design Tool": "DT",
+  "Architecture": "AR",
+  "UX": "UX",
+  "Data Visualization": "DV"
+};
+
+const splitDescription = (description = "") => {
+  const markerIndex = description.indexOf(NOTES_MARKER);
+
+  if (markerIndex < 0) {
+    return {
+      storyText: description,
+      notesText: ""
+    };
+  }
+
+  return {
+    storyText: description.slice(0, markerIndex).trim(),
+    notesText: description.slice(markerIndex + NOTES_MARKER.length).trim()
+  };
+};
+
+const parseProjectNotes = (notesText) => {
+  if (!notesText) return [];
+
+  const sectionNames = ["Role", "Core Features", "Technical Challenge", "Result / Status"];
+  const lines = notesText.split(/\r?\n/);
+  const sections = [];
+  let current = null;
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+
+    if (sectionNames.includes(trimmed)) {
+      current = { title: trimmed, lines: [] };
+      sections.push(current);
+      return;
+    }
+
+    if (current) {
+      current.lines.push(trimmed);
+    }
+  });
+
+  return sections;
+};
+
+const getProjectBadges = (project) => {
+  const matched = BADGES_BY_PROJECT.find(({ match }) => project.title?.includes(match));
+  if (matched) return matched.badges;
+
+  if (project.category === "Data Visualization") return ["Data Visualization", "Frontend"];
+  if (project.category === "Team Project") return ["Frontend", "UX"];
+  return ["Full-stack"];
+};
+
 export default function ProjectDetail() {
   const { id } = useParams(); 
   const navigate = useNavigate();
@@ -22,7 +108,10 @@ export default function ProjectDetail() {
 
   if (!project) return <div className="loading">아카이브 여는 중... 🕯️</div>;
 
-  const paragraphs = project.description ? project.description.split('\n\n') : [];
+  const { storyText, notesText } = splitDescription(project.description);
+  const paragraphs = storyText ? storyText.split('\n\n') : [];
+  const noteSections = parseProjectNotes(notesText);
+  const projectBadges = getProjectBadges(project);
   // [수정] 갤러리 이미지에서 '헤더 이미지(snapshot)'와 중복되는 사진은 제외하기 (깔끔한 레이아웃을 위해)
   const galleryImages = (project.images || []).filter(img => img !== project.snapshot);
 
@@ -69,6 +158,14 @@ export default function ProjectDetail() {
             <span>{project.period || '2026'}</span>
             <span className="sep">/</span>
             <span>{project.status}</span>
+          </div>
+          <div className="project-badge-row" aria-label="Project tags">
+            {projectBadges.map((badge) => (
+              <span key={badge} className="project-pill">
+                <span className="pill-icon">{BADGE_ICONS[badge] || badge.slice(0, 2).toUpperCase()}</span>
+                <span>{badge}</span>
+              </span>
+            ))}
           </div>
         </div>
       </header>
@@ -148,6 +245,39 @@ export default function ProjectDetail() {
                   </div>
                 ))}
               </div>
+            )}
+
+            {noteSections.length > 0 && (
+              <section className="project-notes-panel" aria-labelledby="project-notes-title">
+                <div className="notes-kicker">Project Notes</div>
+                <h2 id="project-notes-title">What I Built</h2>
+                <div className="notes-badge-row">
+                  {projectBadges.map((badge) => (
+                    <span key={badge} className="project-pill compact">
+                      <span className="pill-icon">{BADGE_ICONS[badge] || badge.slice(0, 2).toUpperCase()}</span>
+                      <span>{badge}</span>
+                    </span>
+                  ))}
+                </div>
+                <div className="notes-grid">
+                  {noteSections.map((section) => (
+                    <article key={section.title} className="note-block">
+                      <h3>{section.title}</h3>
+                      {section.title === "Core Features" ? (
+                        <ul>
+                          {section.lines.map((line) => (
+                            <li key={line}>{renderTextWithLinks(line.replace(/^-+\s*/, ""))}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        section.lines.map((line) => (
+                          <p key={line}>{renderTextWithLinks(line)}</p>
+                        ))
+                      )}
+                    </article>
+                  ))}
+                </div>
+              </section>
             )}
           </section>
         </main>
