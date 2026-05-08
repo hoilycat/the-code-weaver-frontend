@@ -34,6 +34,10 @@ export default function Project() {
         // setTimeout을 아주 짧게(100ms) 주는 이유는 리액트가 카드를 그릴 시간을 벌어주기 위해서입니다.
         setTimeout(() => {
           ScrollTrigger.refresh();
+          if (window.location.hash === '#Projects' && sectionRef.current) {
+            const top = sectionRef.current.getBoundingClientRect().top + window.scrollY - 24;
+            window.scrollTo({ top, behavior: 'auto' });
+          }
           console.log("애니메이션 위치 재계산 완료!");
         }, 100);
       })

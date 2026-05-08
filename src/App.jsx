@@ -20,12 +20,32 @@ const ScrollToHash = () => {
     if (!location.hash) return;
 
     const targetId = location.hash.replace("#", "");
-    const scrollTimer = setTimeout(() => {
-      document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 120);
+    let attempts = 0;
+    let scrollTimer;
+
+    const scrollToTarget = () => {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      const top = target.getBoundingClientRect().top + window.scrollY - 24;
+      window.scrollTo({ top, behavior: attempts === 0 ? "smooth" : "auto" });
+    };
+
+    const scheduleScroll = () => {
+      scrollTimer = setTimeout(() => {
+        scrollToTarget();
+        attempts += 1;
+
+        if (attempts < 5) {
+          scheduleScroll();
+        }
+      }, attempts === 0 ? 120 : 180);
+    };
+
+    scheduleScroll();
 
     return () => clearTimeout(scrollTimer);
-  }, [location.hash]);
+  }, [location.pathname, location.hash]);
 
   return null;
 };
