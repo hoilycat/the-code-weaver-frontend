@@ -119,7 +119,7 @@ export default function ProjectDetail() {
              </div>
           </aside>
 
-          {/* [글-사진] 지그재그 리스트  */}
+          {/* [글-사진] 편집형 리스트  */}
           <section className="mag-content-flow">
             {introParagraph && (
               <div className="story-intro-block">
@@ -135,7 +135,7 @@ export default function ProjectDetail() {
 
               if (hasImage) {
                 return (
-                  <div key={index} className={`content-row ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                  <div key={index} className="content-row">
                     <div className="text-col">
                       <p className="para-text" style={{ whiteSpace: 'pre-wrap' }}>
                         {renderTextWithLinks(para)}
@@ -155,11 +155,10 @@ export default function ProjectDetail() {
                   </div>
                 );
               } else {
-                // 이미지가 없는 문단: 좌측 정렬 + 자연스러운 줄 간격으로 깔끔하게
+                // 이미지가 없는 문단: 본문 폭을 유지해 가독성 확보
                 return (
-                  <div key={index} style={{ marginBottom: '20px', padding: '0 40px' }}>
-                    <p className="para-text" 
-                       style={{ whiteSpace: 'pre-wrap', textAlign: 'left', lineHeight: '1.9' }}>
+                  <div key={index} className="text-only-block">
+                    <p className="para-text" style={{ whiteSpace: 'pre-wrap' }}>
                       {renderTextWithLinks(para)}
                     </p>
                   </div>
