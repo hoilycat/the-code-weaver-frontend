@@ -37,6 +37,7 @@ export default function ProjectDetail() {
   });
   // [수정] 갤러리 이미지에서 '헤더 이미지(snapshot)'와 중복되는 사진은 제외하기 (깔끔한 레이아웃을 위해)
   const galleryImages = (project.images || []).filter(img => img !== project.snapshot);
+  const isDataVisualization = project.category === "Data Visualization";
 
   const goBackToProjects = () => {
     navigate('/#Projects');
@@ -135,7 +136,7 @@ export default function ProjectDetail() {
 
               if (hasImage) {
                 return (
-                  <div key={index} className="content-row">
+                  <div key={index} className={`content-row ${isDataVisualization ? "dataviz-row" : ""}`}>
                     <div className="text-col">
                       <p className="para-text" style={{ whiteSpace: 'pre-wrap' }}>
                         {renderTextWithLinks(para)}
@@ -146,10 +147,10 @@ export default function ProjectDetail() {
                         <img 
                           src={getImageUrl(galleryImages[index])} 
                           alt={`Detail ${index}`} 
-                          onClick={() => setZoomImg(getImageUrl(galleryImages[index]))}
-                          style={{ cursor: "zoom-in" }}
+                          onClick={isDataVisualization ? undefined : () => setZoomImg(getImageUrl(galleryImages[index]))}
+                          style={{ cursor: isDataVisualization ? "default" : "zoom-in" }}
                         />
-                        <span className="fig-tag">FIG. {index + 1}</span>
+                        {!isDataVisualization && <span className="fig-tag">FIG. {index + 1}</span>}
                       </div>
                     </div>
                   </div>
@@ -168,15 +169,14 @@ export default function ProjectDetail() {
 
             {/* 남은 사진들 하단 갤러리 처리 */}
             {galleryImages.length > bodyParagraphs.length && (
-              <div className="extra-gallery-grid">
+              <div className={`extra-gallery-grid ${isDataVisualization ? "dataviz-extra-icons" : ""}`}>
                 {galleryImages.slice(bodyParagraphs.length).map((img, idx) => (
                   <div key={idx} className="extra-img-box">
                     <img 
                       src={getImageUrl(img)} 
                       alt="More" 
-                      //  똑같이 클릭 이벤트와 마우스 모양 추가!
-                      onClick={() => setZoomImg(getImageUrl(img))}
-                      style={{ cursor: "zoom-in" }}
+                      onClick={isDataVisualization ? undefined : () => setZoomImg(getImageUrl(img))}
+                      style={{ cursor: isDataVisualization ? "default" : "zoom-in" }}
                     />
                   </div>
                 ))}

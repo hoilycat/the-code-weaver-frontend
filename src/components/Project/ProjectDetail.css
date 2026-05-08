@@ -398,6 +398,75 @@
   background: #f9f5ed;
 }
 
+
+.content-row.dataviz-row {
+  grid-template-columns: minmax(0, 820px);
+  gap: 18px;
+  margin-bottom: 64px;
+}
+
+.content-row.dataviz-row .text-col {
+  padding-bottom: 0;
+}
+
+.content-row.dataviz-row .image-col {
+  width: 100%;
+  max-width: 820px;
+}
+
+.content-row.dataviz-row .image-frame {
+  width: min(180px, 44vw);
+  min-height: 88px;
+  aspect-ratio: auto;
+  margin: 2px auto 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.content-row.dataviz-row .image-frame img {
+  width: 100%;
+  height: auto;
+  max-height: 122px;
+  object-fit: contain;
+  background: transparent;
+  filter: drop-shadow(8px 10px 0 rgba(33, 52, 72, 0.055));
+}
+
+.content-row.dataviz-row:nth-of-type(odd) .image-frame {
+  transform: rotate(-2deg);
+}
+
+.content-row.dataviz-row:nth-of-type(even) .image-frame {
+  transform: rotate(2deg);
+}
+
+.extra-gallery-grid.dataviz-extra-icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 18px;
+}
+
+.extra-gallery-grid.dataviz-extra-icons .extra-img-box {
+  width: 120px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.extra-gallery-grid.dataviz-extra-icons .extra-img-box img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  background: transparent;
+  filter: drop-shadow(8px 10px 0 rgba(33, 52, 72, 0.055));
+}
+
 .fig-tag {
   position: absolute;
   right: 18px;
@@ -778,6 +847,23 @@
     aspect-ratio: 16 / 10 !important;
     padding: 8px !important;
     box-shadow: 12px 12px 0px rgba(33, 52, 72, 0.05) !important;
+  }
+
+
+  .content-row.dataviz-row {
+    margin-bottom: 42px !important;
+    gap: 14px !important;
+  }
+
+  .content-row.dataviz-row .image-frame {
+    width: min(132px, 38vw) !important;
+    min-height: 70px !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .content-row.dataviz-row .image-frame img {
+    max-height: 96px;
   }
 
   /* 7. 고정 네비게이션 & 기타 */
