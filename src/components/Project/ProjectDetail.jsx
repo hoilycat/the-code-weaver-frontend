@@ -38,6 +38,8 @@ export default function ProjectDetail() {
   // [수정] 갤러리 이미지에서 '헤더 이미지(snapshot)'와 중복되는 사진은 제외하기 (깔끔한 레이아웃을 위해)
   const galleryImages = (project.images || []).filter(img => img !== project.snapshot);
   const isDataVisualization = project.category === "Data Visualization";
+  const groupedGalleryProjectIds = [1, 2, 3];
+  const inlineImageLimit = groupedGalleryProjectIds.includes(Number(project.id)) ? 3 : galleryImages.length;
 
   const goBackToProjects = () => {
     navigate('/#Projects');
@@ -132,7 +134,7 @@ export default function ProjectDetail() {
             )}
 
             {bodyParagraphs.map((para, index) => {
-              const hasImage = !!galleryImages[index];
+              const hasImage = index < inlineImageLimit && !!galleryImages[index];
 
               if (hasImage) {
                 return (
@@ -168,9 +170,9 @@ export default function ProjectDetail() {
             })}
 
             {/* 남은 사진들 하단 갤러리 처리 */}
-            {galleryImages.length > bodyParagraphs.length && (
+            {galleryImages.length > inlineImageLimit && (
               <div className={`extra-gallery-grid ${isDataVisualization ? "dataviz-extra-icons" : ""}`}>
-                {galleryImages.slice(bodyParagraphs.length).map((img, idx) => (
+                {galleryImages.slice(inlineImageLimit).map((img, idx) => (
                   <div key={idx} className="extra-img-box">
                     <img 
                       src={getImageUrl(img)} 
