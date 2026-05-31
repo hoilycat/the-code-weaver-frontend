@@ -65,15 +65,16 @@ const MainPage = () => {
 
 function App() {
   useEffect(() => {
-    // 14분마다 백엔드에 '안녕?' 하고 신호를 보내서 Render 서버가 잠들지 않게 합니다.
-    // (누군가 사이트를 열어놓고 있을 때만 작동합니다!)
-    const keepAlive = setInterval(() => {
-      if (API_BASE_URL.includes("onrender.com")) {
-        fetch(`${API_BASE_URL}/api/projects`)
-          .then(() => console.log("Backend Wake-up Ping Sent! 🚀"))
-          .catch(() => {});
-      }
-    }, 14 * 60 * 1000); // 14분 간격
+    const wakeUp = () => {
+      if (!API_BASE_URL.includes("onrender.com")) return;
+
+      fetch(`${API_BASE_URL}/api/projects/wake-up`)
+        .then(() => console.log("Backend wake-up ping sent."))
+        .catch(() => {});
+    };
+
+    wakeUp();
+    const keepAlive = setInterval(wakeUp, 14 * 60 * 1000);
 
     return () => clearInterval(keepAlive);
   }, []);
