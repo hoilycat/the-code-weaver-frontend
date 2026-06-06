@@ -11,6 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Project() {
   const [projects, setProjects] = useState([]); //초기값은 빈 배열
   const [filter, setFilter] = useState('All');
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate(); // 이동 도구
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
@@ -29,6 +30,7 @@ export default function Project() {
         
         // 1. 기존처럼 데이터를 상태에 저장합니다. (데이터는 변하지 않음!)
         setProjects(data);
+        setLoading(false);
 
         // 2. [추가] 데이터가 화면에 그려진 '직후'에 애니메이션 위치를 새로고침합니다.
         // setTimeout을 아주 짧게(100ms) 주는 이유는 리액트가 카드를 그릴 시간을 벌어주기 위해서입니다.
@@ -41,7 +43,10 @@ export default function Project() {
           console.log("애니메이션 위치 재계산 완료!");
         }, 100);
       })
-      .catch(err => console.error("데이터 로딩 실패:", err));
+      .catch(err => {
+        console.error("데이터 로딩 실패:", err);
+        setLoading(false);
+      });
   }, []);
 
   const filtered = filter === 'All' ? projects : projects.filter(p => p.category === filter);
@@ -114,7 +119,15 @@ export default function Project() {
 
       <div className="woven-grid">
 
-        {filtered.length > 0 ? (
+        {loading ? (
+          <div className="empty-announcement">
+            <div className="announcement-border">
+              <p style={{ fontSize: '1.4rem', marginBottom: '0.5rem' }}>☕</p>
+              <p>서버가 잠들어 있을 수 있어요.</p>
+              <p className="sub-text">최대 1분 정도 걸릴 수 있습니다. 조금만 기다려 주세요!</p>
+            </div>
+          </div>
+        ) : filtered.length > 0 ? (
           filtered.map((project, index) => (
             <div 
               key={project.id}
@@ -139,18 +152,4 @@ export default function Project() {
           </div>
         ))
       ) : (
-        /* 전시물이 없을 때 보여줄 안내판 (Magazine Style) */
-        <div className="empty-announcement">
-          <div className="announcement-border">
-            <h4>COMING SOON</h4>
-            <p>"{filter}" 카테고리의 작품을 준비 중입니다.</p>
-            <p className="sub-text">조금만 기다려 주세요. 엮는 자가 열심히 작업 중입니다.</p>
-            <button onClick={() => setFilter('All')} className="reset-filter-btn">
-              모든 전시물 보기
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  </section>
-)};
+        /* 전시물이 없을 때 보여줄 안내판 (Mag
