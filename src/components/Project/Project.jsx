@@ -152,4 +152,17 @@ export default function Project() {
           </div>
         ))
       ) : (
-        /* 전시물이 없을 때 보여줄 안내판 (Mag
+        <div className="empty-announcement">
+          <div className="announcement-border">
+            <h4>COMING SOON</h4>
+            <p>"{filter}" 카테고리의 작품을 준비 중입니다.</p>
+            <p className="sub-text">조금만 기다려 주세요. 엮는 자가 열심히 작업 중입니다.</p>
+            <button onClick={() => setFilter('All')} className="reset-filter-btn">
+              모든 전시물 보기
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+)};
