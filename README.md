@@ -15,11 +15,26 @@
 ---
 
 ## 🖼️ Visual Preview
-
-| Hero Needle Interaction | Scattering & Weaving Text | Particle System |
-| :---: | :---: | :---: |
-| ![Hero GIF](./Hero.gif) | ![About GIF](./About.gif) | ![Particle GIF](./Particle.gif) |
-
+ 
+### 🪡 Hero Needle Interaction
+> 스크롤에 반응해 교차하는 두 바늘. `useScroll + useTransform`으로 스크롤 속도에 따라 바늘 각도가 실시간으로 변환됩니다.
+ 
+<video src="./media/Hero.mp4" width="800" autoplay loop muted playsinline></video>
+ 
+---
+ 
+### 🔡 Scattering & Weaving Text
+> About 섹션에서 글자가 해체되며 흩어지는 효과. React 19의 이중 렌더링 환경에서도 일관된 물리 효과를 유지하기 위해 결정론적 랜덤 함수를 직접 설계했습니다.
+ 
+<video src="./media/Scattering.mp4" width="800" autoplay loop muted playsinline></video>
+ 
+---
+ 
+### ✨ Particle System
+> 스크롤 방향을 실시간 감지해 입자 종류가 바뀌는 시스템. 아래로 내려갈 때는 포근한 털실(Yarn), 위로 올라갈 때는 스파클 별(Star)이 생성됩니다.
+ 
+<video src="./media/Particle.mp4" width="800" autoplay loop muted playsinline></video>
+ 
 ---
 
 ## ✨ Why I Built This
