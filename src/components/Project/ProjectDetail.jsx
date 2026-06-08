@@ -45,6 +45,15 @@ export default function ProjectDetail() {
     navigate('/#Projects');
   };
 
+  const getPrimaryLinkLabel = (link = "") => {
+    if (!link) return "";
+    if (link.includes("github.com")) return "VIEW CODE ↗";
+    if (link.includes("youtu.be") || link.includes("youtube.com") || link.includes("vimeo.com")) {
+      return "WATCH DEMO ↗";
+    }
+    return "VIEW PROJECT ↗";
+  };
+
   // [추가] 텍스트 안에 있는 http:// 나 https:// 주소를 찾아서 클릭 가능한 링크(<a>)로 바꿔주는 마법의 함수!
   const renderTextWithLinks = (text) => {
     const urlRegex = /(https?:\/\/[^\s]+)/g; // 주소 찾는 정규식
@@ -112,7 +121,7 @@ export default function ProjectDetail() {
              <div className="sidebar-sticky">
                 {project.link && (
                   <a href={project.link} target="_blank" rel="noopener noreferrer" className="mag-visit-btn">
-                    LAUNCH ↗
+                    {getPrimaryLinkLabel(project.link)}
                   </a>
                 )}
                 <div className="editor-credit">
