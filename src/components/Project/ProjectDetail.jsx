@@ -45,27 +45,64 @@ export default function ProjectDetail() {
     navigate('/#Projects');
   };
 
+  const isVideoUrl = (url = "") => {
+    const cleanUrl = url.split("?")[0].split("#")[0].toLowerCase();
+    return /\.(mp4|webm|mov|m4v)$/.test(cleanUrl);
+  };
+
   const getPrimaryLinkLabel = (link = "") => {
     if (!link) return "";
     if (link.includes("github.com")) return "VIEW CODE ↗";
-    if (link.includes("youtu.be") || link.includes("youtube.com") || link.includes("vimeo.com")) {
+    if (isVideoUrl(link) || link.includes("youtu.be") || link.includes("youtube.com") || link.includes("vimeo.com")) {
       return "WATCH DEMO ↗";
     }
     return "VIEW PROJECT ↗";
   };
 
-  // [추가] 텍스트 안에 있는 http:// 나 https:// 주소를 찾아서 클릭 가능한 링크(<a>)로 바꿔주는 마법의 함수!
+  const trimTrailingPunctuation = (url = "") => {
+    const match = url.match(/[.,!?)]*$/);
+    const trailing = match?.[0] || "";
+    return {
+      href: trailing ? url.slice(0, -trailing.length) : url,
+      trailing
+    };
+  };
+
+  // [추가] 텍스트 안에 있는 http:// 나 https:// 주소를 찾아 링크나 영상으로 바꿔주는 함수
   const renderTextWithLinks = (text) => {
     const urlRegex = /(https?:\/\/[^\s]+)/g; // 주소 찾는 정규식
     const parts = text.split(urlRegex); // 주소 기준으로 텍스트 쪼개기
     
     return parts.map((part, i) => {
       if (part.match(urlRegex)) {
+        const { href, trailing } = trimTrailingPunctuation(part);
+        if (isVideoUrl(href)) {
+          return (
+            <React.Fragment key={i}>
+              <span className="inline-video-frame">
+                <video
+                  src={href}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  controls
+                  preload="metadata"
+                />
+              </span>
+              {trailing}
+            </React.Fragment>
+          );
+        }
+
         // 주소인 부분은 <a> 태그로 감싸서 반환
         return (
-          <a key={i} href={part} target="_blank" rel="noopener noreferrer" style={{ color: '#547792', textDecoration: 'underline', fontWeight: 'bold' }}>
-            {part}
-          </a>
+          <React.Fragment key={i}>
+            <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: '#547792', textDecoration: 'underline', fontWeight: 'bold' }}>
+              {href}
+            </a>
+            {trailing}
+          </React.Fragment>
         );
       }
       return part; // 주소가 아닌 일반 글씨는 그냥 반환

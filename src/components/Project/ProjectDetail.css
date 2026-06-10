@@ -365,6 +365,25 @@
   color: #333;
 }
 
+.inline-video-frame {
+  display: block;
+  width: min(100%, 820px);
+  margin: 26px auto;
+  padding: 14px;
+  border: 1px solid #213448;
+  background: rgba(255, 252, 246, 0.92);
+  box-shadow: 18px 18px 0 rgba(33, 52, 72, 0.055);
+  box-sizing: border-box;
+}
+
+.inline-video-frame video {
+  display: block;
+  width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+  background: #111820;
+}
+
 /* 드롭캡 디자인 강화 */
 .drop-cap::first-letter {
   font-size: 6.5rem;
