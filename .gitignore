@@ -6,3 +6,4 @@ dist/
 code_gather.py
 project_summary.txt
 .env.production
+.vercel
