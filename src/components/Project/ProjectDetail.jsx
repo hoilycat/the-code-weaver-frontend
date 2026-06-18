@@ -57,7 +57,9 @@ export default function ProjectDetail() {
   const galleryImages = (project.images || []).filter(img => img !== project.snapshot);
   const isDataVisualization = project.category === "Data Visualization";
   const isSceneDiary = Number(project.id) === 10 || project.title?.toLowerCase().includes("scenediary");
+  const isMoodDNA = project.title?.toLowerCase().includes("mood-dna");
   const sceneDiaryIntro = "SceneDiary는 사용자가 업로드한 여행 사진을 AI가 해석하고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 팀 프로젝트입니다.";
+  const moodDnaIntro = "Mood-DNA V3는 디자이너의 직관을 시각 지표와 논문 근거 비평으로 번역하는 AI 디자인 분석 도구입니다.";
   const groupedGalleryProjectIds = [1, 2, 3];
   const inlineImageLimit = groupedGalleryProjectIds.includes(Number(project.id)) ? 3 : galleryImages.length;
   const sceneDiaryVideos = [
@@ -90,6 +92,24 @@ export default function ProjectDetail() {
       title: "Particle Iteration",
       src: "/media/scenediary-process/particle-iteration.png",
       caption: "앱 적용 시 무거워지는 문제를 줄이기 위해 사진 파티클과 최종 mp4 방향을 비교했습니다.",
+    },
+  ];
+  const moodDnaRoleItems = [
+    {
+      title: "Full-stack Product Build",
+      body: "React 대시보드와 FastAPI 분석 서버를 혼자 설계하고 구현했습니다.",
+    },
+    {
+      title: "Computer Vision Metrics",
+      body: "OpenCV 기반 밝기, 복잡도, 여백, 대칭성, 색상 DNA 지표를 추출했습니다.",
+    },
+    {
+      title: "AI Critique Pipeline",
+      body: "수치 분석 결과를 Gemini/YIE GraphRAG 비평으로 연결해 근거 있는 디자인 피드백을 생성했습니다.",
+    },
+    {
+      title: "Decision Dashboard UX",
+      body: "단일 분석, 비교 분석, 배치 오디션, 히스토리 흐름을 한 화면에서 탐색하도록 구성했습니다.",
     },
   ];
 
@@ -213,6 +233,18 @@ export default function ProjectDetail() {
                     <span>PRIVATE TEAM REPOSITORY</span>
                     <p>Code access is restricted by team agreement.</p>
                   </div>
+                ) : isMoodDNA ? (
+                  <>
+                    <div className="private-repo-card solo-project-card">
+                      <span>SOLO PROJECT</span>
+                      <p>Designed and developed independently from product concept to AI pipeline.</p>
+                    </div>
+                    {project.link && (
+                      <a href={project.link} target="_blank" rel="noopener noreferrer" className="mag-visit-btn">
+                        {getPrimaryLinkLabel(project.link)}
+                      </a>
+                    )}
+                  </>
                 ) : project.link && (
                   <a href={project.link} target="_blank" rel="noopener noreferrer" className="mag-visit-btn">
                     {getPrimaryLinkLabel(project.link)}
@@ -231,9 +263,65 @@ export default function ProjectDetail() {
               <div className="story-intro-block">
                 <span className="story-intro-label">Opening Note</span>
                 <p className="para-text intro-text drop-cap" style={{ whiteSpace: 'pre-wrap' }}>
-                  {renderTextWithLinks(isSceneDiary ? sceneDiaryIntro : introParagraph)}
+                  {renderTextWithLinks(isSceneDiary ? sceneDiaryIntro : isMoodDNA ? moodDnaIntro : introParagraph)}
                 </p>
               </div>
+            )}
+
+            {isMoodDNA && (
+              <section className="mood-dna-role-panel" aria-labelledby="mood-dna-role-title">
+                <div className="notes-kicker">Solo Build</div>
+                <h2 id="mood-dna-role-title">AI design partner, built end to end</h2>
+                <p>
+                  SceneDiary와 Fixie를 제외한 프로젝트는 혼자 기획하고 구현했습니다. Mood-DNA V3에서는
+                  디자인 분석 UI, 컴퓨터비전 지표 추출, AI 비평 파이프라인, GraphRAG 연동까지 전체 흐름을 직접 만들었습니다.
+                </p>
+                <div className="mood-dna-role-grid">
+                  {moodDnaRoleItems.map((item) => (
+                    <article key={item.title}>
+                      <h3>{item.title}</h3>
+                      <p>{item.body}</p>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {isMoodDNA && (
+              <section className="mood-dna-demo-panel" aria-labelledby="mood-dna-demo-title">
+                <div className="notes-kicker">Demo Preview</div>
+                <h2 id="mood-dna-demo-title">From visual metrics to AI critique</h2>
+                <div className="mood-dna-demo-grid">
+                  <article className="mood-dna-demo-card wide">
+                    <video
+                      src="/media/mood-dna/demo-full.mp4"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      controls
+                      preload="metadata"
+                      aria-label="Mood-DNA V3 full demo video"
+                    />
+                    <h3>Full analysis flow</h3>
+                    <p>이미지 업로드부터 DNA 지표, 레이더 차트, AI 비평 결과까지 이어지는 전체 시연입니다.</p>
+                  </article>
+                  <article className="mood-dna-demo-card">
+                    <video
+                      src="/media/mood-dna/splash-smooth.mp4"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      controls
+                      preload="metadata"
+                      aria-label="Mood-DNA V3 splash video"
+                    />
+                    <h3>Splash motion</h3>
+                    <p>무드 분석 도구의 정체성을 보여주는 짧은 시작 모션입니다.</p>
+                  </article>
+                </div>
+              </section>
             )}
 
             {isSceneDiary && (
