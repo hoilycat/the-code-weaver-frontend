@@ -59,7 +59,6 @@ export default function ProjectDetail() {
   const isSceneDiary = Number(project.id) === 10 || project.title?.toLowerCase().includes("scenediary");
   const isMoodDNA = project.title?.toLowerCase().includes("mood-dna");
   const sceneDiaryIntro = "SceneDiary는 사용자가 업로드한 여행 사진을 AI가 해석하고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 팀 프로젝트입니다.";
-  const moodDnaIntro = "Mood-DNA V3는 디자이너의 직관을 시각 지표와 논문 근거 비평으로 번역하는 AI 디자인 분석 도구입니다.";
   const groupedGalleryProjectIds = [1, 2, 3];
   const inlineImageLimit = groupedGalleryProjectIds.includes(Number(project.id)) ? 3 : galleryImages.length;
   const sceneDiaryVideos = [
@@ -263,7 +262,7 @@ export default function ProjectDetail() {
               <div className="story-intro-block">
                 <span className="story-intro-label">Opening Note</span>
                 <p className="para-text intro-text drop-cap" style={{ whiteSpace: 'pre-wrap' }}>
-                  {renderTextWithLinks(isSceneDiary ? sceneDiaryIntro : isMoodDNA ? moodDnaIntro : introParagraph)}
+                  {renderTextWithLinks(isSceneDiary ? sceneDiaryIntro : introParagraph)}
                 </p>
               </div>
             )}
@@ -273,8 +272,8 @@ export default function ProjectDetail() {
                 <div className="notes-kicker">Solo Build</div>
                 <h2 id="mood-dna-role-title">AI design partner, built end to end</h2>
                 <p>
-                  SceneDiary와 Fixie를 제외한 프로젝트는 혼자 기획하고 구현했습니다. Mood-DNA V3에서는
-                  디자인 분석 UI, 컴퓨터비전 지표 추출, AI 비평 파이프라인, GraphRAG 연동까지 전체 흐름을 직접 만들었습니다.
+                  Mood-DNA V3는 기획부터 디자인 분석 UI, 컴퓨터비전 지표 추출, AI 비평 파이프라인,
+                  GraphRAG 연동까지 전체 흐름을 혼자 설계하고 구현한 솔로 프로젝트입니다.
                 </p>
                 <div className="mood-dna-role-grid">
                   {moodDnaRoleItems.map((item) => (
