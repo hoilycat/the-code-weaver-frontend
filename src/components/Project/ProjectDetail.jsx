@@ -70,6 +70,28 @@ export default function ProjectDetail() {
       src: "/media/scenediary-splash-light-full-60fps.mp4",
     },
   ];
+  const sceneDiaryProcessImages = [
+    {
+      title: "Logo System",
+      src: "/media/scenediary-process/brand-board.png",
+      caption: "로고와 스플래시 시안, 컬러 팔레트, 앱 아이콘 방향을 비교하며 정리한 브랜드 보드입니다.",
+    },
+    {
+      title: "Storyboard Sketch",
+      src: "/media/scenediary-process/storyboard-sketch.png",
+      caption: "스플래시가 어떤 장면 순서로 움직일지 손스케치와 벡터 작업 방향을 함께 정리했습니다.",
+    },
+    {
+      title: "Splash Prototype",
+      src: "/media/scenediary-process/splash-prototype.png",
+      caption: "장면 요소를 분리해 어떤 파츠가 먼저 등장하고 흡수될지 프로토타입으로 검토했습니다.",
+    },
+    {
+      title: "Particle Iteration",
+      src: "/media/scenediary-process/particle-iteration.png",
+      caption: "앱 적용 시 무거워지는 문제를 줄이기 위해 사진 파티클과 최종 mp4 방향을 비교했습니다.",
+    },
+  ];
 
   const goBackToProjects = () => {
     navigate('/#Projects');
@@ -238,6 +260,40 @@ export default function ProjectDetail() {
                     <h3>Claude Refinement</h3>
                     <p>로맨틱 페르소나에 맞게 더 달콤하고 부드러운 문장으로 첨삭했습니다.</p>
                   </article>
+                </div>
+              </section>
+            )}
+
+            {isSceneDiary && (
+              <section className="scene-diary-process-panel" aria-labelledby="scene-diary-process-title">
+                <div className="notes-kicker">Brand & Splash Process</div>
+                <h2 id="scene-diary-process-title">Logo, storyboard, and motion decisions</h2>
+
+                <div className="scene-diary-logo-feature">
+                  <img
+                    src="/media/scenediary-process/scene-diary-logo.svg"
+                    alt="SceneDiary logo"
+                  />
+                  <p>
+                    로고와 스플래시 모션은 여행 사진이 일기 장면으로 변환되는 흐름을 기준으로 설계했습니다.
+                    최종 화면에 들어가기 전 여러 시안과 구현 제약을 함께 검토했습니다.
+                  </p>
+                </div>
+
+                <div className="scene-diary-process-grid">
+                  {sceneDiaryProcessImages.map((item) => (
+                    <article className="scene-diary-process-card" key={item.title}>
+                      <button
+                        type="button"
+                        onClick={() => setZoomImg(item.src)}
+                        aria-label={`${item.title} 이미지 크게 보기`}
+                      >
+                        <img src={item.src} alt={`${item.title} process board`} />
+                      </button>
+                      <h3>{item.title}</h3>
+                      <p>{item.caption}</p>
+                    </article>
+                  ))}
                 </div>
               </section>
             )}

@@ -153,8 +153,10 @@
   position: fixed;
   top: 30px;
   left: 34px;
+  width: auto;
   z-index: 1000;
   padding: 0;
+  display: block;
 }
 
 .back-btn-minimal {
@@ -409,6 +411,7 @@
 }
 
 .scene-diary-role-panel {
+  box-sizing: border-box;
   margin: 0 auto 72px;
   padding: 46px 44px;
   border: 1px solid rgba(33, 52, 72, 0.45);
@@ -468,7 +471,105 @@
   color: #333;
 }
 
+.scene-diary-process-panel {
+  box-sizing: border-box;
+  margin: 0 auto 84px;
+  padding: 48px 44px;
+  border-top: 2px solid #213448;
+  background:
+    linear-gradient(rgba(33, 52, 72, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(33, 52, 72, 0.035) 1px, transparent 1px),
+    rgba(246, 239, 228, 0.78);
+  background-size: 24px 24px;
+  overflow: hidden;
+}
+
+.scene-diary-process-panel * {
+  box-sizing: border-box;
+}
+
+.scene-diary-process-panel h2 {
+  max-width: 780px;
+  margin: 10px auto 34px;
+  font-family: "Superclarendon", serif;
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  line-height: 1.05;
+  text-align: center;
+  color: #213448;
+}
+
+.scene-diary-logo-feature {
+  display: grid;
+  grid-template-columns: minmax(160px, 240px) minmax(0, 1fr);
+  gap: 34px;
+  align-items: center;
+  margin-bottom: 34px;
+  padding: 24px;
+  border: 1px solid rgba(33, 52, 72, 0.22);
+  background: rgba(255, 252, 246, 0.64);
+}
+
+.scene-diary-logo-feature img {
+  display: block;
+  width: 100%;
+  max-height: 160px;
+  object-fit: contain;
+}
+
+.scene-diary-logo-feature p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.85;
+  text-align: left;
+  color: #333;
+}
+
+.scene-diary-process-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.scene-diary-process-card {
+  min-width: 0;
+  text-align: left;
+}
+
+.scene-diary-process-card button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(33, 52, 72, 0.35);
+  background: rgba(255, 252, 246, 0.8);
+  box-shadow: 14px 14px 0 rgba(33, 52, 72, 0.045);
+  cursor: zoom-in;
+}
+
+.scene-diary-process-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
+  background: #f9f5ed;
+}
+
+.scene-diary-process-card h3 {
+  margin: 20px 0 10px;
+  font-family: "Superclarendon", serif;
+  font-size: 1rem;
+  color: #213448;
+}
+
+.scene-diary-process-card p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.72;
+  color: #333;
+}
+
 .scene-diary-motion-panel {
+  box-sizing: border-box;
   margin: 0 auto 108px;
   padding: 46px 40px;
   border-top: 2px solid #213448;
@@ -935,6 +1036,7 @@
   .scene-diary-role-panel {
     margin-bottom: 54px;
     padding: 34px 18px;
+    box-shadow: none;
   }
 
   .scene-diary-role-panel > p {
@@ -944,6 +1046,29 @@
 
   .persona-process-grid {
     grid-template-columns: 1fr;
+  }
+
+  .scene-diary-process-panel {
+    margin-bottom: 64px;
+    padding: 34px 18px;
+  }
+
+  .scene-diary-logo-feature {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 18px;
+  }
+
+  .scene-diary-logo-feature img {
+    max-height: 120px;
+  }
+
+  .scene-diary-process-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .scene-diary-process-card button {
+    box-shadow: 8px 8px 0 rgba(33, 52, 72, 0.04);
   }
 
   .scene-diary-video-grid {
@@ -965,10 +1090,22 @@
 
   .mag-sidebar-mini {
     width: 100%;
+    box-sizing: border-box;
     background: rgba(33, 52, 72, 0.03);
     padding: 20px !important;
     border: 1px solid rgba(33, 52, 72, 0.1) !important;
     border-radius: 4px;
+  }
+
+  .mag-fixed-nav {
+    left: 18px !important;
+    right: auto !important;
+    width: auto !important;
+    padding: 0 !important;
+  }
+
+  .back-arrow-line::after {
+    width: 28px;
   }
 
   .sidebar-sticky {
