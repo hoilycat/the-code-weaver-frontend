@@ -4,6 +4,7 @@ import { API_BASE_URL, getImageUrl } from '../../config';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Project.css';
+import { fallbackProjects } from './fallbackProjects';
 
 // GSAP 플러그인 등록
 gsap.registerPlugin(ScrollTrigger);
@@ -12,41 +13,81 @@ export default function Project() {
   const [projects, setProjects] = useState([]); //초기값은 빈 배열
   const [filter, setFilter] = useState('All');
   const [loading, setLoading] = useState(true);
+  const [loadingNotice, setLoadingNotice] = useState('프로젝트를 불러오는 중입니다.');
+  const [usingFallback, setUsingFallback] = useState(false);
+  const [loadError, setLoadError] = useState(null);
   const navigate = useNavigate(); // 이동 도구
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
 
   const isAdmin = localStorage.getItem("adminToken") === "secret-key-12345"; 
 
-  // 백엔드에서 데이터 가져오는 핵심 로직 
-  useEffect(() => {
-    fetch(`${API_BASE_URL}/api/projects`)
-      .then(res => {
-        if(!res.ok) throw new Error("서버 응답 에러");
-        return res.json();
-      })
-      .then(data => {
-        console.log("백엔드에서 받은 데이터:", data);
-        
-        // 1. 기존처럼 데이터를 상태에 저장합니다. (데이터는 변하지 않음!)
-        setProjects(data);
-        setLoading(false);
+  const refreshProjectLayout = () => {
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+      if (window.location.hash === '#Projects' && sectionRef.current) {
+        const top = sectionRef.current.getBoundingClientRect().top + window.scrollY - 24;
+        window.scrollTo({ top, behavior: 'auto' });
+      }
+    }, 100);
+  };
 
-        // 2. [추가] 데이터가 화면에 그려진 '직후'에 애니메이션 위치를 새로고침합니다.
-        // setTimeout을 아주 짧게(100ms) 주는 이유는 리액트가 카드를 그릴 시간을 벌어주기 위해서입니다.
-        setTimeout(() => {
-          ScrollTrigger.refresh();
-          if (window.location.hash === '#Projects' && sectionRef.current) {
-            const top = sectionRef.current.getBoundingClientRect().top + window.scrollY - 24;
-            window.scrollTo({ top, behavior: 'auto' });
-          }
-          console.log("애니메이션 위치 재계산 완료!");
-        }, 100);
-      })
-      .catch(err => {
-        console.error("데이터 로딩 실패:", err);
+  const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+  const fetchWithTimeout = async (url, timeoutMs = 12000) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      const response = await fetch(url, { signal: controller.signal });
+      if (!response.ok) throw new Error(`서버 응답 에러: ${response.status}`);
+      return await response.json();
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  };
+
+  const wakeBackend = () => {
+    fetch(`${API_BASE_URL}/api/projects/wake-up`).catch(() => {});
+  };
+
+  const loadProjects = async ({ manual = false } = {}) => {
+    const retryDelays = [0, 3000, 7000, 12000];
+
+    setLoading(true);
+    setLoadError(null);
+    setLoadingNotice(manual ? '라이브 프로젝트를 다시 불러오는 중입니다.' : '프로젝트를 불러오는 중입니다.');
+
+    wakeBackend();
+
+    for (let attempt = 0; attempt < retryDelays.length; attempt += 1) {
+      if (retryDelays[attempt] > 0) {
+        setLoadingNotice(`서버를 깨우는 중입니다. ${attempt + 1}/${retryDelays.length}번째 재시도 중...`);
+        await wait(retryDelays[attempt]);
+      }
+
+      try {
+        const data = await fetchWithTimeout(`${API_BASE_URL}/api/projects`);
+        setProjects(data);
+        setUsingFallback(false);
         setLoading(false);
-      });
+        refreshProjectLayout();
+        return;
+      } catch (err) {
+        console.warn(`프로젝트 로딩 실패 (${attempt + 1}/${retryDelays.length})`, err);
+        setLoadError(err);
+      }
+    }
+
+    setProjects(fallbackProjects);
+    setUsingFallback(true);
+    setLoading(false);
+    refreshProjectLayout();
+  };
+
+  // 백엔드에서 데이터 가져오는 핵심 로직
+  useEffect(() => {
+    loadProjects();
   }, []);
 
   const filtered = filter === 'All' ? projects : projects.filter(p => p.category === filter);
@@ -124,12 +165,22 @@ export default function Project() {
             <div className="announcement-border">
               <p style={{ fontSize: '1.4rem', marginBottom: '0.5rem' }}>☕</p>
               <p>서버가 잠들어 있을 수 있어요.</p>
-              <p className="sub-text">최대 1분 정도 걸릴 수 있습니다. 조금만 기다려 주세요!</p>
+              <p className="sub-text">{loadingNotice}</p>
             </div>
           </div>
         ) : filtered.length > 0 ? (
-          filtered.map((project, index) => (
-            <div 
+          <>
+            {usingFallback && (
+              <div className="fallback-notice">
+                <span>라이브 서버 응답이 늦어 저장된 프로젝트 목록을 먼저 보여주고 있어요.</span>
+                <button onClick={() => loadProjects({ manual: true })}>
+                  다시 불러오기
+                </button>
+              </div>
+            )}
+
+            {filtered.map((project, index) => (
+              <div 
               key={project.id}
               ref={el => cardsRef.current[index] = el}
               className={`project-card ${project.size || 'small'}`}
@@ -150,13 +201,16 @@ export default function Project() {
               <p className="click-guide">Read More →</p>
             </div>
           </div>
-        ))
+        ))}
+          </>
       ) : (
         <div className="empty-announcement">
           <div className="announcement-border">
             <h4>COMING SOON</h4>
             <p>"{filter}" 카테고리의 작품을 준비 중입니다.</p>
-            <p className="sub-text">조금만 기다려 주세요. 엮는 자가 열심히 작업 중입니다.</p>
+            <p className="sub-text">
+              {loadError ? '라이브 서버 연결이 불안정합니다. 잠시 후 다시 시도해 주세요.' : '조금만 기다려 주세요. 엮는 자가 열심히 작업 중입니다.'}
+            </p>
             <button onClick={() => setFilter('All')} className="reset-filter-btn">
               모든 전시물 보기
             </button>
