@@ -39,6 +39,7 @@ export default function Hero() {
         {/* 네비게이션 */}
         <nav className="hero-nav">
           <a href="#About">about</a>
+          <a href="#Motion">motion</a>
           <a href="#Projects">projects</a>
           <a href="#Footer">contact</a>
         </nav>
