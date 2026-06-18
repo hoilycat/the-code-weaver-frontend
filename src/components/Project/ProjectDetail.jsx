@@ -57,6 +57,7 @@ export default function ProjectDetail() {
   const galleryImages = (project.images || []).filter(img => img !== project.snapshot);
   const isDataVisualization = project.category === "Data Visualization";
   const isSceneDiary = Number(project.id) === 10 || project.title?.toLowerCase().includes("scenediary");
+  const sceneDiaryIntro = "SceneDiary는 사용자가 업로드한 여행 사진을 AI가 해석하고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 팀 프로젝트입니다.";
   const groupedGalleryProjectIds = [1, 2, 3];
   const inlineImageLimit = groupedGalleryProjectIds.includes(Number(project.id)) ? 3 : galleryImages.length;
   const sceneDiaryVideos = [
@@ -185,7 +186,12 @@ export default function ProjectDetail() {
           {/* 왼쪽 고정 정보 (미니 사이드바) */}
           <aside className="mag-sidebar-mini">
              <div className="sidebar-sticky">
-                {project.link && (
+                {isSceneDiary ? (
+                  <div className="private-repo-card">
+                    <span>PRIVATE TEAM REPOSITORY</span>
+                    <p>Code access is restricted by team agreement.</p>
+                  </div>
+                ) : project.link && (
                   <a href={project.link} target="_blank" rel="noopener noreferrer" className="mag-visit-btn">
                     {getPrimaryLinkLabel(project.link)}
                   </a>
@@ -203,9 +209,37 @@ export default function ProjectDetail() {
               <div className="story-intro-block">
                 <span className="story-intro-label">Opening Note</span>
                 <p className="para-text intro-text drop-cap" style={{ whiteSpace: 'pre-wrap' }}>
-                  {renderTextWithLinks(introParagraph)}
+                  {renderTextWithLinks(isSceneDiary ? sceneDiaryIntro : introParagraph)}
                 </p>
               </div>
+            )}
+
+            {isSceneDiary && (
+              <section className="scene-diary-role-panel" aria-labelledby="scene-diary-role-title">
+                <div className="notes-kicker">My Role</div>
+                <h2 id="scene-diary-role-title">Romantic Persona Writing</h2>
+                <p>
+                  저는 SceneDiary의 로맨틱 페르소나 문체를 담당했습니다. 원본문장은 직접 작성했고,
+                  GPT로 문장의 흐름과 전달력을 점검한 뒤 Claude를 통해 더 부드럽고 달콤한 톤으로 첨삭했습니다.
+                </p>
+                <div className="persona-process-grid">
+                  <article>
+                    <span>01</span>
+                    <h3>Original Lines</h3>
+                    <p>여행 장면에 어울리는 로맨틱 일기 원문을 직접 작성했습니다.</p>
+                  </article>
+                  <article>
+                    <span>02</span>
+                    <h3>GPT Feedback</h3>
+                    <p>문장의 구조, 흐름, 전달력을 점검하며 읽히는 리듬을 다듬었습니다.</p>
+                  </article>
+                  <article>
+                    <span>03</span>
+                    <h3>Claude Refinement</h3>
+                    <p>로맨틱 페르소나에 맞게 더 달콤하고 부드러운 문장으로 첨삭했습니다.</p>
+                  </article>
+                </div>
+              </section>
             )}
 
             {isSceneDiary && (

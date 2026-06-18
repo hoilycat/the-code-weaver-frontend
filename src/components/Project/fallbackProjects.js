@@ -5,7 +5,7 @@ export const fallbackProjects = [
     category: "Team Project",
     status: "In Progress",
     snapshot: "https://hqefyvwzlhytnmhqbggt.supabase.co/storage/v1/object/public/images/uploads/1781057615264_effa159c-48a0-4312-b635-52651a1d3741.png",
-    description: "SceneDiary는 여행과 일상 사진을 올리면 AI가 사진 속 장면을 읽고 하루의 일기 초안을 만들어주는 앱입니다.",
+    description: "SceneDiary는 사용자가 업로드한 여행 사진을 AI가 해석하고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 팀 프로젝트입니다.",
   },
   {
     id: 5,
