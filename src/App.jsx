@@ -4,7 +4,6 @@ import './App.css';
 import ScrollParticles from './components/ScrollParticles/ScrollParticles'; // 2. 스크롤 입자 효과
 import Hero from './components/Hero/Hero';
 import About from './components/About/About';
-import MotionArchive from './components/MotionArchive/MotionArchive';
 import Project from './components/Project/Project';
 import Footer from './components/Footer/Footer';
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
@@ -57,7 +56,6 @@ const MainPage = () => {
     <>
       <Hero />
       <About />
-      <MotionArchive />
       <Project />
       <Footer />
       <ScrollToTop />

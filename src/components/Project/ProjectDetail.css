@@ -384,6 +384,68 @@
   background: #111820;
 }
 
+.scene-diary-motion-panel {
+  margin: 0 auto 108px;
+  padding: 46px 40px;
+  border-top: 2px solid #213448;
+  border-bottom: 2px solid #213448;
+  background:
+    linear-gradient(rgba(33, 52, 72, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(33, 52, 72, 0.035) 1px, transparent 1px),
+    rgba(246, 239, 228, 0.76);
+  background-size: 24px 24px;
+}
+
+.scene-diary-motion-panel h2 {
+  margin: 10px 0 34px;
+  font-family: "Superclarendon", serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1;
+  text-align: center;
+  color: #213448;
+}
+
+.scene-diary-video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+  align-items: start;
+}
+
+.scene-diary-video-card {
+  min-width: 0;
+  text-align: center;
+}
+
+.scene-diary-phone-frame {
+  width: min(100%, 260px);
+  aspect-ratio: 9 / 16;
+  margin: 0 auto;
+  padding: 10px;
+  border: 1px solid rgba(33, 52, 72, 0.5);
+  background: #213448;
+  box-shadow: 18px 18px 0 rgba(33, 52, 72, 0.055);
+  box-sizing: border-box;
+}
+
+.scene-diary-phone-frame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #111820;
+}
+
+.scene-diary-video-card span {
+  display: block;
+  margin-top: 16px;
+  font-family: "Superclarendon", serif;
+  font-size: 0.76rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #547792;
+}
+
 /* 드롭캡 디자인 강화 */
 .drop-cap::first-letter {
   font-size: 6.5rem;
@@ -779,6 +841,20 @@
     width: 21px;
     height: 21px;
     font-size: 0.5rem;
+  }
+
+  .scene-diary-motion-panel {
+    margin-bottom: 72px;
+    padding: 34px 18px;
+  }
+
+  .scene-diary-video-grid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .scene-diary-phone-frame {
+    width: min(74vw, 240px);
   }
 
   /* 3. 사이드바 -> 상단 인포 바 변환 */

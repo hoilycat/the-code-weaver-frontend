@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { API_BASE_URL, getImageUrl } from '../../config';
 import { BADGE_ICONS, getProjectBadges, getTechBadges, parseProjectNotes, splitDescription } from './projectNotes';
+import { fallbackProjects } from './fallbackProjects';
 import './ProjectDetail.css'; 
 
 export default function ProjectDetail() {
@@ -14,11 +15,28 @@ export default function ProjectDetail() {
   const [zoomImg, setZoomImg] = useState(null);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const fallbackProject = fallbackProjects.find((item) => Number(item.id) === Number(id));
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
     window.scrollTo(0, 0);
-    fetch(`${API_BASE_URL}/api/projects/${id}`)
-      .then(res => res.json())
+    setProject(fallbackProject || null);
+
+    fetch(`${API_BASE_URL}/api/projects/${id}`, { signal: controller.signal })
+      .then(res => {
+        if (!res.ok) throw new Error(`Project detail failed: ${res.status}`);
+        return res.json();
+      })
       .then(data => setProject(data))
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.warn("프로젝트 상세 로딩 실패, 저장된 프로젝트를 사용합니다.", err);
+      })
+      .finally(() => clearTimeout(timeoutId));
+
+    return () => {
+      clearTimeout(timeoutId);
+      controller.abort();
+    };
   }, [id]);
 
   if (!project) return <div className="loading">아카이브 여는 중... 🕯️</div>;
@@ -38,8 +56,19 @@ export default function ProjectDetail() {
   // [수정] 갤러리 이미지에서 '헤더 이미지(snapshot)'와 중복되는 사진은 제외하기 (깔끔한 레이아웃을 위해)
   const galleryImages = (project.images || []).filter(img => img !== project.snapshot);
   const isDataVisualization = project.category === "Data Visualization";
+  const isSceneDiary = Number(project.id) === 10 || project.title?.toLowerCase().includes("scenediary");
   const groupedGalleryProjectIds = [1, 2, 3];
   const inlineImageLimit = groupedGalleryProjectIds.includes(Number(project.id)) ? 3 : galleryImages.length;
+  const sceneDiaryVideos = [
+    {
+      label: "Dark splash",
+      src: "/media/scenediary-splash-dark-full-60fps.mp4",
+    },
+    {
+      label: "Light splash",
+      src: "/media/scenediary-splash-light-full-60fps.mp4",
+    },
+  ];
 
   const goBackToProjects = () => {
     navigate('/#Projects');
@@ -177,6 +206,32 @@ export default function ProjectDetail() {
                   {renderTextWithLinks(introParagraph)}
                 </p>
               </div>
+            )}
+
+            {isSceneDiary && (
+              <section className="scene-diary-motion-panel" aria-labelledby="scene-diary-motion-title">
+                <div className="notes-kicker">Motion Preview</div>
+                <h2 id="scene-diary-motion-title">SceneDiary Splash</h2>
+                <div className="scene-diary-video-grid">
+                  {sceneDiaryVideos.map((video) => (
+                    <article className="scene-diary-video-card" key={video.label}>
+                      <div className="scene-diary-phone-frame">
+                        <video
+                          src={video.src}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          controls
+                          preload="metadata"
+                          aria-label={`SceneDiary ${video.label} video`}
+                        />
+                      </div>
+                      <span>{video.label}</span>
+                    </article>
+                  ))}
+                </div>
+              </section>
             )}
 
             {bodyParagraphs.map((para, index) => {
