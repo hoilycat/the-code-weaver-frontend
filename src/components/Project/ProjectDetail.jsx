@@ -57,8 +57,12 @@ export default function ProjectDetail() {
   const galleryImages = (project.images || []).filter(img => img !== project.snapshot);
   const isDataVisualization = project.category === "Data Visualization";
   const isSceneDiary = Number(project.id) === 10 || project.title?.toLowerCase().includes("scenediary");
+  const isFixie = project.title?.toLowerCase().includes("fixie");
   const isMoodDNA = project.title?.toLowerCase().includes("mood-dna");
-  const sceneDiaryIntro = "SceneDiary는 사용자가 업로드한 여행 사진을 AI가 해석하고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 팀 프로젝트입니다.";
+  const isTeamProject = isSceneDiary || isFixie || project.category === "Team Project";
+  const ownershipLabel = isTeamProject ? "Team Project" : "Solo Project";
+  const ownershipIcon = isTeamProject ? "TM" : "SO";
+  const sceneDiaryIntro = "SceneDiary는 사용자가 업로드한 여행 사진을 AI가 해석하고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 앱입니다.";
   const groupedGalleryProjectIds = [1, 2, 3];
   const inlineImageLimit = groupedGalleryProjectIds.includes(Number(project.id)) ? 3 : galleryImages.length;
   const sceneDiaryVideos = [
@@ -214,6 +218,10 @@ export default function ProjectDetail() {
                 <span>{badge}</span>
               </span>
             ))}
+            <span className={`project-pill ownership ${isTeamProject ? "team" : "solo"}`} aria-label={ownershipLabel}>
+              <span className="pill-icon" aria-hidden="true">{ownershipIcon}</span>
+              <span>{ownershipLabel}</span>
+            </span>
           </div>
         </div>
       </header>
@@ -229,21 +237,9 @@ export default function ProjectDetail() {
              <div className="sidebar-sticky">
                 {isSceneDiary ? (
                   <div className="private-repo-card">
-                    <span>PRIVATE TEAM REPOSITORY</span>
+                    <span>PRIVATE REPOSITORY</span>
                     <p>Code access is restricted by team agreement.</p>
                   </div>
-                ) : isMoodDNA ? (
-                  <>
-                    <div className="private-repo-card solo-project-card">
-                      <span>SOLO PROJECT</span>
-                      <p>Designed and developed independently from product concept to AI pipeline.</p>
-                    </div>
-                    {project.link && (
-                      <a href={project.link} target="_blank" rel="noopener noreferrer" className="mag-visit-btn">
-                        {getPrimaryLinkLabel(project.link)}
-                      </a>
-                    )}
-                  </>
                 ) : project.link && (
                   <a href={project.link} target="_blank" rel="noopener noreferrer" className="mag-visit-btn">
                     {getPrimaryLinkLabel(project.link)}
@@ -269,11 +265,11 @@ export default function ProjectDetail() {
 
             {isMoodDNA && (
               <section className="mood-dna-role-panel" aria-labelledby="mood-dna-role-title">
-                <div className="notes-kicker">Solo Build</div>
+                <div className="notes-kicker">My Role</div>
                 <h2 id="mood-dna-role-title">AI design partner, built end to end</h2>
                 <p>
                   Mood-DNA V3는 기획부터 디자인 분석 UI, 컴퓨터비전 지표 추출, AI 비평 파이프라인,
-                  GraphRAG 연동까지 전체 흐름을 혼자 설계하고 구현한 솔로 프로젝트입니다.
+                  GraphRAG 연동까지 전체 흐름을 설계하고 구현한 프로젝트입니다.
                 </p>
                 <div className="mood-dna-role-grid">
                   {moodDnaRoleItems.map((item) => (

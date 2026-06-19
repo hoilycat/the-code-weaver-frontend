@@ -5,7 +5,7 @@ export const fallbackProjects = [
     category: "Team Project",
     status: "In Progress",
     snapshot: "https://hqefyvwzlhytnmhqbggt.supabase.co/storage/v1/object/public/images/uploads/1781057615264_effa159c-48a0-4312-b635-52651a1d3741.png",
-    description: "SceneDiary는 사용자가 업로드한 여행 사진을 AI가 해석하고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 팀 프로젝트입니다.",
+    description: "SceneDiary는 사용자가 업로드한 여행 사진을 AI가 해석하고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 앱입니다.",
   },
   {
     id: 5,
@@ -13,7 +13,7 @@ export const fallbackProjects = [
     category: "Team Project",
     status: "Done",
     snapshot: "https://hqefyvwzlhytnmhqbggt.supabase.co/storage/v1/object/public/images/uploads/1778142181960_5efe036a-769c-4a0b-bd32-778c9cba0190.png",
-    description: "QR 코드나 모델명으로 기기를 등록하고, 매뉴얼을 학습한 AI와 대화하며 해결 방법을 찾는 팀 프로젝트입니다.",
+    description: "QR 코드나 모델명으로 기기를 등록하고, 매뉴얼을 학습한 AI와 대화하며 해결 방법을 찾는 서비스입니다.",
   },
   {
     id: 4,

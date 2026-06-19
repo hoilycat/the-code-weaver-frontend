@@ -126,11 +126,6 @@
   color: #333;
 }
 
-.solo-project-card {
-  border-color: rgba(84, 119, 146, 0.45);
-  background: rgba(148, 180, 193, 0.18);
-}
-
 /* 5. 쉐브론 푸터 위치 고정 */
 .mag-weaver-footer, .weaver-final-footer {
   width: 100%;
@@ -310,6 +305,19 @@
   padding: 6px 12px 6px 7px;
   background: #f6efe4;
   font-size: 0.68rem;
+}
+
+.project-pill.ownership {
+  border-color: rgba(84, 119, 146, 0.58);
+  background: rgba(255, 252, 246, 0.98);
+}
+
+.project-pill.ownership.solo .pill-icon {
+  background: #547792;
+}
+
+.project-pill.ownership.team .pill-icon {
+  background: #8B7355;
 }
 
 .pill-icon {
