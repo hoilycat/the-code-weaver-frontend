@@ -47,12 +47,16 @@ export default function ProjectDetail() {
   const bodyParagraphs = paragraphs.slice(1);
   const noteSections = parseProjectNotes(notesText);
   const projectBadges = getProjectBadges(project, noteSections);
-  const techBadges = getTechBadges(noteSections);
+  const techBadges = getTechBadges(noteSections, project);
+  const hasTechStackSection = noteSections.some((section) => section.title === "Tech Stack");
   const displayedNoteSections = noteSections.filter((section) => {
     if (section.title === "Project Type") return false;
     if (section.title === "Tech Stack" && techBadges.length === 0) return false;
     return true;
   });
+  if (!hasTechStackSection && techBadges.length > 0) {
+    displayedNoteSections.unshift({ title: "Tech Stack", lines: techBadges });
+  }
   // [수정] 갤러리 이미지에서 '헤더 이미지(snapshot)'와 중복되는 사진은 제외하기 (깔끔한 레이아웃을 위해)
   const galleryImages = (project.images || []).filter(img => img !== project.snapshot);
   const isDataVisualization = project.category === "Data Visualization";
@@ -460,7 +464,7 @@ export default function ProjectDetail() {
               </div>
             )}
 
-            {noteSections.length > 0 && (
+            {displayedNoteSections.length > 0 && (
               <section className="project-notes-panel" aria-labelledby="project-notes-title">
                 <div className="notes-kicker">Project Notes</div>
                 <h2 id="project-notes-title">What I Built</h2>

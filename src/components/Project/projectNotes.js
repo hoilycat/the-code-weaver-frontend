@@ -81,6 +81,9 @@ export const TECH_OPTIONS = [
   "SQLAlchemy",
   "Pillow",
   "Docker Compose",
+  "Docker",
+  "Cloudflare Tunnel",
+  "Vercel",
   "Tavily API",
   "SerpApi",
   "Uvicorn",
@@ -157,6 +160,9 @@ export const BADGE_ICONS = {
   "SQLAlchemy": "SA",
   "Pillow": "PL",
   "Docker Compose": "DC",
+  "Docker": "DK",
+  "Cloudflare Tunnel": "CF",
+  "Vercel": "VC",
   "Tavily API": "TV",
   "SerpApi": "SP",
   "Uvicorn": "UV",
@@ -184,15 +190,128 @@ const BADGES_BY_PROJECT = [
   },
   {
     match: "Cof/fee",
-    badges: ["Frontend", "Health Tech", "UX"]
+    badges: ["Frontend", "Health Tech", "GraphRAG", "UX"]
   },
   {
     match: "Mood-DNA",
     badges: ["Full-stack", "AI", "Computer Vision", "Design Tool"]
   },
   {
+    match: "SceneDiary",
+    badges: ["Full-stack", "AI", "Storytelling", "UX"]
+  },
+  {
+    match: "Fixie",
+    badges: ["Full-stack", "AI", "GraphRAG", "UX"]
+  },
+  {
     match: "Y-Insight",
     badges: ["Backend", "AI", "GraphRAG", "Architecture"]
+  }
+];
+
+const TECH_BY_PROJECT = [
+  {
+    match: "SceneDiary",
+    tech: [
+      "React Native",
+      "Expo",
+      "Expo Router",
+      "NativeWind",
+      "TypeScript",
+      "Zustand",
+      "Axios",
+      "expo-image-picker",
+      "expo-image-manipulator",
+      "expo-location",
+      "expo-splash-screen",
+      "PostgreSQL",
+      "Neo4j",
+      "OpenAI SDK",
+      "Docker Compose"
+    ]
+  },
+  {
+    match: "Fixie",
+    tech: [
+      "React",
+      "Vite",
+      "Spring Boot",
+      "FastAPI",
+      "PostgreSQL",
+      "Neo4j",
+      "Google Gemini",
+      "Azure",
+      "Cloudflare Tunnel",
+      "Docker Compose",
+      "Vercel"
+    ]
+  },
+  {
+    match: "Focus Mate Berry",
+    tech: [
+      "React",
+      "Vite",
+      "Tailwind CSS",
+      "Python",
+      "FastAPI",
+      "SQLite",
+      "MediaPipe",
+      "OpenCV",
+      "Google Gemini",
+      "KakaoTalk API",
+      "Uvicorn"
+    ]
+  },
+  {
+    match: "Cof/fee",
+    tech: [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Tailwind CSS",
+      "Jotai",
+      "Recharts",
+      "Day.js",
+      "Neo4j",
+      "GraphRAG",
+      "Ollama"
+    ]
+  },
+  {
+    match: "Mood-DNA",
+    tech: [
+      "React",
+      "TypeScript",
+      "FastAPI",
+      "Python",
+      "OpenCV",
+      "EasyOCR",
+      "NumPy",
+      "Rembg",
+      "Recharts",
+      "SQLite",
+      "SQLAlchemy",
+      "Google Gemini",
+      "Neo4j",
+      "LlamaIndex",
+      "Ollama",
+      "SerpApi"
+    ]
+  },
+  {
+    match: "Y-Insight",
+    tech: [
+      "Python",
+      "FastAPI",
+      "Neo4j",
+      "GraphRAG",
+      "LlamaIndex",
+      "Ollama",
+      "Docker Compose",
+      "Tavily API",
+      "SerpApi"
+    ]
   }
 ];
 
@@ -251,7 +370,10 @@ export const parseTechStack = (lines = []) => {
   return lines
     .join(",")
     .split(/[,/|·]/)
-    .map((item) => item.replace(/^-+\s*/, "").trim())
+    .map((item) => {
+      const techName = item.replace(/^-+\s*/, "").trim();
+      return techName === "NeoForge" ? "Neo4j" : techName;
+    })
     .filter(Boolean);
 };
 
@@ -274,9 +396,13 @@ export const getProjectBadges = (project, sections = []) => {
   return ["Full-stack"];
 };
 
-export const getTechBadges = (sections = []) => {
+export const getTechBadges = (sections = [], project = null) => {
   const techSection = sections.find((section) => section.title === "Tech Stack");
-  return parseTechStack(techSection?.lines || []).filter((item) => !PROJECT_TYPE_OPTIONS.includes(item));
+  const explicitTech = parseTechStack(techSection?.lines || []).filter((item) => !PROJECT_TYPE_OPTIONS.includes(item));
+  const matched = TECH_BY_PROJECT.find(({ match }) => project?.title?.includes(match));
+  const fallbackTech = matched?.tech || [];
+
+  return Array.from(new Set([...explicitTech, ...fallbackTech]));
 };
 
 const cleanLines = (text = "") => {
