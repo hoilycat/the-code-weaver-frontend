@@ -63,6 +63,7 @@ export default function ProjectDetail() {
   const ownershipLabel = isTeamProject ? "Team Project" : "Solo Project";
   const ownershipIcon = isTeamProject ? "TM" : "SO";
   const sceneDiaryIntro = "SceneDiary는 사용자가 업로드한 여행 사진을 AI가 해석하고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 앱입니다.";
+  const fixieIntro = "가전제품 매뉴얼은 두꺼운 종이에 빽빽한 글씨로 가득합니다. Fixie는 그 불편함에서 출발했습니다. QR 코드나 모델명을 스캔해 기기를 등록하면, 매뉴얼을 학습한 AI 픽시와 대화하며 필요한 해결 방법을 바로 찾을 수 있도록 설계했습니다.";
   const groupedGalleryProjectIds = [1, 2, 3];
   const inlineImageLimit = groupedGalleryProjectIds.includes(Number(project.id)) ? 3 : galleryImages.length;
   const sceneDiaryVideos = [
@@ -258,7 +259,7 @@ export default function ProjectDetail() {
               <div className="story-intro-block">
                 <span className="story-intro-label">Opening Note</span>
                 <p className="para-text intro-text drop-cap" style={{ whiteSpace: 'pre-wrap' }}>
-                  {renderTextWithLinks(isSceneDiary ? sceneDiaryIntro : introParagraph)}
+                  {renderTextWithLinks(isSceneDiary ? sceneDiaryIntro : isFixie ? fixieIntro : introParagraph)}
                 </p>
               </div>
             )}
