@@ -57,19 +57,18 @@ export default function ProjectDetail() {
   if (!hasTechStackSection && techBadges.length > 0) {
     displayedNoteSections.unshift({ title: "Tech Stack", lines: techBadges });
   }
-  // [수정] 갤러리 이미지에서 '헤더 이미지(snapshot)'와 중복되는 사진은 제외하기 (깔끔한 레이아웃을 위해)
-  const galleryImages = (project.images || []).filter(img => img !== project.snapshot);
   const isDataVisualization = project.category === "Data Visualization";
   const isSceneDiary = Number(project.id) === 10 || project.title?.toLowerCase().includes("scenediary");
   const isFixie = project.title?.toLowerCase().includes("fixie");
   const isMoodDNA = project.title?.toLowerCase().includes("mood-dna");
+  const isFocusMate = Number(project.id) === 1 || project.title?.toLowerCase().includes("focus mate");
+  const isCoffee = Number(project.id) === 2 || project.title?.toLowerCase().includes("cof/fee");
   const isTeamProject = isSceneDiary || isFixie || project.category === "Team Project";
   const ownershipLabel = isTeamProject ? "Team Project" : "Solo Project";
   const ownershipIcon = isTeamProject ? "TM" : "SO";
   const sceneDiaryIntro = "SceneDiary는 사용자가 업로드한 여행 사진을 AI가 해석하고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 앱입니다.";
   const fixieIntro = "가전제품 매뉴얼은 두꺼운 종이에 빽빽한 글씨로 가득합니다. Fixie는 그 불편함에서 출발했습니다. QR 코드나 모델명을 스캔해 기기를 등록하면, 매뉴얼을 학습한 AI 픽시와 대화하며 필요한 해결 방법을 바로 찾을 수 있도록 설계했습니다.";
   const groupedGalleryProjectIds = [1, 2, 3];
-  const inlineImageLimit = groupedGalleryProjectIds.includes(Number(project.id)) ? 3 : galleryImages.length;
   const sceneDiaryVideos = [
     {
       label: "Dark splash",
@@ -139,6 +138,48 @@ export default function ProjectDetail() {
     return "VIEW PROJECT ↗";
   };
 
+  const focusMateReadmeMedia = [
+    {
+      title: "Berry Interaction",
+      type: "image",
+      src: "https://raw.githubusercontent.com/hoilycat/Focus-Mate-Berry/master/The-Growth-Journey.gif",
+      caption: "README의 캐릭터 상호작용 GIF입니다. 사용자의 상태에 따라 베리가 실시간으로 반응하는 흐름을 보여줍니다.",
+    },
+    {
+      title: "Posture Demo",
+      type: "image",
+      src: "https://raw.githubusercontent.com/hoilycat/Focus-Mate-Berry/master/berry-posture-demo.gif",
+      caption: "README의 자세 감지 데모 GIF입니다. MediaPipe 기반 자세와 시선 추적 화면을 보여줍니다.",
+    },
+  ];
+
+  const coffeeReadmeMedia = [
+    {
+      title: "Main Demo",
+      type: "video",
+      src: "https://raw.githubusercontent.com/hoilycat/Cof-fee-V3/master/docs/media/cof-fee-demo-dark.mp4",
+      caption: "README의 메인 데모 영상입니다. Cof/fee의 다크 UI와 주요 사용 흐름을 보여줍니다.",
+    },
+    {
+      title: "Splash Demo",
+      type: "video",
+      src: "https://raw.githubusercontent.com/hoilycat/Cof-fee-V3/master/docs/media/cof-fee-splash-only.mp4",
+      caption: "README의 스플래시 데모 영상입니다. 앱 진입 모션과 브랜드 톤을 확인할 수 있습니다.",
+    },
+    {
+      title: "Additional Demo",
+      type: "video",
+      src: "https://raw.githubusercontent.com/hoilycat/Cof-fee-V3/master/docs/media/cof-fee-demo-v2.mp4",
+      caption: "README의 추가 데모 영상입니다. 업데이트된 화면 흐름을 보조 자료로 정리했습니다.",
+    },
+  ];
+
+  const readmeMedia = isFocusMate ? focusMateReadmeMedia : isCoffee ? coffeeReadmeMedia : [];
+  const heroMedia = getImageUrl(project.snapshot);
+  // [수정] 베리와 커피는 섞여 있던 업로드 갤러리 대신 README 대표 미디어만 노출한다.
+  const galleryImages = isFocusMate || isCoffee ? [] : (project.images || []).filter(img => img !== project.snapshot);
+  const inlineImageLimit = groupedGalleryProjectIds.includes(Number(project.id)) ? 3 : galleryImages.length;
+
   const trimTrailingPunctuation = (url = "") => {
     const match = url.match(/[.,!?)]*$/);
     const trailing = match?.[0] || "";
@@ -204,7 +245,19 @@ export default function ProjectDetail() {
       {/* 4. 와이드 썸네일 섹션 */}
       <header className="mag-wide-hero">
         <div className="hero-img-wrapper">
-          <img src={getImageUrl(project.snapshot)} alt="Main Wide" />
+          {isVideoUrl(heroMedia) ? (
+            <video
+              src={heroMedia}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label={`${project.title} hero demo video`}
+            />
+          ) : (
+            <img src={heroMedia} alt="Main Wide" />
+          )}
         </div>
         <div className="hero-titles">
           <span className="mag-issue-no">ISSUE NO. 0{project.id}</span>
@@ -266,6 +319,41 @@ export default function ProjectDetail() {
                   {renderTextWithLinks(isSceneDiary ? sceneDiaryIntro : isFixie ? fixieIntro : introParagraph)}
                 </p>
               </div>
+            )}
+
+            {readmeMedia.length > 0 && (
+              <section className="readme-media-panel" aria-labelledby="readme-media-title">
+                <div className="notes-kicker">README Media</div>
+                <h2 id="readme-media-title">Demo assets from GitHub README</h2>
+                <div className={`readme-media-grid ${isCoffee ? "coffee-media-grid" : ""}`}>
+                  {readmeMedia.map((item) => (
+                    <article className="readme-media-card" key={item.title}>
+                      <div className="readme-media-frame">
+                        {item.type === "video" ? (
+                          <video
+                            src={item.src}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            controls
+                            preload="metadata"
+                            aria-label={`${item.title} video`}
+                          />
+                        ) : (
+                          <img
+                            src={item.src}
+                            alt={item.title}
+                            onClick={() => setZoomImg(item.src)}
+                          />
+                        )}
+                      </div>
+                      <h3>{item.title}</h3>
+                      <p>{item.caption}</p>
+                    </article>
+                  ))}
+                </div>
+              </section>
             )}
 
             {isMoodDNA && (
