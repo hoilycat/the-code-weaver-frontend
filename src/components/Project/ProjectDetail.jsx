@@ -162,22 +162,28 @@ export default function ProjectDetail() {
       title: "Main Demo",
       type: "video",
       aspect: "phone",
-      src: "https://raw.githubusercontent.com/hoilycat/Cof-fee-V3/master/docs/media/cof-fee-demo-dark.mp4",
-      caption: "README의 메인 데모 영상입니다. Cof/fee의 다크 UI와 주요 사용 흐름을 보여줍니다.",
+      src: "/media/coffee/cof-fee-demo-dark.mp4",
+      startAt: 6,
+      endAt: 13.2,
+      caption: "스플래시 이후 바로 대시보드와 기록 흐름이 보이도록 핵심 구간부터 재생합니다.",
     },
     {
       title: "Splash Demo",
       type: "video",
       aspect: "phone",
-      src: "https://raw.githubusercontent.com/hoilycat/Cof-fee-V3/master/docs/media/cof-fee-splash-only.mp4",
-      caption: "README의 스플래시 데모 영상입니다. 앱 진입 모션과 브랜드 톤을 확인할 수 있습니다.",
+      src: "/media/coffee/cof-fee-splash-only.mp4",
+      startAt: 0,
+      endAt: 3.1,
+      caption: "앱 진입 모션의 첫 인상이 빠르게 전달되도록 초반 3초 구간만 보여줍니다.",
     },
     {
-      title: "Additional Demo",
+      title: "Onboarding Flow",
       type: "video",
       aspect: "phone",
-      src: "https://raw.githubusercontent.com/hoilycat/Cof-fee-V3/master/docs/media/cof-fee-demo-v2.mp4",
-      caption: "README의 추가 데모 영상입니다. 업데이트된 화면 흐름을 보조 자료로 정리했습니다.",
+      src: "/media/coffee/cof-fee-demo-v2.mp4",
+      startAt: 5,
+      endAt: 13.2,
+      caption: "온보딩에서 대시보드로 이어지는 핵심 사용 흐름을 바로 확인할 수 있게 조정했습니다.",
     },
   ];
 
@@ -378,6 +384,20 @@ export default function ProjectDetail() {
                             playsInline
                             controls
                             preload="metadata"
+                            onLoadedMetadata={(event) => {
+                              if (Number.isFinite(item.startAt) && item.startAt > 0) {
+                                event.currentTarget.currentTime = item.startAt;
+                              }
+                            }}
+                            onCanPlay={(event) => {
+                              event.currentTarget.play().catch(() => {});
+                            }}
+                            onTimeUpdate={(event) => {
+                              if (Number.isFinite(item.endAt) && event.currentTarget.currentTime >= item.endAt) {
+                                event.currentTarget.currentTime = item.startAt || 0;
+                                event.currentTarget.play();
+                              }
+                            }}
                             aria-label={`${item.title} video`}
                           />
                         ) : (
