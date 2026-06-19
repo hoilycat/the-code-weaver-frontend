@@ -68,6 +68,8 @@ export default function ProjectDetail() {
   const ownershipIcon = isTeamProject ? "TM" : "SO";
   const sceneDiaryIntro = "SceneDiary는 사용자가 업로드한 여행 사진을 AI가 해석하고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 앱입니다.";
   const fixieIntro = "가전제품 매뉴얼은 두꺼운 종이에 빽빽한 글씨로 가득합니다. Fixie는 그 불편함에서 출발했습니다. QR 코드나 모델명을 스캔해 기기를 등록하면, 매뉴얼을 학습한 AI 픽시와 대화하며 필요한 해결 방법을 바로 찾을 수 있도록 설계했습니다.";
+  const focusMateIntro = "Focus Mate Berry는 단순한 공부 타이머가 아니라, 사용자의 자세와 자리 비움 상태를 감지해 캐릭터의 성장, 경고, 수면 상태로 되돌려주는 AI 공부 파트너입니다. MediaPipe와 OpenCV 기반 감지 로직을 상태 머신과 연결해 집중 행동을 자연스럽게 유지하도록 설계했습니다.";
+  const coffeeIntro = "Cof/fee는 카페인 섭취를 단순 기록하는 앱이 아니라, 반감기 기반 잔존량과 하루 총 섭취량을 나눠 보여주며 사용자가 수면과 금단 위험을 스스로 조절하도록 돕는 카페인 관리 앱입니다. 수치, 캐릭터 반응, AI 인사이트를 한 흐름으로 묶는 데 집중했습니다.";
   const groupedGalleryProjectIds = [1, 2, 3];
   const sceneDiaryVideos = [
     {
@@ -184,6 +186,39 @@ export default function ProjectDetail() {
   // [수정] 베리와 커피는 섞여 있던 업로드 갤러리 대신 README 대표 미디어만 노출한다.
   const galleryImages = isFocusMate || isCoffee ? [] : (project.images || []).filter(img => img !== project.snapshot);
   const inlineImageLimit = groupedGalleryProjectIds.includes(Number(project.id)) ? 3 : galleryImages.length;
+  const troubleshootingItems = isFocusMate ? [
+    {
+      title: "MediaPipe Runtime Compatibility",
+      problem: "Apple Silicon 환경의 전역 Python 3.12에서 MediaPipe 구형 API가 깨지며 실행이 중단됐습니다.",
+      solution: "Python 3.10 전용 venv를 분리하고 의존성을 재설치해 vision, API, UI 서버가 한 번에 실행되도록 환경을 안정화했습니다.",
+    },
+    {
+      title: "False Positive Posture Alerts",
+      problem: "노트북 카메라 각도 때문에 정상 자세에서도 거북목 WARNING이 반복적으로 발생했습니다.",
+      solution: "눈썹 좌표 기반 판정 임계값을 0.5에서 0.65로 완화하고, 실제로 고개가 깊게 숙여진 경우에만 반응하도록 튜닝했습니다.",
+    },
+    {
+      title: "Face Lost UX Gap",
+      problem: "사용자가 고개를 숙여 얼굴이 사라졌는데도 시스템이 자리 비움 유예로 처리해 피드백이 늦었습니다.",
+      solution: "얼굴 미검출 즉시 '딴짓 의심' 상태와 메시지를 노출해 감지 결과가 사용자 행동 교정으로 바로 이어지게 했습니다.",
+    },
+  ] : isCoffee ? [
+    {
+      title: "Gauge and Number Mismatch",
+      problem: "오늘 섭취량이 0mg인데 게이지는 이전 잔존량 기준으로 차 있어 수치와 시각화가 어긋났습니다.",
+      solution: "선택된 모드 값을 담는 displayAmount를 기준으로 게이지와 숫자를 동시에 계산하도록 바꿔 UI 데이터 정합성을 맞췄습니다.",
+    },
+    {
+      title: "Temporal Dead Zone Error",
+      problem: "currentMessage가 characterMessages보다 먼저 평가되어 앱이 초기 렌더에서 멈췄습니다.",
+      solution: "캐릭터 메시지 맵을 먼저 선언하고, 이후 현재 상태 메시지를 계산하도록 선언 순서를 재배치했습니다.",
+    },
+    {
+      title: "Animated History Markup",
+      problem: "History.tsx에 motion.div와 AnimatePresence를 넣는 과정에서 태그 구조가 꼬여 리스트가 깨졌습니다.",
+      solution: "map 구조와 닫는 태그 위치를 정리하고 AnimatePresence를 리스트 바깥에 배치해 삭제 애니메이션을 안정화했습니다.",
+    },
+  ] : [];
 
   const trimTrailingPunctuation = (url = "") => {
     const match = url.match(/[.,!?)]*$/);
@@ -321,15 +356,15 @@ export default function ProjectDetail() {
               <div className="story-intro-block">
                 <span className="story-intro-label">Opening Note</span>
                 <p className="para-text intro-text drop-cap" style={{ whiteSpace: 'pre-wrap' }}>
-                  {renderTextWithLinks(isSceneDiary ? sceneDiaryIntro : isFixie ? fixieIntro : introParagraph)}
+                  {renderTextWithLinks(isSceneDiary ? sceneDiaryIntro : isFixie ? fixieIntro : isFocusMate ? focusMateIntro : isCoffee ? coffeeIntro : introParagraph)}
                 </p>
               </div>
             )}
 
             {readmeMedia.length > 0 && (
               <section className="readme-media-panel" aria-labelledby="readme-media-title">
-                <div className="notes-kicker">README Media</div>
-                <h2 id="readme-media-title">Demo assets from GitHub README</h2>
+                <div className="notes-kicker">Demo Highlights</div>
+                <h2 id="readme-media-title">{isCoffee ? "Caffeine flow in motion" : "Interaction and posture preview"}</h2>
                 <div className={`readme-media-grid ${isCoffee ? "coffee-media-grid" : ""}`}>
                   {readmeMedia.map((item) => (
                     <article className={`readme-media-card ${item.aspect || ""}`} key={item.title}>
@@ -355,6 +390,23 @@ export default function ProjectDetail() {
                       </div>
                       <h3>{item.title}</h3>
                       <p>{item.caption}</p>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {troubleshootingItems.length > 0 && (
+              <section className="troubleshooting-panel" aria-labelledby="troubleshooting-title">
+                <div className="notes-kicker">Troubleshooting</div>
+                <h2 id="troubleshooting-title">Problems I traced and fixed</h2>
+                <div className="troubleshooting-list">
+                  {troubleshootingItems.map((item, index) => (
+                    <article key={item.title} className="troubleshooting-card">
+                      <span>{String(index + 1).padStart(2, "0")}</span>
+                      <h3>{item.title}</h3>
+                      <p><strong>Problem</strong>{item.problem}</p>
+                      <p><strong>Fix</strong>{item.solution}</p>
                     </article>
                   ))}
                 </div>
