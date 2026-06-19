@@ -142,12 +142,14 @@ export default function ProjectDetail() {
     {
       title: "Berry Interaction",
       type: "image",
+      aspect: "portrait",
       src: "https://raw.githubusercontent.com/hoilycat/Focus-Mate-Berry/master/The-Growth-Journey.gif",
       caption: "README의 캐릭터 상호작용 GIF입니다. 사용자의 상태에 따라 베리가 실시간으로 반응하는 흐름을 보여줍니다.",
     },
     {
       title: "Posture Demo",
       type: "image",
+      aspect: "wide",
       src: "https://raw.githubusercontent.com/hoilycat/Focus-Mate-Berry/master/berry-posture-demo.gif",
       caption: "README의 자세 감지 데모 GIF입니다. MediaPipe 기반 자세와 시선 추적 화면을 보여줍니다.",
     },
@@ -157,18 +159,21 @@ export default function ProjectDetail() {
     {
       title: "Main Demo",
       type: "video",
+      aspect: "phone",
       src: "https://raw.githubusercontent.com/hoilycat/Cof-fee-V3/master/docs/media/cof-fee-demo-dark.mp4",
       caption: "README의 메인 데모 영상입니다. Cof/fee의 다크 UI와 주요 사용 흐름을 보여줍니다.",
     },
     {
       title: "Splash Demo",
       type: "video",
+      aspect: "phone",
       src: "https://raw.githubusercontent.com/hoilycat/Cof-fee-V3/master/docs/media/cof-fee-splash-only.mp4",
       caption: "README의 스플래시 데모 영상입니다. 앱 진입 모션과 브랜드 톤을 확인할 수 있습니다.",
     },
     {
       title: "Additional Demo",
       type: "video",
+      aspect: "phone",
       src: "https://raw.githubusercontent.com/hoilycat/Cof-fee-V3/master/docs/media/cof-fee-demo-v2.mp4",
       caption: "README의 추가 데모 영상입니다. 업데이트된 화면 흐름을 보조 자료로 정리했습니다.",
     },
@@ -327,7 +332,7 @@ export default function ProjectDetail() {
                 <h2 id="readme-media-title">Demo assets from GitHub README</h2>
                 <div className={`readme-media-grid ${isCoffee ? "coffee-media-grid" : ""}`}>
                   {readmeMedia.map((item) => (
-                    <article className="readme-media-card" key={item.title}>
+                    <article className={`readme-media-card ${item.aspect || ""}`} key={item.title}>
                       <div className="readme-media-frame">
                         {item.type === "video" ? (
                           <video
