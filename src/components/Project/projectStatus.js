@@ -103,17 +103,19 @@ const ROADMAP_BY_ID = {
     ],
   },
   10: {
-    statusKey: "developing",
+    statusKey: "mvp",
     checkpoints: [
-      { label: "Splash branding direction", done: true },
+      { label: "3-second animated splash overlay", done: true },
       { label: "EXIF/GPS pre-extraction", done: true },
       { label: "Upload image and thumbnail split", done: true },
       { label: "Generation status polling", done: true },
+      { label: "Android media location permission flow", done: true },
+      { label: "Writing and map flow integration", done: true },
     ],
     next: [
-      { label: "Android GPS permission edge cases", done: false },
-      { label: "Splash motion final compression", done: false },
-      { label: "Team integration QA", done: false },
+      { label: "Release build QA", done: false },
+      { label: "Persona writing polish", done: false },
+      { label: "Team handoff and docs cleanup", done: false },
     ],
   },
 };
