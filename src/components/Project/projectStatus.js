@@ -27,9 +27,7 @@ const DEFAULT_ROADMAPS = {
       { label: "Demo-ready page", done: true },
       { label: "Project documentation", done: true },
     ],
-    next: [
-      { label: "운영 경험과 개선 로그 누적", done: false },
-    ],
+    next: [],
   },
 };
 
@@ -108,9 +106,7 @@ const ROADMAP_BY_ID = {
       { label: "History and room recovery", done: true },
       { label: "Responsive frontend deployment", done: true },
     ],
-    next: [
-      { label: "실사용 피드백 기반 UX 개선", done: false },
-    ],
+    next: [],
   },
   6: {
     statusKey: "production",
@@ -120,9 +116,7 @@ const ROADMAP_BY_ID = {
       { label: "Tableau dashboard published", done: true },
       { label: "Portfolio narrative and visuals", done: true },
     ],
-    next: [
-      { label: "추가 데이터셋 기반 후속 분석", done: false },
-    ],
+    next: [],
   },
   7: {
     statusKey: "production",
@@ -132,9 +126,7 @@ const ROADMAP_BY_ID = {
       { label: "Tableau dashboard published", done: true },
       { label: "Portfolio narrative and visuals", done: true },
     ],
-    next: [
-      { label: "코로나 이후 장기 추세 업데이트", done: false },
-    ],
+    next: [],
   },
   8: {
     statusKey: "production",
@@ -144,9 +136,7 @@ const ROADMAP_BY_ID = {
       { label: "Tableau dashboard published", done: true },
       { label: "Portfolio narrative and visuals", done: true },
     ],
-    next: [
-      { label: "박물관별 상세 스토리 확장", done: false },
-    ],
+    next: [],
   },
   9: {
     statusKey: "production",
@@ -156,9 +146,7 @@ const ROADMAP_BY_ID = {
       { label: "Tableau dashboard published", done: true },
       { label: "Portfolio narrative and visuals", done: true },
     ],
-    next: [
-      { label: "국가/언어권 비교 분석 확장", done: false },
-    ],
+    next: [],
   },
   10: {
     statusKey: "mvp",

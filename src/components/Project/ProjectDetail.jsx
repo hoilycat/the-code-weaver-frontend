@@ -51,8 +51,10 @@ export default function ProjectDetail() {
   const techBadges = getTechBadges(noteSections, project);
   const developmentStatus = getDevelopmentStatus(project);
   const projectRoadmap = getProjectRoadmap(project);
-  const completedRoadmapCount = projectRoadmap.checkpoints.filter((item) => item.done).length;
-  const totalRoadmapCount = projectRoadmap.checkpoints.length + projectRoadmap.next.length;
+  const roadmapItems = [...projectRoadmap.checkpoints, ...projectRoadmap.next];
+  const completedRoadmapCount = roadmapItems.filter((item) => item.done).length;
+  const totalRoadmapCount = roadmapItems.length;
+  const hasNextRoadmap = projectRoadmap.next.length > 0;
   const hasTechStackSection = noteSections.some((section) => section.title === "Tech Stack");
   const displayedNoteSections = noteSections.filter((section) => {
     if (section.title === "Project Type") return false;
@@ -397,17 +399,19 @@ export default function ProjectDetail() {
                     ))}
                   </ul>
                 </article>
-                <article>
-                  <h3>Next</h3>
-                  <ul>
-                    {projectRoadmap.next.map((item) => (
-                      <li key={item.label} className={item.done ? "done" : "todo"}>
-                        <span aria-hidden="true">{item.done ? "✓" : "□"}</span>
-                        {item.label}
-                      </li>
-                    ))}
-                  </ul>
-                </article>
+                {hasNextRoadmap && (
+                  <article>
+                    <h3>Next</h3>
+                    <ul>
+                      {projectRoadmap.next.map((item) => (
+                        <li key={item.label} className={item.done ? "done" : "todo"}>
+                          <span aria-hidden="true">{item.done ? "✓" : "□"}</span>
+                          {item.label}
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+                )}
               </div>
             </section>
 

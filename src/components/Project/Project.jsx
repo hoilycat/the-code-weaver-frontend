@@ -203,8 +203,9 @@ export default function Project() {
             {filtered.map((project, index) => {
               const developmentStatus = getDevelopmentStatus(project);
               const roadmap = getProjectRoadmap(project);
-              const completedCount = roadmap.checkpoints.filter((item) => item.done).length;
-              const totalCount = roadmap.checkpoints.length + roadmap.next.length;
+              const roadmapItems = [...roadmap.checkpoints, ...roadmap.next];
+              const completedCount = roadmapItems.filter((item) => item.done).length;
+              const totalCount = roadmapItems.length;
 
               return (
                 <div
