@@ -528,6 +528,10 @@
   margin: 0 auto;
 }
 
+.roadmap-grid.completed-roadmap {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .roadmap-grid article {
   min-width: 0;
   padding: 24px 22px;

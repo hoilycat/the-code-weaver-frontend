@@ -387,7 +387,7 @@ export default function ProjectDetail() {
                 </div>
               </div>
 
-              <div className="roadmap-grid">
+              <div className={`roadmap-grid ${hasNextRoadmap ? "" : "completed-roadmap"}`}>
                 <article>
                   <h3>v1.0 / Current</h3>
                   <ul>
