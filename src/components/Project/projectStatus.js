@@ -111,10 +111,10 @@ const ROADMAP_BY_ID = {
       { label: "Generation status polling", done: true },
       { label: "Android media location permission flow", done: true },
       { label: "Writing and map flow integration", done: true },
+      { label: "Persona-based diary writing", done: true },
     ],
     next: [
       { label: "Release build QA", done: false },
-      { label: "Persona writing polish", done: false },
       { label: "Team handoff and docs cleanup", done: false },
     ],
   },
