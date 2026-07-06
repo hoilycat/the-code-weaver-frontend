@@ -236,6 +236,45 @@
   font-weight: bold;
   letter-spacing: 0.05em;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 3;
+  text-transform: uppercase;
+}
+
+.status-pill.production {
+  color: #2f6f55;
+  background-color: #f3faf4;
+}
+
+.status-pill.mvp {
+  color: #7b6730;
+  background-color: #fff8de;
+}
+
+.status-pill.developing {
+  color: #9a5b36;
+  background-color: #fff1e7;
+}
+
+.card-status-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+  margin-top: 8px;
+  padding: 6px 9px;
+  border: 1px solid rgba(249, 247, 242, 0.42);
+  background: rgba(33, 52, 72, 0.28);
+  color: #F9F7F2;
+  font-family: "Superclarendon", "RIDIBatang", serif;
+  font-size: 0.68rem;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+.card-status-line span:last-child {
+  font-size: 0.62rem;
+  opacity: 0.78;
 }
 
 /* 링크 텍스트 스타일 */

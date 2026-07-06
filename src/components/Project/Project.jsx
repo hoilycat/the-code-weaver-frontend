@@ -5,11 +5,11 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Project.css';
 import { fallbackProjects } from './fallbackProjects';
+import { getDevelopmentStatus, getProjectRoadmap } from './projectStatus';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
 export default function Project() {
   const [projects, setProjects] = useState([]);
   const [filter, setFilter] = useState('All');
@@ -200,26 +200,35 @@ export default function Project() {
               </div>
             )}
 
-            {filtered.map((project, index) => (
-              <div
-                key={project.id}
-                ref={el => cardsRef.current[index] = el}
-                className={`project-card ${project.size || 'small'}`}
-                onClick={() => navigate(`/project/${project.id}`)}
-                style={{ "--bg-image": `url(${getImageUrl(project.snapshot)})` }}
-              >
-                {project.status === "In Progress" && (
-                  <div className="status-pill">Working...</div>
-                )}
+            {filtered.map((project, index) => {
+              const developmentStatus = getDevelopmentStatus(project);
+              const roadmap = getProjectRoadmap(project);
+              const completedCount = roadmap.checkpoints.filter((item) => item.done).length;
+              const totalCount = roadmap.checkpoints.length + roadmap.next.length;
 
-                <div className="card-info">
-                  <span className="tag">{project.category}</span>
-                  <h3>{project.title}</h3>
-                  <p className="card-summary">{project.description?.substring(0, 50)}...</p>
-                  <p className="click-guide">Read More →</p>
+              return (
+                <div
+                  key={project.id}
+                  ref={el => cardsRef.current[index] = el}
+                  className={`project-card ${project.size || 'small'} status-${developmentStatus.tone}`}
+                  onClick={() => navigate(`/project/${project.id}`)}
+                  style={{ "--bg-image": `url(${getImageUrl(project.snapshot)})` }}
+                >
+                  <div className={`status-pill ${developmentStatus.tone}`}>{developmentStatus.shortLabel}</div>
+
+                  <div className="card-info">
+                    <span className="tag">{project.category}</span>
+                    <h3>{project.title}</h3>
+                    <div className="card-status-line" aria-label={`Development status: ${developmentStatus.label}`}>
+                      <span>{developmentStatus.label}</span>
+                      <span>{completedCount}/{totalCount}</span>
+                    </div>
+                    <p className="card-summary">{project.description?.substring(0, 50)}...</p>
+                    <p className="click-guide">Read More →</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </>
         ) : (
           <div className="empty-announcement">

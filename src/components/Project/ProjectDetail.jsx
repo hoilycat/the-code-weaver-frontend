@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { API_BASE_URL, getImageUrl } from '../../config';
 import { BADGE_ICONS, getProjectBadges, getTechBadges, parseProjectNotes, splitDescription } from './projectNotes';
 import { fallbackProjects } from './fallbackProjects';
+import { getDevelopmentStatus, getProjectRoadmap } from './projectStatus';
 import './ProjectDetail.css'; 
 
 export default function ProjectDetail() {
@@ -48,6 +49,10 @@ export default function ProjectDetail() {
   const noteSections = parseProjectNotes(notesText);
   const projectBadges = getProjectBadges(project, noteSections);
   const techBadges = getTechBadges(noteSections, project);
+  const developmentStatus = getDevelopmentStatus(project);
+  const projectRoadmap = getProjectRoadmap(project);
+  const completedRoadmapCount = projectRoadmap.checkpoints.filter((item) => item.done).length;
+  const totalRoadmapCount = projectRoadmap.checkpoints.length + projectRoadmap.next.length;
   const hasTechStackSection = noteSections.some((section) => section.title === "Tech Stack");
   const displayedNoteSections = noteSections.filter((section) => {
     if (section.title === "Project Type") return false;
@@ -313,7 +318,7 @@ export default function ProjectDetail() {
             <span className="sep">/</span>
             <span>{project.period || '2026'}</span>
             <span className="sep">/</span>
-            <span>{project.status}</span>
+            <span>{developmentStatus.label}</span>
           </div>
           <div className="project-badge-row" aria-label="Project tags">
             {projectBadges.map((badge) => (
@@ -366,6 +371,45 @@ export default function ProjectDetail() {
                 </p>
               </div>
             )}
+
+            <section className={`development-status-panel ${developmentStatus.tone}`} aria-labelledby="development-status-title">
+              <div className="development-status-head">
+                <div>
+                  <div className="notes-kicker">Development Status</div>
+                  <h2 id="development-status-title">{developmentStatus.label}</h2>
+                  <p>{developmentStatus.summary}</p>
+                </div>
+                <div className="development-progress" aria-label={`${completedRoadmapCount} of ${totalRoadmapCount} roadmap items completed`}>
+                  <strong>{completedRoadmapCount}/{totalRoadmapCount}</strong>
+                  <span>roadmap</span>
+                </div>
+              </div>
+
+              <div className="roadmap-grid">
+                <article>
+                  <h3>v1.0 / Current</h3>
+                  <ul>
+                    {projectRoadmap.checkpoints.map((item) => (
+                      <li key={item.label} className={item.done ? "done" : "todo"}>
+                        <span aria-hidden="true">{item.done ? "✓" : "□"}</span>
+                        {item.label}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+                <article>
+                  <h3>Next</h3>
+                  <ul>
+                    {projectRoadmap.next.map((item) => (
+                      <li key={item.label} className={item.done ? "done" : "todo"}>
+                        <span aria-hidden="true">{item.done ? "✓" : "□"}</span>
+                        {item.label}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              </div>
+            </section>
 
             {readmeMedia.length > 0 && (
               <section className="readme-media-panel" aria-labelledby="readme-media-title">
