@@ -50,9 +50,13 @@
 
 .project-card h3 {
   font-family: 'Myeongjo', serif; /* 제목 명조체 [cite: 278] */
-  font-size: 1.5rem;
+  font-size: clamp(1.05rem, 1.35vw, 1.28rem);
   font-weight: 300;
-  margin-bottom: 5px;
+  line-height: 1.2;
+  margin: 10px auto 5px;
+  max-width: 92%;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
 }
 
 /* 카드 배경 이미지 (snapshot) */
@@ -78,6 +82,17 @@
   position: relative;
   z-index: 2;
   transition: transform 0.5s ease;
+}
+
+.card-info .tag {
+  display: block;
+  max-width: calc(100% - 132px);
+  margin: 0 auto;
+  font-size: 0.86rem;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .project-card:hover .card-info {
@@ -314,7 +329,13 @@
   }
 
   .project-card h3 {
-    font-size: 1.3rem !important;
+    font-size: 1.12rem !important;
+    max-width: 94%;
+  }
+
+  .card-info .tag {
+    max-width: calc(100% - 112px);
+    font-size: 0.78rem;
   }
 
   .filter-nav {
