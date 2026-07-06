@@ -166,6 +166,23 @@ const ROADMAP_BY_ID = {
       { label: "Team handoff and docs cleanup", done: false },
     ],
   },
+  11: {
+    statusKey: "developing",
+    checkpoints: [
+      { label: "OpenCV C++ environment", done: true },
+      { label: "X-ray preprocessing pipeline", done: true },
+      { label: "Contour and GT polygon visualization", done: true },
+      { label: "Feature extraction design", done: true },
+      { label: "SVM 4-class classifier", done: true },
+      { label: "86.2% accuracy and result.json", done: true },
+    ],
+    next: [
+      { label: "Confusion Matrix analysis", done: false },
+      { label: "YOLOv8 defect detection", done: false },
+      { label: "Risk scoring and cause rules", done: false },
+      { label: "Gradio/HuggingFace demo", done: false },
+    ],
+  },
 };
 
 const ROADMAP_BY_TITLE = [
@@ -192,6 +209,10 @@ const ROADMAP_BY_TITLE = [
   {
     match: "Fixie",
     roadmap: ROADMAP_BY_ID[5],
+  },
+  {
+    match: "WeldVision",
+    roadmap: ROADMAP_BY_ID[11],
   },
 ];
 

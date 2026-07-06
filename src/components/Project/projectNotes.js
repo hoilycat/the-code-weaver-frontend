@@ -27,6 +27,9 @@ export const PROJECT_TYPE_OPTIONS = [
 
 export const TECH_OPTIONS = [
   "Python",
+  "C++",
+  "CMake",
+  "Gradio",
   "FastAPI",
   "React",
   "React Native",
@@ -103,6 +106,9 @@ export const BADGE_ICONS = {
   "Frontend": "FE",
   "Backend": "BE",
   "Python": "PY",
+  "C++": "C++",
+  "CMake": "CM",
+  "Gradio": "GR",
   "FastAPI": "FA",
   "React": "RX",
   "React Native": "RN",
@@ -185,6 +191,10 @@ export const BADGE_ICONS = {
 
 const BADGES_BY_PROJECT = [
   {
+    match: "WeldVision",
+    badges: ["AI", "Computer Vision"]
+  },
+  {
     match: "Focus Mate Berry",
     badges: ["Full-stack", "AI", "Computer Vision", "UX"]
   },
@@ -211,6 +221,16 @@ const BADGES_BY_PROJECT = [
 ];
 
 const TECH_BY_PROJECT = [
+  {
+    match: "WeldVision",
+    tech: [
+      "C++",
+      "OpenCV",
+      "CMake",
+      "Python",
+      "Gradio"
+    ]
+  },
   {
     match: "SceneDiary",
     tech: [

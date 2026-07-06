@@ -10,6 +10,12 @@ import { getDevelopmentStatus, getProjectRoadmap } from './projectStatus';
 gsap.registerPlugin(ScrollTrigger);
 
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const mergeFallbackProjects = (liveProjects = []) => {
+  const liveIds = new Set(liveProjects.map((project) => Number(project.id)));
+  const missingFallbackProjects = fallbackProjects.filter((project) => !liveIds.has(Number(project.id)));
+  return [...liveProjects, ...missingFallbackProjects];
+};
+
 export default function Project() {
   const [projects, setProjects] = useState([]);
   const [filter, setFilter] = useState('All');
@@ -87,7 +93,7 @@ export default function Project() {
 
       try {
         const data = await fetchWithTimeout(`${API_BASE_URL}/api/projects`, background ? 8000 : 12000);
-        setProjects(data);
+        setProjects(mergeFallbackProjects(data));
         setUsingFallback(false);
         setLoading(false);
         refreshProjectLayout();
