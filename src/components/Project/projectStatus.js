@@ -41,11 +41,14 @@ const ROADMAP_BY_ID = {
       { label: "Berry state machine", done: true },
       { label: "React dashboard and simulator", done: true },
       { label: "Gemini message flow", done: true },
+      { label: "Kakao alert experiment", done: true },
+      { label: "Turtle-neck warning overlay", done: true },
+      { label: "README demo media", done: true },
     ],
     next: [
       { label: "사용자별 자세 기준값 보정", done: false },
       { label: "장시간 사용 오탐률 개선", done: false },
-      { label: "알림/리포트 UX 고도화", done: false },
+      { label: "멘트 은행/Gemini 하이브리드 최적화", done: false },
     ],
   },
   2: {
@@ -81,11 +84,14 @@ const ROADMAP_BY_ID = {
     ],
   },
   4: {
-    statusKey: "developing",
+    statusKey: "mvp",
     checkpoints: [
-      { label: "FastAPI agentic core", done: true },
-      { label: "Neo4j domain graph schema", done: true },
-      { label: "Design/Coffee GraphRAG modules", done: true },
+      { label: "FastAPI Agentic Core", done: true },
+      { label: "Neo4j GraphRAG schema", done: true },
+      { label: "Design/Coffee domain modules", done: true },
+      { label: "Health and design chunk ingestion", done: true },
+      { label: "/rag/query shared endpoint", done: true },
+      { label: "/rag/evidence debug endpoint", done: true },
       { label: "Provider and search agent structure", done: true },
     ],
     next: [
@@ -104,6 +110,54 @@ const ROADMAP_BY_ID = {
     ],
     next: [
       { label: "실사용 피드백 기반 UX 개선", done: false },
+    ],
+  },
+  6: {
+    statusKey: "production",
+    checkpoints: [
+      { label: "Public data collection and cleanup", done: true },
+      { label: "Traffic, sales, stay-time analysis", done: true },
+      { label: "Tableau dashboard published", done: true },
+      { label: "Portfolio narrative and visuals", done: true },
+    ],
+    next: [
+      { label: "추가 데이터셋 기반 후속 분석", done: false },
+    ],
+  },
+  7: {
+    statusKey: "production",
+    checkpoints: [
+      { label: "Leisure survey data analysis", done: true },
+      { label: "Time, region, age segmentation", done: true },
+      { label: "Tableau dashboard published", done: true },
+      { label: "Portfolio narrative and visuals", done: true },
+    ],
+    next: [
+      { label: "코로나 이후 장기 추세 업데이트", done: false },
+    ],
+  },
+  8: {
+    statusKey: "production",
+    checkpoints: [
+      { label: "9,000+ artifact rows cleaned", done: true },
+      { label: "Human-in-the-loop category rules", done: true },
+      { label: "Tableau dashboard published", done: true },
+      { label: "Portfolio narrative and visuals", done: true },
+    ],
+    next: [
+      { label: "박물관별 상세 스토리 확장", done: false },
+    ],
+  },
+  9: {
+    statusKey: "production",
+    checkpoints: [
+      { label: "130-year name dataset analysis", done: true },
+      { label: "Popularity and diversity metrics", done: true },
+      { label: "Tableau dashboard published", done: true },
+      { label: "Portfolio narrative and visuals", done: true },
+    ],
+    next: [
+      { label: "국가/언어권 비교 분석 확장", done: false },
     ],
   },
   10: {
