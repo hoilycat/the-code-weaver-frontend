@@ -1,15 +1,15 @@
 export const fallbackProjects = [
   {
     id: 11,
-    title: "🔥 WeldVision — 용접 결함 특징 추출 및 SVM 분류",
+    title: "🔥 WeldVision — 결함의 모양을 수치로 읽는 실험",
     category: "AI Projects",
     status: "In Progress",
     snapshot: "https://opengraph.githubassets.com/1/hoilycat/welding-defect-detection",
     link: "https://github.com/hoilycat/welding-defect-detection",
     period: "2026.06~진행 중",
-    description: `WeldVision은 용접 X-ray 이미지와 JSON 폴리곤 라벨을 이용해 결함의 물리적 특징을 추출하고, SVM으로 결함 종류를 분류하는 머신비전 실험입니다.
+    description: `WeldVision은 용접 X-ray 이미지 속 결함을 먼저 눈으로 이해하고, 그 모양을 수치로 번역해보는 머신비전 실험입니다. 자동 검출로 바로 뛰어가기보다, JSON 폴리곤 라벨을 이용해 결함의 면적, 원형도, 종횡비, 밝기 통계를 추출하고 SVM으로 종류를 분류하는 단계에서 시작했습니다.
 
-처음부터 딥러닝 모델만 붙이는 대신, C++과 OpenCV로 결함의 물리적 특징을 직접 이해하는 구조에서 시작했습니다. CLAHE와 blur로 이미지를 전처리하고, 제공된 GT 폴리곤 라벨로 마스크를 만든 뒤 면적, 원형도, 종횡비, 밝기 평균과 표준편차, 정규화 면적 같은 특징을 계산합니다. 이 특징들은 단순 분류용 수치가 아니라, 이후 위험도 스코어링과 결함 원인 추론에 재사용할 도메인 지식으로 설계했습니다.
+현재 C++과 OpenCV로 CLAHE 전처리, GT 폴리곤 마스크 생성, 특징 추출, SVM 4클래스 분류를 구현했습니다. 이 특징들은 단순 분류용 숫자가 아니라, 이후 YOLOv8 검출과 위험도 스코어링으로 확장할 때 결함을 설명하는 근거로 재사용할 수 있도록 설계했습니다.
 
 현재 GitHub 최신 코드 기준으로 Stage 1 C++ OpenCV MVP는 SVM 4클래스 분류까지 구현되어 있으며, README에는 정확도 86.2%와 result.json 출력 흐름이 정리되어 있습니다. 다음 단계는 YOLOv8 파인튜닝, Gradio/HuggingFace Spaces 데모, C++ 결과와 YOLO 결과를 나란히 보여주는 품질 분석 화면입니다.
 
@@ -61,35 +61,35 @@ GitHub 최신 기준 Stage 1은 C++ OpenCV 전처리, 특징 추출, SVM 4클래
   },
   {
     id: 4,
-    title: "🔮 Y-Insight Engine— 모든 앱을 연결하는 공통의 뇌",
+    title: "🔮 Y-Insight Engine — 앱들이 함께 쓰는 지식 엔진",
     category: "AI Projects",
     status: "In Progress",
     snapshot: "https://hqefyvwzlhytnmhqbggt.supabase.co/storage/v1/object/public/images/uploads/1778141843010_8e7a80de-dd23-462d-a5cc-2853a8eadb92.png",
-    description: "여러 앱이 함께 쓸 수 있는 공통 AI 백엔드와 도메인별 GraphRAG 구조를 설계한 프로젝트입니다.",
+    description: "Mood-DNA와 Cof/fee가 각자의 화면을 유지하면서 같은 지식 엔진에 질의할 수 있도록 FastAPI 기반 GraphRAG API를 분리한 백엔드 프로젝트입니다.",
   },
   {
     id: 3,
-    title: "🌙 Mood-DNA — 디자이너의 감각을 논리로 증명하는 AI",
+    title: "🌙 Mood-DNA — 감각을 근거로 번역하는 디자인 파트너",
     category: "AI Projects",
     status: "In Progress",
     snapshot: "https://hqefyvwzlhytnmhqbggt.supabase.co/storage/v1/object/public/images/uploads/1778141883119_e2320671-2664-48cd-acf4-abdd0aa16b5d.png",
-    description: "OpenCV와 AI 비평을 결합해 디자인의 시각적 지표와 무드를 분석하는 디자인 파트너입니다.",
+    description: "OpenCV로 디자인의 밝기, 복잡도, 여백, 색상 DNA를 추출하고, YIE GraphRAG 비평으로 논문 근거를 붙이는 AI 디자인 분석 도구입니다.",
   },
   {
     id: 2,
-    title: "☕ Cof/fee — 커피를 안전하게 즐기기 위한 카페인 관리 앱",
+    title: "☕ Cof/fee — 몸에 남은 커피를 읽는 대시보드",
     category: "AI Projects",
     status: "In Progress",
     snapshot: "https://hqefyvwzlhytnmhqbggt.supabase.co/storage/v1/object/public/images/uploads/1778140113100_d9f75ee8-3967-4ba2-ba8a-1f3b4100a994.png",
-    description: "개인화된 카페인 반감기 계산과 수면 신호를 통해 커피 섭취를 조절하는 건강 관리 앱입니다.",
+    description: "React와 Jotai로 섭취 기록을 관리하고, 반감기 계산과 수면 신호등, 금단 위험 알림, YIE GraphRAG 인사이트를 한 흐름으로 묶은 카페인 관리 앱입니다.",
   },
   {
     id: 1,
-    title: "🍓 Focus Mate Berry — 나의 공부 친구",
+    title: "🍓 Focus Mate Berry — 자세를 알아차리는 공부 친구",
     category: "AI Projects",
     status: "In Progress",
     snapshot: "https://hqefyvwzlhytnmhqbggt.supabase.co/storage/v1/object/public/images/uploads/1778119134337_berry.png",
-    description: "MediaPipe와 OpenCV로 공부 자세를 감지하고 캐릭터 상태 변화로 집중을 돕는 AI 공부 친구입니다.",
+    description: "MediaPipe와 OpenCV로 자세와 자리 비움 상태를 감지하고, 그 결과를 Berry의 성장, 경고, 수면 상태로 연결한 AI 공부 파트너입니다.",
   },
   {
     id: 9,

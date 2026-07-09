@@ -73,10 +73,10 @@ export default function ProjectDetail() {
   const isTeamProject = isSceneDiary || isFixie || project.category === "Team Project";
   const ownershipLabel = isTeamProject ? "Team Project" : "Solo Project";
   const ownershipIcon = isTeamProject ? "TM" : "SO";
-  const sceneDiaryIntro = "SceneDiary는 사용자가 업로드한 여행 사진을 AI가 해석하고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 앱입니다.";
-  const fixieIntro = "가전제품 매뉴얼은 두꺼운 종이에 빽빽한 글씨로 가득합니다. Fixie는 그 불편함에서 출발했습니다. QR 코드나 모델명을 스캔해 기기를 등록하면, 매뉴얼을 학습한 AI 픽시와 대화하며 필요한 해결 방법을 바로 찾을 수 있도록 설계했습니다.";
-  const focusMateIntro = "Focus Mate Berry는 단순한 공부 타이머가 아니라, 사용자의 자세와 자리 비움 상태를 감지해 캐릭터의 성장, 경고, 수면 상태로 되돌려주는 AI 공부 파트너입니다. MediaPipe와 OpenCV 기반 감지 로직을 상태 머신과 연결해 집중 행동을 자연스럽게 유지하도록 설계했습니다.";
-  const coffeeIntro = "Cof/fee는 카페인 섭취를 단순 기록하는 앱이 아니라, 반감기 기반 잔존량과 하루 총 섭취량을 나눠 보여주며 사용자가 수면과 금단 위험을 스스로 조절하도록 돕는 카페인 관리 앱입니다. 수치, 캐릭터 반응, AI 인사이트를 한 흐름으로 묶는 데 집중했습니다.";
+  const sceneDiaryIntro = "SceneDiary는 여행 사진을 하루의 장면으로 읽고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 앱입니다. 저는 스플래시 모션과 로고/아이콘 브랜딩, 사진 업로드와 생성 상태 연결 흐름을 맡아 첫인상과 사용 흐름이 끊기지 않도록 다듬고 있습니다.";
+  const fixieIntro = "가전제품 매뉴얼은 필요한 순간일수록 멀리 있습니다. Fixie는 QR 코드나 모델명으로 기기를 등록하고, 매뉴얼을 학습한 AI와 대화하며 필요한 해결 방법을 바로 찾도록 설계한 팀 프로젝트입니다. 저는 화면 구조와 채팅 UX, 기기 상태 동기화 흐름을 맡았습니다.";
+  const focusMateIntro = "Focus Mate Berry는 공부를 감시하는 도구보다, 곁에서 상태를 알아차리는 작은 친구에 가깝습니다. MediaPipe와 OpenCV로 자세와 자리 비움 상태를 감지하고, 그 결과를 Berry의 성장, 경고, 수면 상태로 연결했습니다. 기술적인 감지는 차갑게 두지 않고, 사용자가 애착을 느낄 수 있는 피드백으로 번역하는 데 집중했습니다.";
+  const coffeeIntro = "Cof/fee는 커피를 끊으라는 앱이 아니라, 마시는 시간과 몸에 남는 양을 함께 보게 만드는 카페인 관리 앱입니다. React와 Jotai로 섭취 기록과 잔존량 상태를 관리하고, 반감기 계산, 수면 신호등, 금단 위험 알림을 하나의 대시보드 흐름으로 묶었습니다. v3에서는 YIE GraphRAG를 연결해 사용자의 기록을 논문 기반 피드백으로 확장했습니다.";
   const groupedGalleryProjectIds = [1, 2, 3];
   const sceneDiaryVideos = [
     {
@@ -113,19 +113,19 @@ export default function ProjectDetail() {
   const moodDnaRoleItems = [
     {
       title: "Full-stack Product Build",
-      body: "React 대시보드와 FastAPI 분석 서버를 혼자 설계하고 구현했습니다.",
+      body: "React 대시보드와 FastAPI 분석 서버를 설계해 이미지 업로드부터 분석 결과까지 이어지는 흐름을 만들었습니다.",
     },
     {
       title: "Computer Vision Metrics",
-      body: "OpenCV 기반 밝기, 복잡도, 여백, 대칭성, 색상 DNA 지표를 추출했습니다.",
+      body: "OpenCV 기반 밝기, 복잡도, 여백, 대칭성, 색상 DNA 지표를 추출해 감각적인 판단을 비교 가능한 수치로 바꿨습니다.",
     },
     {
       title: "AI Critique Pipeline",
-      body: "수치 분석 결과를 Gemini/YIE GraphRAG 비평으로 연결해 근거 있는 디자인 피드백을 생성했습니다.",
+      body: "수치 분석 결과를 Gemini와 YIE GraphRAG 비평으로 연결해 디자인 피드백에 논문 근거를 붙였습니다.",
     },
     {
       title: "Decision Dashboard UX",
-      body: "단일 분석, 비교 분석, 배치 오디션, 히스토리 흐름을 한 화면에서 탐색하도록 구성했습니다.",
+      body: "단일 분석, 비교 분석, 배치 오디션, 히스토리 흐름을 한 제품 안에서 탐색하도록 구성했습니다.",
     },
   ];
 
@@ -486,8 +486,8 @@ export default function ProjectDetail() {
                 <div className="notes-kicker">My Role</div>
                 <h2 id="mood-dna-role-title">AI design partner, built end to end</h2>
                 <p>
-                  Mood-DNA V3는 기획부터 디자인 분석 UI, 컴퓨터비전 지표 추출, AI 비평 파이프라인,
-                  GraphRAG 연동까지 전체 흐름을 설계하고 구현한 프로젝트입니다.
+                  Mood-DNA V3는 감으로만 설명하던 디자인 판단을 수치와 근거로 번역하는 도구입니다.
+                  React 분석 UI, FastAPI 이미지 분석 서버, OpenCV 지표 추출, Gemini/YIE GraphRAG 비평 흐름을 하나의 경험으로 엮었습니다.
                 </p>
                 <div className="mood-dna-role-grid">
                   {moodDnaRoleItems.map((item) => (
