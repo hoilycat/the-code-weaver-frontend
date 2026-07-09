@@ -60,7 +60,7 @@ export default function Footer() {
                 ease: "elastic.out(1, 0.4)"
               })
               // 2단계: "Shall we weave together?" 글씨만 따로 우아하게 등장
-              .from("h3", {
+              .from(".footer-title", {
                 y: 20,              
                 opacity: 0,
                 duration: 0.8,
@@ -96,7 +96,7 @@ export default function Footer() {
     }}>
       <img className= "needles" id="bottomneedle" src={bneedle} />
 
-      <h3>
+      <h3 className="footer-title">
         Shall we weave together?
       </h3>
 
@@ -144,4 +144,3 @@ export default function Footer() {
     </footer>
   );
 }
-

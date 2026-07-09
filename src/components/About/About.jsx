@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion"; // eslint-disable-line no-unused-vars
 import yarnImg from "../../assets/images/yarn.svg";
 import pantsImg from "../../assets/images/pants.svg";
@@ -22,16 +22,6 @@ const ThreadPiece = ({ char, progress, range, direction, index }) => {
 
  // 모바일이면 튕겨나가는 거리(xStart)를 100 -> 30으로 줄이기.
   const xStart = direction === "left" ? (isMobile ? -20 : -100) : (isMobile ? 20 : 100);
-
-
-
-  //  Math.random() 대신 index를 넣은 가짜 주사위를 사용한다.
-  // 이렇게 하면 리액트는 "항상 결과가 똑같군!" 하고 안심한다.
-  const randomOffset = useMemo(() => {
-    return (getDeterministicRandom(index + (direction === "left" ? 0 : 100)) - 0.5) * 500;
-  }, [index, direction]);
-
-
 
   const x = useTransform(progress, range, [xStart, 0, (getDeterministicRandom(index) - 0.5) * scatterRange, 0]);
   const y = useTransform(progress, range, [0, 0, isMobile ? 50 : 200, isMobile ? 100 : 400]);

@@ -224,9 +224,7 @@ const TECH_BY_PROJECT = [
     tech: [
       "C++",
       "OpenCV",
-      "CMake",
-      "Python",
-      "Gradio"
+      "CMake"
     ]
   },
   {

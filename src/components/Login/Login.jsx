@@ -26,7 +26,7 @@ const Login = () => {
     } else {
       alert("비밀번호를 다시 확인해주세요.");
     }
-  } catch (err) {
+  } catch {
     alert("서버 연결에 실패했습니다.");
   }
 };

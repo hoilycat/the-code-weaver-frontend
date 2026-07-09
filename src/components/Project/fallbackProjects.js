@@ -1,35 +1,35 @@
 export const fallbackProjects = [
   {
     id: 11,
-    title: "🔥 WeldVision — 용접 결함 자동 검출 머신비전",
+    title: "🔥 WeldVision — 용접 결함 특징 추출 및 SVM 분류",
     category: "AI Projects",
     status: "In Progress",
     snapshot: "https://opengraph.githubassets.com/1/hoilycat/welding-defect-detection",
     link: "https://github.com/hoilycat/welding-defect-detection",
     period: "2026.06~진행 중",
-    description: `WeldVision은 용접 X-ray 이미지에서 결함을 자동으로 분류하고, 이후 YOLOv8 기반 검출과 위험도 해석까지 확장하기 위해 만든 머신비전 프로젝트입니다.
+    description: `WeldVision은 용접 X-ray 이미지와 JSON 폴리곤 라벨을 이용해 결함의 물리적 특징을 추출하고, SVM으로 결함 종류를 분류하는 머신비전 실험입니다.
 
-처음부터 딥러닝 모델만 붙이는 대신, C++과 OpenCV로 결함의 물리적 특징을 직접 추출하는 구조에서 시작했습니다. CLAHE와 blur로 이미지를 전처리하고, Otsu threshold와 morphology로 결함 후보를 분리한 뒤 면적, 둘레, 원형도, 종횡비, 밝기 평균과 표준편차, blob 개수 같은 특징을 계산합니다. 이 특징들은 단순 분류용 수치가 아니라, 이후 위험도 스코어링과 결함 원인 추론에 재사용할 도메인 지식으로 설계했습니다.
+처음부터 딥러닝 모델만 붙이는 대신, C++과 OpenCV로 결함의 물리적 특징을 직접 이해하는 구조에서 시작했습니다. CLAHE와 blur로 이미지를 전처리하고, 제공된 GT 폴리곤 라벨로 마스크를 만든 뒤 면적, 원형도, 종횡비, 밝기 평균과 표준편차, 정규화 면적 같은 특징을 계산합니다. 이 특징들은 단순 분류용 수치가 아니라, 이후 위험도 스코어링과 결함 원인 추론에 재사용할 도메인 지식으로 설계했습니다.
 
 현재 GitHub 최신 코드 기준으로 Stage 1 C++ OpenCV MVP는 SVM 4클래스 분류까지 구현되어 있으며, README에는 정확도 86.2%와 result.json 출력 흐름이 정리되어 있습니다. 다음 단계는 YOLOv8 파인튜닝, Gradio/HuggingFace Spaces 데모, C++ 결과와 YOLO 결과를 나란히 보여주는 품질 분석 화면입니다.
 
 [Project Notes]
 
 Role
-C++ 기반 고전비전 파이프라인 설계, OpenCV 전처리와 특징 추출, SVM 분류 실험, README 로드맵 정리, C++ 결과를 Python/Gradio 단계로 넘기기 위한 JSON 브리지 설계를 담당했습니다.
+C++ 기반 고전비전 파이프라인 설계, OpenCV 전처리와 특징 추출, SVM 분류 실험, README 로드맵 정리, 이후 Python/Gradio 단계로 확장하기 위한 JSON 브리지 구상을 담당했습니다.
 
 Project Type
 AI, Computer Vision
 
 Tech Stack
-C++, OpenCV, CMake, Python, Gradio
+C++, OpenCV, CMake
 
 Core Features
 - 용접 X-ray 이미지 입력과 한글 경로 처리
 - CLAHE, blur, Canny 기반 전처리
-- Otsu threshold와 morphology 기반 결함 후보 분리
+- JSON GT 폴리곤 기반 결함 마스크 생성
 - 컨투어 검출과 GT 폴리곤 시각화
-- 면적, 둘레, 원형도, 종횡비, 밝기 통계, blob 개수 특징 추출
+- 면적, 원형도, 종횡비, 밝기 통계, 정규화 면적 특징 추출
 - OpenCV SVM 4클래스 분류 실험
 - 86.2% 정확도 기록과 result.json 출력
 - YOLOv8 검출 및 Gradio 데모 확장 로드맵
@@ -38,7 +38,7 @@ Visual Decision
 이 프로젝트의 시각화는 예쁜 대시보드보다 검사자가 결함 근거를 이해하는 데 초점을 둡니다. 원본, 전처리, Canny, GT 폴리곤, C++ 특징 결과를 나란히 비교해 모델이 무엇을 보고 판단했는지 드러내는 방향으로 설계했습니다.
 
 Technical Challenge
-가장 어려운 부분은 결함 이미지의 물리적 특징을 수치로 안정적으로 뽑아내는 일이었습니다. 균열, 기공, 융합불량, 슬래그혼입은 형태와 밝기 패턴이 다르기 때문에 단일 threshold만으로는 부족했고, 전처리와 contour/morphology 조건을 반복 조정해야 했습니다. 또한 로컬 데이터 경로와 한글 폴더명을 C++에서 안정적으로 다루는 문제도 함께 해결했습니다.
+가장 어려운 부분은 JSON 폴리곤 라벨과 X-ray 이미지를 연결해 결함의 물리적 특징을 안정적으로 수치화하는 일이었습니다. 균열, 기공, 융합불량, 슬래그혼입은 형태와 밝기 패턴이 다르기 때문에 원형도, 종횡비, 밝기 통계, 정규화 면적 같은 특징을 반복 비교해야 했습니다. 또한 로컬 데이터 경로와 한글 폴더명을 C++에서 안정적으로 다루는 문제도 함께 해결했습니다.
 
 Result / Status
 GitHub 최신 기준 Stage 1은 C++ OpenCV 전처리, 특징 추출, SVM 4클래스 분류, 정확도 86.2%, result.json 출력까지 구현된 상태입니다. YOLOv8 검출, 위험도 스코어링, Gradio/HuggingFace Spaces 데모는 다음 단계로 남겨두었습니다.`,

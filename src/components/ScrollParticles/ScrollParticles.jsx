@@ -1,22 +1,21 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useLocation } from 'react-router-dom';// eslint-disable-line no-unused-vars
+import { useLocation } from 'react-router-dom';
 
 
 gsap.registerPlugin(ScrollTrigger);
+
+const THEME_COLORS = {
+  blue: '#94B4C1',
+  navy: '#213448',
+  yarns: ['#94B4C1', '#A69082', '#7E8D85', '#C1B2AB', '#547792']
+};
 
 const ScrollParticles = () => {
   const containerRef = useRef(null);
   const location = useLocation(); // 현재 내가 어느 페이지에 있는지 확인
   const triggerRef = useRef(null); // 스크롤 트리거가 될 요소 참조 (예: 프로젝트 섹션)
-  
-  // 테마에 맞춘 저채도 털실 색상
-  const themeColors = {
-    blue: '#94B4C1',
-    navy: '#213448',
-    yarns: ['#94B4C1', '#A69082', '#7E8D85', '#C1B2AB', '#547792']
-  };
 
   useEffect(() => {
     // 메인 페이지("/")가 아니면 아무것도 하지 않음
@@ -27,7 +26,6 @@ const ScrollParticles = () => {
 
 const timer = setTimeout(() => {   
     const aboutSection = document.getElementById('About');
-    const projectSection = document.getElementById('Projects');
     
     const createParticle = (direction) => {
       const container = containerRef.current;
@@ -62,8 +60,7 @@ const timer = setTimeout(() => {
         const yarn = document.createElement('div');
         yarn.className = 'particle-yarn';
 
-        const color = themeColors.yarns[Math.floor(Math.random() * themeColors.yarns.length)];
-        const size = Math.random() * 100 + 50;//실 길이
+        const color = THEME_COLORS.yarns[Math.floor(Math.random() * THEME_COLORS.yarns.length)];
         const yarnWidth = Math.random() * 100 + 80; //실 두께
 
         // 실 디자인: 구불구불한 곡선 + 랜덤한 색상 + 몽글몽글한 끝 + 살짝 흐릿한 그림자
@@ -143,8 +140,8 @@ const timer = setTimeout(() => {
         star.innerHTML = `
           <svg viewBox="0 0 512 512" style="width:100%; height:100%;">
             <path d="M256 0c-4.4 135.5-120.5 251.6-256 256 135.5 4.4 251.6 120.5 256 256 4.4-135.5 120.5-251.6 256-256-135.5-4.4-251.6-120.5-256-256z" 
-                  fill="${themeColors.blue}" 
-                  stroke="${themeColors.navy}" 
+                  fill="${THEME_COLORS.blue}" 
+                  stroke="${THEME_COLORS.navy}" 
                   stroke-width="20"
             />
           </svg>

@@ -111,7 +111,7 @@ const ProjectEdit = () => {
         alert("🎉 작품 정보가 성공적으로 수정되었습니다!");
         navigate(`/project/${id}`); // 수정 후 상세페이지로 이동
       }
-    } catch (err) { alert("수정 중 에러 발생!"); }
+    } catch { alert("수정 중 에러 발생!"); }
     finally { setIsSubmitting(false); }
   };
 
