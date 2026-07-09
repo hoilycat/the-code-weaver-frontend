@@ -241,7 +241,10 @@ const TECH_BY_PROJECT = [
       "expo-image-manipulator",
       "expo-location",
       "expo-splash-screen",
-      "PostgreSQL",
+      "Python",
+      "FastAPI",
+      "SQLAlchemy",
+      "PostgreSQL/PostGIS",
       "Neo4j",
       "OpenAI SDK",
       "Docker Compose"
@@ -289,9 +292,7 @@ const TECH_BY_PROJECT = [
       "Jotai",
       "Recharts",
       "Day.js",
-      "Neo4j",
-      "GraphRAG",
-      "Ollama"
+      "YIE GraphRAG"
     ]
   },
   {
