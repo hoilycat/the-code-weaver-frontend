@@ -1,47 +1,51 @@
 export const fallbackProjects = [
   {
     id: 11,
-    title: "🔥 WeldVision — 결함의 모양을 수치로 읽는 실험",
+    title: "WeldVision — RT·VT 용접 결함 검출 및 해석 시스템",
     category: "AI Projects",
-    status: "In Progress",
+    status: "MVP Complete",
     snapshot: "https://opengraph.githubassets.com/1/hoilycat/welding-defect-detection",
     link: "https://github.com/hoilycat/welding-defect-detection",
-    period: "2026.06~진행 중",
-    description: `WeldVision은 용접 X-ray 이미지 속 결함을 먼저 눈으로 이해하고, 그 모양을 수치로 번역해보는 머신비전 실험입니다. 자동 검출로 바로 뛰어가기보다, JSON 폴리곤 라벨을 이용해 결함의 면적, 원형도, 종횡비, 밝기 통계를 추출하고 SVM으로 종류를 분류하는 단계에서 시작했습니다.
+    period: "2026.06~2026.07",
+    description: `WeldVision은 방사선 검사(RT)와 육안 검사(VT) 이미지에서 용접 결함의 위치와 종류를 찾고, 검사자가 결과를 이해할 수 있도록 전처리 근거와 위험도·추정 원인·권장 조치를 함께 제공하는 로컬 검사 보조 시스템입니다.
 
-현재 C++과 OpenCV로 CLAHE 전처리, GT 폴리곤 마스크 생성, 특징 추출, SVM 4클래스 분류를 구현했습니다. 이 특징들은 단순 분류용 숫자가 아니라, 이후 YOLOv8 검출과 위험도 스코어링으로 확장할 때 결함을 설명하는 근거로 재사용할 수 있도록 설계했습니다.
+처음에는 자동 검출보다 결함의 모양을 이해하는 데 집중했습니다. C++과 OpenCV로 JSON 정답 폴리곤에서 원형도, 종횡비, 밝기, 면적 특징을 추출하고 SVM 4클래스 분류 정확도 86.2%를 기록했습니다. 이후 기존 RIAWELC 폴리곤 라벨을 YOLO 바운딩 박스로 자동 변환하는 파이프라인을 만들었습니다.
 
-현재 GitHub 최신 코드 기준으로 Stage 1 C++ OpenCV MVP는 SVM 4클래스 분류까지 구현되어 있으며, README에는 정확도 86.2%와 result.json 출력 흐름이 정리되어 있습니다. 다음 단계는 YOLOv8 파인튜닝, Gradio/HuggingFace Spaces 데모, C++ 결과와 YOLO 결과를 나란히 보여주는 품질 분석 화면입니다.
+RT와 VT는 영상 외관과 대상 결함이 달라 별도 YOLOv8 모델로 분리했습니다. RT 모델은 균열·기공·융합불량·슬래그혼입을 검출하는 파일럿으로 mAP50 0.413을 기록했고, VT 모델은 기공·융합불량·용입부족·언더컷을 학습해 최고 mAP50 0.847을 기록했습니다. 최종 VT best.pt는 mAP50 0.838, mAP50-95 0.585입니다.
+
+Gradio 앱에서는 RT/VT 검사 방식을 선택하면 전용 모델과 신뢰도 기준이 자동 적용됩니다. 원본과 검출 박스, CLAHE·Black-hat·Gradient·Emboss 전처리 화면, 특징값, 위험도와 권장 조치를 한 화면에서 비교할 수 있습니다. 이 결과는 검사자를 대체하는 판정이 아니라 결함 후보와 근거를 빠르게 살펴보는 시연용 프로토타입입니다.
 
 [Project Notes]
 
 Role
-C++ 기반 고전비전 파이프라인 설계, OpenCV 전처리와 특징 추출, SVM 분류 실험, README 로드맵 정리, 이후 Python/Gradio 단계로 확장하기 위한 JSON 브리지 구상을 담당했습니다.
+데이터 검증과 YOLO 변환 파이프라인, C++ OpenCV 특징 분석, SVM·YOLOv8 학습, RT/VT Gradio 검사 앱, 결과 검증과 문서화를 전체 설계·구현했습니다.
 
 Project Type
-AI, Computer Vision
+AI, Computer Vision, Solo Project
 
 Tech Stack
-C++, OpenCV, CMake
+C++, OpenCV, Python, YOLOv8, Ultralytics, Gradio, CMake
 
 Core Features
-- 용접 X-ray 이미지 입력과 한글 경로 처리
-- CLAHE, blur, Canny 기반 전처리
-- JSON GT 폴리곤 기반 결함 마스크 생성
-- 컨투어 검출과 GT 폴리곤 시각화
-- 면적, 원형도, 종횡비, 밝기 통계, 정규화 면적 특징 추출
-- OpenCV SVM 4클래스 분류 실험
-- 86.2% 정확도 기록과 result.json 출력
-- YOLOv8 검출 및 Gradio 데모 확장 로드맵
+- JSON 폴리곤 검증 및 YOLO 바운딩 박스 자동 변환
+- 면적 0 라벨과 검사 방식 밖 클래스 자동 제외
+- C++ OpenCV 특징 추출과 SVM 4클래스 분류 정확도 86.2%
+- RT 4클래스 YOLOv8 파일럿 모델, mAP50 0.413
+- VT 4클래스 YOLOv8 모델, 최고 mAP50 0.847
+- RT/VT 검사 방식별 모델과 기본 신뢰도 자동 선택
+- CLAHE, Black-hat, Gradient, Emboss 판독 보조 화면
+- 결함별 위험도, 추정 원인, 판단 근거, 권장 조치 제공
+- 낮은 신뢰도 review 후보와 확정 검출의 구분 표시
+- 최종 보고서, 시연 가이드, 학습 기록 문서화
 
 Visual Decision
-이 프로젝트의 시각화는 예쁜 대시보드보다 검사자가 결함 근거를 이해하는 데 초점을 둡니다. 원본, 전처리, Canny, GT 폴리곤, C++ 특징 결과를 나란히 비교해 모델이 무엇을 보고 판단했는지 드러내는 방향으로 설계했습니다.
+운영 도구처럼 빠르게 비교하고 반복 검사할 수 있도록 입력 조건은 왼쪽, 원본·검출·전처리 근거는 오른쪽에 배치했습니다. 장식보다 결함 박스와 신뢰도, 원본 대비를 우선해 검사자가 결과를 스캔하기 쉬운 구조로 만들었습니다.
 
 Technical Challenge
-가장 어려운 부분은 JSON 폴리곤 라벨과 X-ray 이미지를 연결해 결함의 물리적 특징을 안정적으로 수치화하는 일이었습니다. 균열, 기공, 융합불량, 슬래그혼입은 형태와 밝기 패턴이 다르기 때문에 원형도, 종횡비, 밝기 통계, 정규화 면적 같은 특징을 반복 비교해야 했습니다. 또한 로컬 데이터 경로와 한글 폴더명을 C++에서 안정적으로 다루는 문제도 함께 해결했습니다.
+RT와 VT를 한 모델로 섞지 않고 영상 도메인과 클래스 구성을 분리한 것이 핵심 결정이었습니다. 또한 융합불량과 용입부족의 용어를 명확히 구분하고, 면적 0 라벨·혼합 클래스·과도한 정상 데이터·겹치는 박스를 검증해 학습 데이터의 신뢰도를 높였습니다. 언더컷처럼 작고 연속적인 결함은 다수의 박스로 나뉘어 Recall과 중복 검출을 함께 살펴봐야 했습니다.
 
 Result / Status
-GitHub 최신 기준 Stage 1은 C++ OpenCV 전처리, 특징 추출, SVM 4클래스 분류, 정확도 86.2%, result.json 출력까지 구현된 상태입니다. YOLOv8 검출, 위험도 스코어링, Gradio/HuggingFace Spaces 데모는 다음 단계로 남겨두었습니다.`,
+로컬 MVP를 완료했습니다. VT 최종 모델은 Precision 0.849, Recall 0.780, mAP50 0.838, mAP50-95 0.585를 기록했고 학습 중 최고 mAP50은 0.847입니다. 브라우저에서 용입부족·융합불량·언더컷 사례와 RT/VT 자동 모델 전환을 확인했습니다. 다음 개선 과제는 독립 현장 이미지 평가, RT 성능 확대, 언더컷 Recall 개선입니다.`,
   },
   {
     id: 10,
