@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import './Footer.css';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -32,12 +32,27 @@ const handleLogout = () => {
 export default function Footer() {
 
   const footerRef = useRef(null);//안테나 만들기
+  const needleRef = useRef(null);
+  const titleRef = useRef(null);
+  const contactRefs = useRef([]);
 
-   useEffect(() => {
+   useLayoutEffect(() => {
+      let isActive = true;
+      let resizeTimer;
 
-      // 창 크기 조절 시 ScrollTrigger를 새로고침하는 함수
-      const handleResize = () => ScrollTrigger.refresh();
+      // 연속 resize 중간에는 계산하지 않고, 화면 크기가 안정된 뒤 한 번만 갱신한다.
+      const refreshTrigger = () => {
+        if (!isActive) return;
+        ScrollTrigger.refresh();
+      };
+
+      const handleResize = () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(refreshTrigger, 160);
+      };
+
       window.addEventListener("resize", handleResize);
+      window.addEventListener("load", refreshTrigger, { once: true });
 
       const ctx = gsap.context(() => {
               
@@ -47,39 +62,54 @@ export default function Footer() {
                   trigger: footerRef.current,
                   start: "top 45%", // 푸터가 보이기 시작하면 일제히 시작
                   toggleActions: "play none none reverse", // 올리면 다시 퐁퐁퐁 나오게 세팅
-                  invalidateOnRefresh: true, 
                 }
               });
 
               // 2. 첫 번째 연주: 바늘 애니메이션
-              tl.from("#bottomneedle", {
-                y: -100,             
-                opacity: 0, 
-                rotation: -45,      
-                duration: 1.5, 
-                ease: "elastic.out(1, 0.4)"
+              tl.fromTo(needleRef.current, {
+                y: -100,
+                opacity: 0,
+                rotation: -45,
+              }, {
+                y: 0,
+                opacity: 1,
+                rotation: 0,
+                duration: 1.5,
+                ease: "elastic.out(1, 0.4)",
               })
               // 2단계: "Shall we weave together?" 글씨만 따로 우아하게 등장
-              .from(".footer-title", {
-                y: 20,              
+              .fromTo(titleRef.current, {
+                y: 20,
                 opacity: 0,
+              }, {
+                y: 0,
+                opacity: 1,
                 duration: 0.8,
-                ease: "power2.out" 
+                ease: "power2.out",
               }, "-=1.0") // 바늘이 뒤뚱거리고 있을 때 슬며시 나타남
 
               // 3단계: 연락처 아이콘들이 0.1초 간격으로 통통통! 귀엽게 마무리
-              .from(".contact-item", {
-                y: 30,              
+              .fromTo(contactRefs.current.filter(Boolean), {
+                y: 30,
                 opacity: 0,
+              }, {
+                y: 0,
+                opacity: 1,
                 duration: 0.6,
-                stagger: 0.1,      
-                ease: "back.out(2)" 
+                stagger: 0.1,
+                ease: "back.out(2)",
               }, "-=0.4"); // 글씨가 나타난 직후에 이어서 통통통!
             }, footerRef);
 
+      requestAnimationFrame(refreshTrigger);
+      document.fonts?.ready.then(refreshTrigger);
+
       return () => {
+        isActive = false;
+        clearTimeout(resizeTimer);
         ctx.revert(); // 청소부
         window.removeEventListener("resize", handleResize);
+        window.removeEventListener("load", refreshTrigger);
       };
     }, []);
 
@@ -94,17 +124,18 @@ export default function Footer() {
       alignItems: 'center',
       clipPath: 'polygon(0 15%, 50% 0, 100% 15%, 100% 100%, 0 100%)' // Angled top
     }}>
-      <img className= "needles" id="bottomneedle" src={bneedle} />
+      <img ref={needleRef} className= "needles" id="bottomneedle" src={bneedle} />
 
-      <h3 className="footer-title">
+      <h3 ref={titleRef} className="footer-title">
         Shall we weave together?
       </h3>
 
       
       <div style={{ display: 'flex', gap: '15px', marginBottom: '40px' }}>
-        {contacts.map(item => (
+        {contacts.map((item, index) => (
           <a
             key={item.id}
+            ref={(element) => { contactRefs.current[index] = element; }}
             className="contact-item" // 아이콘들을 한 번에 조종하기 위해 이름표 달기     
             href={item.link}
             target={item.link.startsWith('http') ? "_blank" : "_self"}// 외부 링크는 새 탭, 전화/이메일은 현재 탭에서 열기
