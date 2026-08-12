@@ -43,6 +43,28 @@
   grid-row: span 2;
 }
 
+.project-card.featured {
+  grid-column: 1 / -1;
+  grid-row: span 2;
+}
+
+.project-card.featured h3 {
+  font-size: clamp(1.6rem, 3vw, 2.65rem);
+  max-width: 760px;
+}
+
+.project-card.featured .card-info {
+  width: min(760px, 92%);
+  margin: 0 auto;
+}
+
+.project-card.featured .card-summary {
+  max-width: 680px;
+  max-height: 120px;
+  margin: 14px auto 0;
+  opacity: 0.92;
+}
+
 .project-card.small {
   grid-column: span 1;
   grid-row: span 1;
@@ -327,6 +349,14 @@
     padding: 25px !important;
     box-sizing:border-box;/* 패딩 포함 크기 계산 */
     margin:0px auto !important;
+  }
+
+  .project-card.featured {
+    min-height: 260px !important;
+  }
+
+  .project-card.featured h3 {
+    font-size: 1.55rem !important;
   }
 
   .project-card h3 {

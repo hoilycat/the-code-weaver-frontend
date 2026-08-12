@@ -216,7 +216,7 @@ const ProjectEdit = () => {
                 value={projectNotes.result}
                 onChange={handleNoteChange}
                 rows="4"
-                placeholder="Result / Status / 결과와 현재 상태"
+                placeholder="Results & Limitations / 확인된 결과와 한계"
               />
             </div>
           </section>

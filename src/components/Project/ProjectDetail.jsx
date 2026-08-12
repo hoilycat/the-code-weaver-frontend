@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { API_BASE_URL, getImageUrl } from '../../config';
 import { BADGE_ICONS, getProjectBadges, getTechBadges, parseProjectNotes, splitDescription } from './projectNotes';
-import { fallbackProjects } from './fallbackProjects';
-import { getDevelopmentStatus, getProjectRoadmap } from './projectStatus';
+import { fallbackProjects, mergeEditorialProject } from './fallbackProjects';
 import './ProjectDetail.css'; 
 
 export default function ProjectDetail() {
@@ -28,7 +27,7 @@ export default function ProjectDetail() {
         if (!res.ok) throw new Error(`Project detail failed: ${res.status}`);
         return res.json();
       })
-      .then(data => setProject(data))
+      .then(data => setProject(mergeEditorialProject(data, fallbackProject)))
       .catch(err => {
         console.warn("프로젝트 상세 로딩 실패, 저장된 프로젝트를 사용합니다.", err);
       })
@@ -49,12 +48,9 @@ export default function ProjectDetail() {
   const noteSections = parseProjectNotes(notesText);
   const projectBadges = getProjectBadges(project, noteSections);
   const techBadges = getTechBadges(noteSections, project);
-  const developmentStatus = getDevelopmentStatus(project);
-  const projectRoadmap = getProjectRoadmap(project);
-  const roadmapItems = [...projectRoadmap.checkpoints, ...projectRoadmap.next];
-  const completedRoadmapCount = roadmapItems.filter((item) => item.done).length;
-  const totalRoadmapCount = roadmapItems.length;
-  const hasNextRoadmap = projectRoadmap.next.length > 0;
+  const implementedItems = project.implemented || [];
+  const evidenceItems = project.evidence || [];
+  const nextValidationItems = project.nextValidation || [];
   const hasTechStackSection = noteSections.some((section) => section.title === "Tech Stack");
   const displayedNoteSections = noteSections.filter((section) => {
     if (section.title === "Project Type") return false;
@@ -73,8 +69,11 @@ export default function ProjectDetail() {
   const isTeamProject = isSceneDiary || isFixie || project.category === "Team Project";
   const ownershipLabel = isTeamProject ? "Team Project" : "Solo Project";
   const ownershipIcon = isTeamProject ? "TM" : "SO";
+  const displayedProjectBadges = projectBadges.filter(
+    (badge) => badge !== "Solo Project" && badge !== "Team Project"
+  );
   const sceneDiaryIntro = "SceneDiary는 여행 사진을 하루의 장면으로 읽고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 앱입니다. 저는 로고/아이콘 브랜딩과 3초 mp4 스플래시, 사진 업로드와 생성 상태 연결 흐름을 맡아 첫인상과 사용 흐름이 끊기지 않도록 구현했습니다.";
-  const fixieIntro = "가전제품 매뉴얼은 필요한 순간일수록 멀리 있습니다. Fixie는 QR 코드나 모델명으로 기기를 등록하고, 매뉴얼을 학습한 AI와 대화하며 필요한 해결 방법을 바로 찾도록 설계한 팀 프로젝트입니다. 저는 화면 구조와 채팅 UX, 기기 상태 동기화 흐름을 맡았습니다.";
+  const fixieIntro = "가전제품 매뉴얼은 필요한 순간일수록 멀리 있습니다. Fixie는 QR 코드나 모델명으로 기기를 등록하고, 매뉴얼을 학습한 AI와 대화하며 필요한 해결 방법을 바로 찾도록 설계한 팀 프로젝트입니다. 저는 서비스 디자인과 기기 등록·대시보드·AI 채팅·API 상태 연결을 포함한 프론트엔드 전반을 맡았습니다. 백엔드와 AI 검색 엔진은 팀원의 기여입니다.";
   const focusMateIntro = "Focus Mate Berry는 공부를 감시하는 도구보다, 곁에서 상태를 알아차리는 작은 친구에 가깝습니다. MediaPipe와 OpenCV로 자세와 자리 비움 상태를 감지하고, 그 결과를 Berry의 성장, 경고, 수면 상태로 연결했습니다. 기술적인 감지는 차갑게 두지 않고, 사용자가 애착을 느낄 수 있는 피드백으로 번역하는 데 집중했습니다.";
   const coffeeIntro = "Cof/fee는 커피를 끊으라는 앱이 아니라, 마시는 시간과 몸에 남는 양을 함께 보게 만드는 카페인 관리 앱입니다. React와 Jotai로 섭취 기록과 잔존량 상태를 관리하고, 반감기 계산, 수면 신호등, 금단 위험 알림을 하나의 대시보드 흐름으로 묶었습니다. v3에서는 YIE GraphRAG를 연결해 사용자의 기록을 논문 기반 피드백으로 확장했습니다.";
   const groupedGalleryProjectIds = [1, 2, 3];
@@ -140,7 +139,7 @@ export default function ProjectDetail() {
 
   const getPrimaryLinkLabel = (link = "") => {
     if (!link) return "";
-    if (link.includes("github.com")) return "VIEW CODE ↗";
+    if (link.includes("github.com")) return isTeamProject ? "VIEW TEAM CODE ↗" : "VIEW CODE ↗";
     if (isVideoUrl(link) || link.includes("youtu.be") || link.includes("youtube.com") || link.includes("vimeo.com")) {
       return "WATCH DEMO ↗";
     }
@@ -195,6 +194,39 @@ export default function ProjectDetail() {
   ];
 
   const readmeMedia = isFocusMate ? focusMateReadmeMedia : isCoffee ? coffeeReadmeMedia : [];
+  const characterCompanions = isFocusMate ? [
+    {
+      name: "Berry studying",
+      src: "https://raw.githubusercontent.com/hoilycat/Focus-Mate-Berry/master/berry-react/src/images/study_berry.gif",
+      motion: "companion-roam-right companion-low",
+    },
+    {
+      name: "Berry cheering",
+      src: "https://raw.githubusercontent.com/hoilycat/Focus-Mate-Berry/master/berry-react/src/images/cheerberry.gif",
+      motion: "companion-bob companion-high",
+    },
+    {
+      name: "Berry resting",
+      src: "https://raw.githubusercontent.com/hoilycat/Focus-Mate-Berry/master/berry-react/src/images/sleepingberry.gif",
+      motion: "companion-roam-left companion-middle",
+    },
+  ] : isCoffee ? [
+    {
+      name: "Pro Bean",
+      src: "https://raw.githubusercontent.com/hoilycat/Cof-fee-V3/master/cof-fee/src/assets/characters/pro_bean.png",
+      motion: "companion-roam-right companion-low coffee-companion",
+    },
+    {
+      name: "Coach Kong",
+      src: "https://raw.githubusercontent.com/hoilycat/Cof-fee-V3/master/cof-fee/src/assets/characters/coach_kong.png",
+      motion: "companion-bob companion-high coffee-companion",
+    },
+    {
+      name: "Hustle Bean",
+      src: "https://raw.githubusercontent.com/hoilycat/Cof-fee-V3/master/cof-fee/src/assets/characters/hustle_bean.png",
+      motion: "companion-roam-left companion-middle coffee-companion",
+    },
+  ] : [];
   const heroMedia = getImageUrl(project.snapshot);
   // [수정] 베리와 커피는 섞여 있던 업로드 갤러리 대신 README 대표 미디어만 노출한다.
   const galleryImages = isFocusMate || isCoffee ? [] : (project.images || []).filter(img => img !== project.snapshot);
@@ -316,14 +348,12 @@ export default function ProjectDetail() {
           <span className="mag-issue-no">ISSUE NO. 0{project.id}</span>
           <h1 className="mag-title-large">{project.title}</h1>
           <div className="hero-meta-info">
-            <span>{project.category}</span>
+            <span>{project.editorialLabel || project.category}</span>
             <span className="sep">/</span>
             <span>{project.period || '2026'}</span>
-            <span className="sep">/</span>
-            <span>{developmentStatus.label}</span>
           </div>
           <div className="project-badge-row" aria-label="Project tags">
-            {projectBadges.map((badge) => (
+            {displayedProjectBadges.map((badge) => (
               <span key={badge} className="project-pill">
                 <span className="pill-icon">{BADGE_ICONS[badge] || badge.slice(0, 2).toUpperCase()}</span>
                 <span>{badge}</span>
@@ -346,12 +376,7 @@ export default function ProjectDetail() {
           {/* 왼쪽 고정 정보 (미니 사이드바) */}
           <aside className="mag-sidebar-mini">
              <div className="sidebar-sticky">
-                {isSceneDiary ? (
-                  <div className="private-repo-card">
-                    <span>PRIVATE REPOSITORY</span>
-                    <p>Code access is restricted by team agreement.</p>
-                  </div>
-                ) : project.link && (
+                {project.link && (
                   <a href={project.link} target="_blank" rel="noopener noreferrer" className="mag-visit-btn">
                     {getPrimaryLinkLabel(project.link)}
                   </a>
@@ -374,46 +399,50 @@ export default function ProjectDetail() {
               </div>
             )}
 
-            <section className={`development-status-panel ${developmentStatus.tone}`} aria-labelledby="development-status-title">
-              <div className="development-status-head">
-                <div>
-                  <div className="notes-kicker">Development Status</div>
-                  <h2 id="development-status-title">{developmentStatus.label}</h2>
-                  <p>{developmentStatus.summary}</p>
+            {(implementedItems.length > 0 || evidenceItems.length > 0) && (
+              <section className="development-status-panel" aria-labelledby="project-proof-title">
+                <div className="development-status-head">
+                  <div>
+                    <div className="notes-kicker">Scope & Evidence</div>
+                    <h2 id="project-proof-title">What I built</h2>
+                    <p>{project.proofSummary}</p>
+                  </div>
+                  <div className="development-progress" aria-label={`${evidenceItems.length} evidence items`}>
+                    <strong>{evidenceItems.length}</strong>
+                    <span>evidence items</span>
+                  </div>
                 </div>
-                <div className="development-progress" aria-label={`${completedRoadmapCount} of ${totalRoadmapCount} roadmap items completed`}>
-                  <strong>{completedRoadmapCount}/{totalRoadmapCount}</strong>
-                  <span>roadmap</span>
-                </div>
-              </div>
 
-              <div className={`roadmap-grid ${hasNextRoadmap ? "" : "completed-roadmap"}`}>
-                <article>
-                  <h3>v1.0 / Current</h3>
-                  <ul>
-                    {projectRoadmap.checkpoints.map((item) => (
-                      <li key={item.label} className={item.done ? "done" : "todo"}>
-                        <span aria-hidden="true">{item.done ? "✓" : "□"}</span>
-                        {item.label}
-                      </li>
-                    ))}
-                  </ul>
-                </article>
-                {hasNextRoadmap && (
+                <div className="roadmap-grid">
                   <article>
-                    <h3>Next</h3>
+                    <h3>Implemented</h3>
                     <ul>
-                      {projectRoadmap.next.map((item) => (
-                        <li key={item.label} className={item.done ? "done" : "todo"}>
-                          <span aria-hidden="true">{item.done ? "✓" : "□"}</span>
-                          {item.label}
-                        </li>
+                      {implementedItems.map((item) => (
+                        <li key={item} className="done"><span aria-hidden="true">✓</span>{item}</li>
                       ))}
                     </ul>
                   </article>
-                )}
-              </div>
-            </section>
+                  <article>
+                    <h3>Evidence</h3>
+                    <ul>
+                      {evidenceItems.map((item) => (
+                        <li key={item} className="done"><span aria-hidden="true">•</span>{item}</li>
+                      ))}
+                    </ul>
+                    {nextValidationItems.length > 0 && (
+                      <>
+                      <h3>Next Validation</h3>
+                      <ul>
+                        {nextValidationItems.map((item) => (
+                          <li key={item} className="todo"><span aria-hidden="true">→</span>{item}</li>
+                        ))}
+                      </ul>
+                      </>
+                    )}
+                  </article>
+                </div>
+              </section>
+            )}
 
             {readmeMedia.length > 0 && (
               <section className="readme-media-panel" aria-labelledby="readme-media-title">
@@ -682,7 +711,7 @@ export default function ProjectDetail() {
                 <div className="notes-kicker">Project Notes</div>
                 <h2 id="project-notes-title">What I Built</h2>
                 <div className="notes-badge-row" aria-label="Project type tags">
-                  {projectBadges.map((badge) => (
+                  {displayedProjectBadges.map((badge) => (
                     <span key={badge} className="project-pill compact">
                       <span className="pill-icon">{BADGE_ICONS[badge] || badge.slice(0, 2).toUpperCase()}</span>
                       <span>{badge}</span>
@@ -728,6 +757,19 @@ export default function ProjectDetail() {
           </div>
         )}
       </div>
+
+      {characterCompanions.length > 0 && (
+        <div className={`project-character-companions ${isCoffee ? "coffee-character-companions" : "berry-character-companions"}`} aria-hidden="true">
+          {characterCompanions.map((character) => (
+            <img
+              key={character.name}
+              src={character.src}
+              alt=""
+              className={`project-character-companion ${character.motion}`}
+            />
+          ))}
+        </div>
+      )}
 
       <footer className="mag-clean-footer">
         <div className="footer-line"></div>

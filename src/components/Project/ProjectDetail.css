@@ -13,7 +13,6 @@
   align-items: center;
 }
 
-
 .mag-clean-page {
   background-color: #EAE0CF;
   background-image: 
@@ -24,6 +23,82 @@
   color: #213448;
   font-family: "RIDIBatang", serif;
   align-items: center;
+}
+
+.project-character-companions {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.project-character-companion {
+  position: absolute;
+  width: clamp(68px, 7vw, 104px);
+  height: auto;
+  object-fit: contain;
+  opacity: 0.92;
+  filter: drop-shadow(0 10px 12px rgba(33, 52, 72, 0.16));
+  will-change: transform;
+}
+
+.project-character-companion.coffee-companion {
+  width: clamp(88px, 9vw, 138px);
+}
+
+.companion-low {
+  left: -150px;
+  bottom: 4vh;
+}
+
+.companion-middle {
+  right: -165px;
+  bottom: 32vh;
+}
+
+.companion-high {
+  right: 1.5vw;
+  top: 20vh;
+}
+
+.companion-roam-right {
+  animation: companion-roam-right 28s linear infinite;
+}
+
+.coffee-character-companions .companion-roam-right {
+  animation-duration: 38s;
+}
+
+.companion-roam-left {
+  animation: companion-roam-left 34s linear 5s infinite;
+}
+
+.coffee-character-companions .companion-roam-left {
+  animation-duration: 46s;
+}
+
+.companion-bob {
+  animation: companion-bob 6.5s ease-in-out infinite;
+}
+
+@keyframes companion-roam-right {
+  0% { transform: translate3d(0, 0, 0) rotate(-4deg); }
+  30% { transform: translate3d(35vw, -22px, 0) rotate(3deg); }
+  65% { transform: translate3d(72vw, 10px, 0) rotate(-2deg); }
+  100% { transform: translate3d(calc(100vw + 310px), -16px, 0) rotate(4deg); }
+}
+
+@keyframes companion-roam-left {
+  0% { transform: translate3d(0, 0, 0) rotate(4deg); }
+  35% { transform: translate3d(-38vw, -16px, 0) rotate(-2deg); }
+  70% { transform: translate3d(-74vw, 14px, 0) rotate(3deg); }
+  100% { transform: translate3d(calc(-100vw - 330px), -10px, 0) rotate(-4deg); }
+}
+
+@keyframes companion-bob {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(2deg); }
+  50% { transform: translate3d(-14px, -24px, 0) rotate(-3deg); }
 }
 
 
@@ -1722,5 +1797,43 @@
   }
   .admin-actions-bar button {
     width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .project-character-companion {
+    width: 58px;
+    opacity: 0.84;
+  }
+
+  .project-character-companion.coffee-companion {
+    width: 76px;
+  }
+
+  .project-character-companion:nth-child(3) {
+    display: none;
+  }
+
+  .companion-high {
+    top: 16vh;
+    right: 6px;
+  }
+
+  .companion-low {
+    bottom: 3vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-character-companion {
+    animation: none !important;
+  }
+
+  .companion-low {
+    left: 12px;
+  }
+
+  .companion-middle {
+    right: 12px;
   }
 }

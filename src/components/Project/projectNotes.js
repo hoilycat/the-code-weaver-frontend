@@ -7,6 +7,7 @@ export const NOTE_SECTION_TITLES = [
   "Core Features",
   "Visual Decision",
   "Technical Challenge",
+  "Results & Limitations",
   "Result / Status"
 ];
 
@@ -370,7 +371,8 @@ export const parseProjectNotes = (notesText) => {
     if (!trimmed) return;
 
     if (NOTE_SECTION_TITLES.includes(trimmed)) {
-      current = { title: trimmed, lines: [] };
+      const normalizedTitle = trimmed === "Result / Status" ? "Results & Limitations" : trimmed;
+      current = { title: normalizedTitle, lines: [] };
       sections.push(current);
       return;
     }
@@ -460,7 +462,7 @@ export const buildProjectDescription = (storyText = "", notes = EMPTY_PROJECT_NO
   }
 
   if (notes.result?.trim()) {
-    sections.push(["Result / Status", notes.result.trim()]);
+    sections.push(["Results & Limitations", notes.result.trim()]);
   }
 
   const story = storyText.trim();
@@ -489,7 +491,7 @@ export const extractProjectDraft = (description = "") => {
     }
     if (section.title === "Visual Decision") notes.visualDecision = section.lines.join("\n");
     if (section.title === "Technical Challenge") notes.challenge = section.lines.join("\n");
-    if (section.title === "Result / Status") notes.result = section.lines.join("\n");
+    if (section.title === "Results & Limitations") notes.result = section.lines.join("\n");
   });
 
   const legacyTypes = notes.techStack.filter((item) => PROJECT_TYPE_OPTIONS.includes(item));
