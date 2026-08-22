@@ -534,7 +534,16 @@ export default function ProjectDetail() {
                 <div className="notes-kicker">Demo Preview</div>
                 <h2 id="mood-dna-demo-title">From visual metrics to AI critique</h2>
                 <div className="mood-dna-demo-grid">
-                  <article className="mood-dna-demo-card wide">
+                  <article className="mood-dna-demo-card live-analysis">
+                    <img
+                      src="/media/mood-dna/poster-live-analysis.gif"
+                      alt="생성예술 전시 포스터 4안을 실제 Mood-DNA 백엔드로 분석하는 화면"
+                      loading="lazy"
+                    />
+                    <h3>Live poster critique</h3>
+                    <p>직접 제작한 포스터 4안을 실제 백엔드에 입력해 OpenCV 지표와 YIE GraphRAG 논문 근거, EXAONE 비평까지 확인한 기록입니다.</p>
+                  </article>
+                  <article className="mood-dna-demo-card">
                     <video
                       src="/media/mood-dna/demo-full.mp4"
                       autoPlay

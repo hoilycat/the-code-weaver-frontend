@@ -870,12 +870,21 @@
   text-align: left;
 }
 
+.mood-dna-demo-card.live-analysis {
+  grid-column: 1 / -1;
+}
+
+.mood-dna-demo-card img,
 .mood-dna-demo-card video {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
   background: #111820;
+}
+
+.mood-dna-demo-card.live-analysis img {
+  aspect-ratio: 16 / 9;
 }
 
 .mood-dna-demo-card h3 {
