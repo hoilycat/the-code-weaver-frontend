@@ -316,6 +316,10 @@
   animation: none;
 }
 
+.hero-img-wrapper.weldvision-qa-hero img {
+  animation: none;
+}
+
 @keyframes heroZoom {
   from { transform: scale(1); }
   to { transform: scale(1.05); }
@@ -1501,6 +1505,9 @@
   }
   .hero-img-wrapper {
     height: 35vh;
+  }
+  .hero-img-wrapper.weldvision-qa-hero img {
+    object-position: left top;
   }
   .hero-titles {
     padding: 0 10px;

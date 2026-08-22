@@ -65,6 +65,7 @@ export default function ProjectDetail() {
   const isFixie = project.title?.toLowerCase().includes("fixie");
   const isMoodDNA = project.title?.toLowerCase().includes("mood-dna");
   const isWeldVision = Number(project.id) === 11 || project.title?.toLowerCase() === "weldvision";
+  const isWeldVisionQA = Number(project.id) === 12 || project.title?.toLowerCase().includes("annotation qa");
   const isFocusMate = Number(project.id) === 1 || project.title?.toLowerCase().includes("focus mate");
   const isCoffee = Number(project.id) === 2 || project.title?.toLowerCase().includes("cof/fee");
   const isTeamProject = isSceneDiary || isFixie || project.category === "Team Project";
@@ -377,7 +378,7 @@ export default function ProjectDetail() {
 
       {/* 4. 와이드 썸네일 섹션 */}
       <header className="mag-wide-hero">
-        <div className={`hero-img-wrapper ${isWeldVision ? "weldvision-hero" : ""}`}>
+        <div className={`hero-img-wrapper ${isWeldVision ? "weldvision-hero" : ""} ${isWeldVisionQA ? "weldvision-qa-hero" : ""}`}>
           {isVideoUrl(heroMedia) ? (
             <video
               src={heroMedia}
