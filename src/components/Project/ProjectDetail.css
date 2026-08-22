@@ -306,6 +306,16 @@
   background: #111820;
 }
 
+.hero-img-wrapper.weldvision-hero {
+  background: #070c12;
+}
+
+.hero-img-wrapper.weldvision-hero img {
+  object-fit: contain;
+  background: #070c12;
+  animation: none;
+}
+
 @keyframes heroZoom {
   from { transform: scale(1); }
   to { transform: scale(1.05); }
@@ -671,6 +681,12 @@
 
 .readme-media-grid.coffee-media-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.readme-media-grid.weldvision-media-grid .readme-media-frame,
+.readme-media-grid.weldvision-media-grid .readme-media-frame img {
+  aspect-ratio: 1800 / 1429;
+  background: #070c12;
 }
 
 .readme-media-card {

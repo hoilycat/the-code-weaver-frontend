@@ -7,7 +7,8 @@ export const fallbackProjects = [
     category: "AI Projects",
     editorialLabel: "Featured · Machine Vision",
     disciplines: ["Machine Vision", "AI"],
-    snapshot: "https://opengraph.githubassets.com/1/hoilycat/welding-defect-detection",
+    preferEditorialMedia: true,
+    snapshot: "/media/weldvision/hero-vt-undercut.png",
     link: "https://github.com/hoilycat/welding-defect-detection",
     period: "2026.06–2026.08",
     cardSummary: "C++ 특징 분석에서 RT·VT YOLO 검출과 판독 근거 UI까지 이어지는 용접 검사 보조 시스템",
@@ -532,8 +533,12 @@ export const mergeEditorialProject = (liveProject, editorialProject) => {
   return {
     ...liveProject,
     ...editorialProject,
-    snapshot: liveProject.snapshot || editorialProject.snapshot,
-    images: liveProject.images?.length ? liveProject.images : (editorialProject.images || []),
+    snapshot: editorialProject.preferEditorialMedia
+      ? editorialProject.snapshot
+      : (liveProject.snapshot || editorialProject.snapshot),
+    images: editorialProject.preferEditorialMedia
+      ? (editorialProject.images || [])
+      : (liveProject.images?.length ? liveProject.images : (editorialProject.images || [])),
   };
 };
 

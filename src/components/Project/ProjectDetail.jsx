@@ -64,6 +64,7 @@ export default function ProjectDetail() {
   const isSceneDiary = Number(project.id) === 10 || project.title?.toLowerCase().includes("scenediary");
   const isFixie = project.title?.toLowerCase().includes("fixie");
   const isMoodDNA = project.title?.toLowerCase().includes("mood-dna");
+  const isWeldVision = Number(project.id) === 11 || project.title?.toLowerCase() === "weldvision";
   const isFocusMate = Number(project.id) === 1 || project.title?.toLowerCase().includes("focus mate");
   const isCoffee = Number(project.id) === 2 || project.title?.toLowerCase().includes("cof/fee");
   const isTeamProject = isSceneDiary || isFixie || project.category === "Team Project";
@@ -193,7 +194,52 @@ export default function ProjectDetail() {
     },
   ];
 
-  const readmeMedia = isFocusMate ? focusMateReadmeMedia : isCoffee ? coffeeReadmeMedia : [];
+  const weldVisionReadmeMedia = [
+    {
+      title: "RT · Slag Inclusion",
+      type: "image",
+      src: "/media/weldvision/01-rt-slag-inclusion.png",
+      caption: "슬래그 혼입 후보 2개를 검출한 화면입니다. 최고 신뢰도 0.69와 전처리 비교 근거를 함께 표시합니다.",
+    },
+    {
+      title: "RT · Lack of Fusion",
+      type: "image",
+      src: "/media/weldvision/02-rt-lack-of-fusion.png",
+      caption: "융합 불량 후보 3개를 검출한 화면입니다. 서로 다른 크기의 저밀도 영역을 박스로 분리했습니다.",
+    },
+    {
+      title: "RT · Crack",
+      type: "image",
+      src: "/media/weldvision/03-rt-crack.png",
+      caption: "가늘고 세로로 이어지는 균열 후보 2개를 검출한 화면입니다. 최고 신뢰도는 0.81입니다.",
+    },
+    {
+      title: "RT · Porosity",
+      type: "image",
+      src: "/media/weldvision/04-rt-porosity.png",
+      caption: "육안으로 구분하기 어려운 작은 기공 후보를 표시하고 CLAHE·Gradient 등 보조 영상을 비교합니다.",
+    },
+    {
+      title: "VT · Incomplete Penetration",
+      type: "image",
+      src: "/media/weldvision/05-vt-incomplete-penetration.png",
+      caption: "용입 불량 4개와 언더컷 1개를 함께 검출한 혼합 사례입니다. 최고 신뢰도는 0.74입니다.",
+    },
+    {
+      title: "VT · Undercut",
+      type: "image",
+      src: "/media/weldvision/06-vt-undercut.png",
+      caption: "용접 비드 가장자리의 언더컷 후보 3개를 표시한 현장형 VT 검출 화면입니다.",
+    },
+  ];
+
+  const readmeMedia = isFocusMate
+    ? focusMateReadmeMedia
+    : isCoffee
+      ? coffeeReadmeMedia
+      : isWeldVision
+        ? weldVisionReadmeMedia
+        : [];
   const characterCompanions = isFocusMate ? [
     {
       name: "Berry studying",
@@ -229,7 +275,9 @@ export default function ProjectDetail() {
   ] : [];
   const heroMedia = getImageUrl(project.snapshot);
   // [수정] 베리와 커피는 섞여 있던 업로드 갤러리 대신 README 대표 미디어만 노출한다.
-  const galleryImages = isFocusMate || isCoffee ? [] : (project.images || []).filter(img => img !== project.snapshot);
+  const galleryImages = isFocusMate || isCoffee || isWeldVision
+    ? []
+    : (project.images || []).filter(img => img !== project.snapshot);
   const inlineImageLimit = groupedGalleryProjectIds.includes(Number(project.id)) ? 3 : galleryImages.length;
   const troubleshootingItems = isFocusMate ? [
     {
@@ -329,7 +377,7 @@ export default function ProjectDetail() {
 
       {/* 4. 와이드 썸네일 섹션 */}
       <header className="mag-wide-hero">
-        <div className="hero-img-wrapper">
+        <div className={`hero-img-wrapper ${isWeldVision ? "weldvision-hero" : ""}`}>
           {isVideoUrl(heroMedia) ? (
             <video
               src={heroMedia}
@@ -447,8 +495,14 @@ export default function ProjectDetail() {
             {readmeMedia.length > 0 && (
               <section className="readme-media-panel" aria-labelledby="readme-media-title">
                 <div className="notes-kicker">Demo Highlights</div>
-                <h2 id="readme-media-title">{isCoffee ? "Caffeine flow in motion" : "Interaction and posture preview"}</h2>
-                <div className={`readme-media-grid ${isCoffee ? "coffee-media-grid" : ""}`}>
+                <h2 id="readme-media-title">
+                  {isCoffee
+                    ? "Caffeine flow in motion"
+                    : isWeldVision
+                      ? "RT · VT detection evidence"
+                      : "Interaction and posture preview"}
+                </h2>
+                <div className={`readme-media-grid ${isCoffee ? "coffee-media-grid" : ""} ${isWeldVision ? "weldvision-media-grid" : ""}`}>
                   {readmeMedia.map((item) => (
                     <article className={`readme-media-card ${item.aspect || ""}`} key={item.title}>
                       <div className="readme-media-frame">
@@ -481,6 +535,7 @@ export default function ProjectDetail() {
                           <img
                             src={item.src}
                             alt={item.title}
+                            loading="lazy"
                             onClick={() => setZoomImg(item.src)}
                           />
                         )}

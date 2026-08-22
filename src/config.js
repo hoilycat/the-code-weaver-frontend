@@ -3,5 +3,6 @@ export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:80
 export const getImageUrl = (path) => {
   if (!path) return "";
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  if (path.startsWith("/media/") || path.startsWith("/assets/")) return path;
   return `${API_BASE_URL}${path}`;
 };
