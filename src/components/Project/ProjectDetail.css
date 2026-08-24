@@ -177,6 +177,12 @@
 
 }
 
+.mag-visit-btn {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+}
+
 .private-repo-card {
   margin-bottom: 34px;
   padding: 18px 16px;
@@ -254,16 +260,21 @@
 .project-resource-list {
   display: grid;
   gap: 9px;
-  margin: -18px 0 28px;
+  width: 100%;
+  margin: 0 0 28px;
 }
 
 .project-resource-list a {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
   color: #213448;
   font-family: "RIDIBatang", serif;
   font-size: 0.78rem;
   line-height: 1.45;
   text-decoration: underline;
   text-underline-offset: 4px;
+  overflow-wrap: anywhere;
 }
 
 .desktop-notice {
