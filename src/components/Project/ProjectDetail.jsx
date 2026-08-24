@@ -768,7 +768,7 @@ export default function ProjectDetail() {
                 <h2 id="scene-diary-deck-title">19 slides, one visual and technical narrative</h2>
                 <p className="scene-diary-section-lead">
                   팀원들이 넣은 초기 내용을 바탕으로 PPT 도형 도구를 이용해 이미지와 다이어그램을 다시 만들고,
-                  설명이 빠져 있던 GraphRAG와 AI 생성 흐름을 보강했습니다. 이후 팀 공동 첨삭과 팀원(팅커벨)의 후속 편집을 거쳐
+                  설명이 빠져 있던 GraphRAG와 AI 생성 흐름을 보강했습니다. 이후 팀 공동 첨삭과 팀원의 후속 편집을 거쳐
                   전체 장표의 흐름과 표현을 최종 확인했습니다.
                 </p>
                 <div className="scene-diary-deck-frame">

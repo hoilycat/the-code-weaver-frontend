@@ -455,7 +455,7 @@ Poster & Presentation
 본선 진출 여부가 정해지기 전인 7월 중순부터 A1 포스터를 준비했습니다. AI 초안을 그대로 사용하지 않고 요소별로 분해해 정보 위계와 화면 구성을 다시 만들었습니다. 발표자료는 팀원이 넣은 초기 내용을 바탕으로 PPT 도형을 이용해 이미지와 다이어그램을 재구성하고, 빠져 있던 GraphRAG와 AI 생성 흐름 설명을 보강했습니다.
 
 Collaboration
-팀원 초안 → 시각 자료 재구성과 기술 설명 보강 → 팀 공동 첨삭 → 팀원(팅커벨)의 후속 편집 → 최종 QA 순서로 완성했습니다.
+팀원 초안 → 시각 자료 재구성과 기술 설명 보강 → 팀 공동 첨삭 → 팀원의 후속 편집 → 최종 QA 순서로 완성했습니다.
 
 Project Type
 Team Project, Visual Design Lead, Full-stack, AI Storytelling
