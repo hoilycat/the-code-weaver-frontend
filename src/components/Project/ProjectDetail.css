@@ -278,7 +278,7 @@
 }
 
 .desktop-notice {
-  margin: -20px 0 28px;
+  margin: 0 0 28px;
   padding: 11px 12px;
   border-left: 3px solid #547792;
   background: rgba(255, 255, 255, 0.48);
@@ -482,6 +482,13 @@
 .mag-sidebar-mini .sidebar-sticky {
   position: sticky;
   top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.mag-sidebar-mini .mag-visit-btn {
+  margin-bottom: 10px;
 }
 
 .story-intro-block {
