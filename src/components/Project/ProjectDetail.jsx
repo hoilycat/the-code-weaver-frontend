@@ -75,7 +75,7 @@ export default function ProjectDetail() {
   const displayedProjectBadges = projectBadges.filter(
     (badge) => badge !== "Solo Project" && badge !== "Team Project"
   );
-  const sceneDiaryIntro = "SceneDiary는 여행 사진을 하루의 장면으로 읽고, 선택한 페르소나의 문체로 그 순간을 일기처럼 구성하는 앱입니다. 저는 Visual Design Lead로서 브랜드와 스플래시, 소개 이미지, A1 학술 포스터, 19장 발표자료의 시각 체계를 설계하고 최종 제작과 문장 QA를 맡았습니다. 프론트엔드에서는 사진 추가와 이미지 로딩·생성 대기 화면을 구현하고, 담당 팀원과 화면 연결 및 교차 QA를 진행했습니다.";
+  const sceneDiaryIntro = "SceneDiary는 여행 사진을 하루의 장면으로 읽고, 선택한 페르소나의 문체로 그 순간을 일기처럼 구성하는 앱입니다. 저는 Visual Design Lead로서 브랜드와 스플래시, 소개 이미지, A1 학술 포스터, 19장 발표자료의 시각 체계를 설계하고 최종 제작과 문장 QA를 맡았습니다. 프론트엔드에서는 사진 추가와 이미지 로딩·생성 대기 화면을 구현했으며, 백엔드 팀과는 데이터베이스 구조를 검토했습니다. 화면 연결과 교차 QA는 담당 팀원들과 함께 진행했습니다.";
   const fixieIntro = "가전제품 매뉴얼은 필요한 순간일수록 멀리 있습니다. Fixie는 QR 코드나 모델명으로 기기를 등록하고, 매뉴얼을 학습한 AI와 대화하며 필요한 해결 방법을 바로 찾도록 설계한 팀 프로젝트입니다. 저는 서비스 디자인과 기기 등록·대시보드·AI 채팅·API 상태 연결을 포함한 프론트엔드 전반을 맡았습니다. 백엔드와 AI 검색 엔진은 팀원의 기여입니다.";
   const focusMateIntro = "Focus Mate Berry는 사용자의 학습 상태를 감지하고, 이를 캐릭터의 반응으로 보여주는 집중 관리 서비스입니다. MediaPipe와 OpenCV로 자세와 자리 비움 상태를 감지하고, 결과에 따라 Berry의 성장, 경고, 수면 상태가 달라지도록 구성했습니다. 캐릭터와의 상호작용을 통해 사용자가 자신의 학습 상태를 자연스럽게 인식하도록 설계했습니다.";
   const coffeeIntro = "Cof/fee는 카페인을 마신 시각과 양을 기록하고, 시간에 따른 체내 잔존량을 확인하는 생활 기록 대시보드입니다. React와 Jotai로 섭취 기록과 상태를 관리하며 반감기 계산, 수면 신호, 금단 위험 알림을 하나의 흐름으로 구성했습니다. v3에서는 YIE GraphRAG를 연결해 기록 패턴과 관련된 논문 근거를 참고 정보로 제공합니다.";
@@ -796,23 +796,40 @@ export default function ProjectDetail() {
                 <div className="notes-kicker">Team Collaboration</div>
                 <h2 id="scene-diary-teamwork-title">Built together, reviewed together</h2>
                 <p className="scene-diary-section-lead">
-                  팀장이 진행한 정기 회의에서 개발 현황과 수정 사항을 공유했습니다. 저는 앱의 디자인 방향에 의견을
-                  제시하고 사진 추가와 이미지 로딩·생성 대기 화면을 맡았습니다. 담당 팀원과 다음 화면을 연결한 뒤에는
-                  서로의 페이지를 교차 검수하며 사용자 흐름을 함께 점검했습니다.
+                  팀장이 페이지를 고르게 나누어 팀원 모두 각자 맡은 화면의 프론트엔드와 백엔드 작업에 참여했습니다.
+                  정기 회의에서는 진행 상황과 수정 사항을 공유하고, 주요 기획과 디자인 방향은 다수결로 정했습니다.
+                  앱 이름과 팀 이름은 함께 만들었고, 직접 제작한 로고와 스플래시도 팀 검토를 거쳐 확정했습니다.
+                  저는 담당 화면 구현과 데이터베이스 구조 논의에 참여했으며, 화면 연결과 교차 QA는 팀원들과 함께
+                  진행했습니다.
                 </p>
                 <div className="persona-process-grid">
                   <article>
                     <span>01</span>
-                    <h3>Regular Sync</h3>
-                    <p>정기 회의에서 각자의 진행 상황을 공유하고 수정·개선 사항을 함께 정리했습니다.</p>
+                    <h3>Regular Sync &amp; Vote</h3>
+                    <p>페이지를 고르게 분담하고 정기 회의에서 진행 상황을 공유하며 주요 방향은 다수결로 합의했습니다.</p>
                   </article>
                   <article>
                     <span>02</span>
+                    <h3>Naming &amp; Identity</h3>
+                    <p>앱 이름과 팀 이름은 함께 정하고, 제가 제작한 로고·스플래시는 팀 검토를 거쳐 확정했습니다.</p>
+                  </article>
+                  <article>
+                    <span>03</span>
                     <h3>Owned Screens</h3>
                     <p>사진 추가와 이미지 로딩·생성 대기 화면을 구현하고 앱 디자인 방향을 논의했습니다.</p>
                   </article>
                   <article>
-                    <span>03</span>
+                    <span>04</span>
+                    <h3>Database Review</h3>
+                    <p>백엔드 팀과 데이터베이스 구조를 살펴보며 포함할 저장 항목과 구성 방향을 논의했습니다.</p>
+                  </article>
+                  <article>
+                    <span>05</span>
+                    <h3>Team-Owned Systems</h3>
+                    <p>모두 프론트엔드와 백엔드에 참여했으며 GraphRAG·문체 모델·편집 기능은 담당 팀원이 맡았습니다.</p>
+                  </article>
+                  <article>
+                    <span>06</span>
                     <h3>Integration &amp; QA</h3>
                     <p>다음 화면 연결은 담당 팀원과 협업하고 페이지 이동과 동작은 서로 교차 검수했습니다.</p>
                   </article>
@@ -831,8 +848,8 @@ export default function ProjectDetail() {
                     alt="SceneDiary logo"
                   />
                   <p>
-                    로고와 3초 mp4 스플래시는 여행 사진이 일기 장면으로 변환되는 흐름을 기준으로 설계했습니다.
-                    앱 진입 순간에 부담 없이 재생되도록 여러 시안과 구현 제약을 함께 검토했습니다.
+                    앱 이름과 팀 이름은 팀원들과 함께 정했습니다. 로고와 3초 mp4 스플래시는 여행 사진이 일기 장면으로
+                    변환되는 흐름을 기준으로 직접 설계하고, 여러 시안과 구현 제약을 팀원들과 검토한 뒤 최종 확정했습니다.
                   </p>
                 </div>
 
