@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { API_BASE_URL, getImageUrl } from '../../config';
 import { BADGE_ICONS, getProjectBadges, getTechBadges, parseProjectNotes, splitDescription } from './projectNotes';
 import { fallbackProjects, mergeEditorialProject } from './fallbackProjects';
@@ -8,6 +8,7 @@ import './ProjectDetail.css';
 export default function ProjectDetail() {
   const { id } = useParams(); 
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [project, setProject] = useState(null); 
   const isAdmin = localStorage.getItem("adminToken") === "secret-key-12345";
 
@@ -76,8 +77,8 @@ export default function ProjectDetail() {
   );
   const sceneDiaryIntro = "SceneDiary는 여행 사진을 하루의 장면으로 읽고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 앱입니다. 저는 로고/아이콘 브랜딩과 3초 mp4 스플래시, 사진 업로드와 생성 상태 연결 흐름을 맡아 첫인상과 사용 흐름이 끊기지 않도록 구현했습니다.";
   const fixieIntro = "가전제품 매뉴얼은 필요한 순간일수록 멀리 있습니다. Fixie는 QR 코드나 모델명으로 기기를 등록하고, 매뉴얼을 학습한 AI와 대화하며 필요한 해결 방법을 바로 찾도록 설계한 팀 프로젝트입니다. 저는 서비스 디자인과 기기 등록·대시보드·AI 채팅·API 상태 연결을 포함한 프론트엔드 전반을 맡았습니다. 백엔드와 AI 검색 엔진은 팀원의 기여입니다.";
-  const focusMateIntro = "Focus Mate Berry는 공부를 감시하는 도구보다, 곁에서 상태를 알아차리는 작은 친구에 가깝습니다. MediaPipe와 OpenCV로 자세와 자리 비움 상태를 감지하고, 그 결과를 Berry의 성장, 경고, 수면 상태로 연결했습니다. 기술적인 감지는 차갑게 두지 않고, 사용자가 애착을 느낄 수 있는 피드백으로 번역하는 데 집중했습니다.";
-  const coffeeIntro = "Cof/fee는 커피를 끊으라는 앱이 아니라, 마시는 시간과 몸에 남는 양을 함께 보게 만드는 카페인 관리 앱입니다. React와 Jotai로 섭취 기록과 잔존량 상태를 관리하고, 반감기 계산, 수면 신호등, 금단 위험 알림을 하나의 대시보드 흐름으로 묶었습니다. v3에서는 YIE GraphRAG를 연결해 사용자의 기록을 논문 기반 피드백으로 확장했습니다.";
+  const focusMateIntro = "Focus Mate Berry는 사용자의 학습 상태를 감지하고, 이를 캐릭터의 반응으로 보여주는 집중 관리 서비스입니다. MediaPipe와 OpenCV로 자세와 자리 비움 상태를 감지하고, 결과에 따라 Berry의 성장, 경고, 수면 상태가 달라지도록 구성했습니다. 캐릭터와의 상호작용을 통해 사용자가 자신의 학습 상태를 자연스럽게 인식하도록 설계했습니다.";
+  const coffeeIntro = "Cof/fee는 카페인을 마신 시각과 양을 기록하고, 시간에 따른 체내 잔존량을 확인하는 생활 기록 대시보드입니다. React와 Jotai로 섭취 기록과 상태를 관리하며 반감기 계산, 수면 신호, 금단 위험 알림을 하나의 흐름으로 구성했습니다. v3에서는 YIE GraphRAG를 연결해 기록 패턴과 관련된 논문 근거를 참고 정보로 제공합니다.";
   const groupedGalleryProjectIds = [1, 2, 3];
   const sceneDiaryVideos = [
     {
@@ -113,25 +114,27 @@ export default function ProjectDetail() {
   ];
   const moodDnaRoleItems = [
     {
-      title: "Full-stack Product Build",
+      title: "제품 전체 구현",
       body: "React 대시보드와 FastAPI 분석 서버를 설계해 이미지 업로드부터 분석 결과까지 이어지는 흐름을 만들었습니다.",
     },
     {
-      title: "Computer Vision Metrics",
+      title: "컴퓨터 비전 지표",
       body: "OpenCV 기반 밝기, 복잡도, 여백, 대칭성, 색상 DNA 지표를 추출해 감각적인 판단을 비교 가능한 수치로 바꿨습니다.",
     },
     {
-      title: "AI Critique Pipeline",
+      title: "AI 비평 파이프라인",
       body: "수치 분석 결과를 Gemini와 YIE GraphRAG 비평으로 연결해 디자인 피드백에 논문 근거를 붙였습니다.",
     },
     {
-      title: "Decision Dashboard UX",
+      title: "의사결정 대시보드 UX",
       body: "단일 분석, 비교 분석, 배치 오디션, 히스토리 흐름을 한 제품 안에서 탐색하도록 구성했습니다.",
     },
   ];
 
   const goBackToProjects = () => {
-    navigate('/#Projects');
+    const previousFilter = searchParams.get('from');
+    const query = previousFilter ? `?projectFilter=${encodeURIComponent(previousFilter)}` : '';
+    navigate(`/${query}#Projects`);
   };
 
   const isVideoUrl = (url = "") => {
@@ -173,7 +176,7 @@ export default function ProjectDetail() {
       src: "/media/coffee/cof-fee-demo-dark.mp4",
       startAt: 6,
       endAt: 13.2,
-      caption: "스플래시 이후 바로 대시보드와 기록 흐름이 보이도록 핵심 구간부터 재생합니다.",
+      caption: "스플래시 이후 대시보드에서 섭취 기록과 잔존량을 확인하는 흐름을 보여줍니다.",
     },
     {
       title: "Splash Demo",
@@ -182,7 +185,7 @@ export default function ProjectDetail() {
       src: "/media/coffee/cof-fee-splash-only.mp4",
       startAt: 0,
       endAt: 3.1,
-      caption: "앱 진입 모션의 첫 인상이 빠르게 전달되도록 초반 3초 구간만 보여줍니다.",
+      caption: "앱 진입 시 로고와 캐릭터가 등장하는 3초 스플래시 과정을 보여줍니다.",
     },
     {
       title: "Onboarding Flow",
@@ -191,11 +194,18 @@ export default function ProjectDetail() {
       src: "/media/coffee/cof-fee-demo-v2.mp4",
       startAt: 5,
       endAt: 13.2,
-      caption: "온보딩에서 대시보드로 이어지는 핵심 사용 흐름을 바로 확인할 수 있게 조정했습니다.",
+      caption: "사용자 설정을 입력하는 온보딩부터 대시보드 진입까지의 흐름을 확인할 수 있습니다.",
     },
   ];
 
   const weldVisionReadmeMedia = [
+    {
+      title: "RT · VT Defect Overview",
+      type: "image",
+      aspect: "weldvision-overview",
+      src: "/media/weldvision/weldvision-defect-overview.gif",
+      caption: "RT와 VT 여섯 결함 사례를 2.5초 간격으로 비교합니다. 각 화면에서 검출 박스, 신뢰도와 전처리 근거가 어떻게 달라지는지 확인할 수 있습니다.",
+    },
     {
       title: "RT · Slag Inclusion",
       type: "image",
@@ -234,13 +244,25 @@ export default function ProjectDetail() {
     },
   ];
 
+  const weldVisionQaMedia = [
+    {
+      title: "QA Dashboard Tour",
+      type: "image",
+      aspect: "wide",
+      src: "/media/weldvision-qa/qa-dashboard-tour.gif",
+      caption: "검사 요약, 상태 판정 근거, 결함 분포, 충돌·중첩, 유사 이미지와 Release Manifest를 3초 간격으로 살펴봅니다.",
+    },
+  ];
+
   const readmeMedia = isFocusMate
     ? focusMateReadmeMedia
     : isCoffee
       ? coffeeReadmeMedia
       : isWeldVision
         ? weldVisionReadmeMedia
-        : [];
+        : isWeldVisionQA
+          ? weldVisionQaMedia
+          : [];
   const characterCompanions = isFocusMate ? [
     {
       name: "Berry studying",
@@ -280,39 +302,39 @@ export default function ProjectDetail() {
     ? []
     : (project.images || []).filter(img => img !== project.snapshot);
   const inlineImageLimit = groupedGalleryProjectIds.includes(Number(project.id)) ? 3 : galleryImages.length;
-  const troubleshootingItems = isFocusMate ? [
+  const troubleshootingItems = project.troubleshooting || (isFocusMate ? [
     {
-      title: "MediaPipe Runtime Compatibility",
+      title: "MediaPipe 실행 환경 호환성",
       problem: "Apple Silicon 환경의 전역 Python 3.12에서 MediaPipe 구형 API가 깨지며 실행이 중단됐습니다.",
       solution: "Python 3.10 전용 venv를 분리하고 의존성을 재설치해 vision, API, UI 서버가 한 번에 실행되도록 환경을 안정화했습니다.",
     },
     {
-      title: "False Positive Posture Alerts",
+      title: "자세 경고 오탐",
       problem: "노트북 카메라 각도 때문에 정상 자세에서도 거북목 WARNING이 반복적으로 발생했습니다.",
       solution: "눈썹 좌표 기반 판정 임계값을 0.5에서 0.65로 완화하고, 실제로 고개가 깊게 숙여진 경우에만 반응하도록 튜닝했습니다.",
     },
     {
-      title: "Face Lost UX Gap",
+      title: "얼굴 미검출 피드백 지연",
       problem: "사용자가 고개를 숙여 얼굴이 사라졌는데도 시스템이 자리 비움 유예로 처리해 피드백이 늦었습니다.",
       solution: "얼굴 미검출 즉시 '딴짓 의심' 상태와 메시지를 노출해 감지 결과가 사용자 행동 교정으로 바로 이어지게 했습니다.",
     },
   ] : isCoffee ? [
     {
-      title: "Gauge and Number Mismatch",
+      title: "게이지와 수치 불일치",
       problem: "오늘 섭취량이 0mg인데 게이지는 이전 잔존량 기준으로 차 있어 수치와 시각화가 어긋났습니다.",
       solution: "선택된 모드 값을 담는 displayAmount를 기준으로 게이지와 숫자를 동시에 계산하도록 바꿔 UI 데이터 정합성을 맞췄습니다.",
     },
     {
-      title: "Temporal Dead Zone Error",
+      title: "선언 순서 오류",
       problem: "currentMessage가 characterMessages보다 먼저 평가되어 앱이 초기 렌더에서 멈췄습니다.",
       solution: "캐릭터 메시지 맵을 먼저 선언하고, 이후 현재 상태 메시지를 계산하도록 선언 순서를 재배치했습니다.",
     },
     {
-      title: "Animated History Markup",
+      title: "기록 목록 애니메이션 구조",
       problem: "History.tsx에 motion.div와 AnimatePresence를 넣는 과정에서 태그 구조가 꼬여 리스트가 깨졌습니다.",
       solution: "map 구조와 닫는 태그 위치를 정리하고 AnimatePresence를 리스트 바깥에 배치해 삭제 애니메이션을 안정화했습니다.",
     },
-  ] : [];
+  ] : []);
 
   const trimTrailingPunctuation = (url = "") => {
     const match = url.match(/[.,!?)]*$/);
@@ -366,7 +388,7 @@ export default function ProjectDetail() {
 
   return (
     // 1. 전체 페이지 (격자무늬 배경이 깔리는 곳)
-    <div className="mag-clean-page">
+    <div className={`mag-clean-page ${isDataVisualization ? "dataviz-page" : ""}`}>
       
       {/* 2. 좌측 상단 프로젝트 목록 복귀 네비게이션 */}
       <nav className="mag-fixed-nav">
@@ -430,6 +452,20 @@ export default function ProjectDetail() {
                     {getPrimaryLinkLabel(project.link)}
                   </a>
                 )}
+                {isDataVisualization && (
+                  <p className="desktop-notice">Tableau Public 대시보드는 태블릿보다 PC 환경에서 안정적으로 확인할 수 있습니다.</p>
+                )}
+                {(project.resources || []).filter((resource) => resource.url !== project.link).length > 0 && (
+                  <div className="project-resource-list" aria-label="Related project links">
+                    {(project.resources || [])
+                      .filter((resource) => resource.url !== project.link)
+                      .map((resource) => (
+                        <a key={`${resource.label}-${resource.url}`} href={resource.url} target="_blank" rel="noopener noreferrer">
+                          {resource.label} ↗
+                        </a>
+                      ))}
+                  </div>
+                )}
                 <div className="editor-credit">
                    <label>CURATED BY</label>
                    <p>The Weaver</p>
@@ -441,7 +477,7 @@ export default function ProjectDetail() {
           <section className="mag-content-flow">
             {introParagraph && (
               <div className="story-intro-block">
-                <span className="story-intro-label">Opening Note</span>
+                <span className="story-intro-label">프로젝트 소개</span>
                 <p className="para-text intro-text drop-cap" style={{ whiteSpace: 'pre-wrap' }}>
                   {renderTextWithLinks(isSceneDiary ? sceneDiaryIntro : isFixie ? fixieIntro : isFocusMate ? focusMateIntro : isCoffee ? coffeeIntro : introParagraph)}
                 </p>
@@ -452,8 +488,8 @@ export default function ProjectDetail() {
               <section className="development-status-panel" aria-labelledby="project-proof-title">
                 <div className="development-status-head">
                   <div>
-                    <div className="notes-kicker">Scope & Evidence</div>
-                    <h2 id="project-proof-title">What I built</h2>
+                    <div className="notes-kicker">구현 범위와 근거</div>
+                    <h2 id="project-proof-title">구현한 내용</h2>
                     <p>{project.proofSummary}</p>
                   </div>
                   <div className="development-progress" aria-label={`${evidenceItems.length} evidence items`}>
@@ -464,7 +500,7 @@ export default function ProjectDetail() {
 
                 <div className="roadmap-grid">
                   <article>
-                    <h3>Implemented</h3>
+                    <h3>구현</h3>
                     <ul>
                       {implementedItems.map((item) => (
                         <li key={item} className="done"><span aria-hidden="true">✓</span>{item}</li>
@@ -472,7 +508,7 @@ export default function ProjectDetail() {
                     </ul>
                   </article>
                   <article>
-                    <h3>Evidence</h3>
+                    <h3>확인 근거</h3>
                     <ul>
                       {evidenceItems.map((item) => (
                         <li key={item} className="done"><span aria-hidden="true">•</span>{item}</li>
@@ -480,7 +516,7 @@ export default function ProjectDetail() {
                     </ul>
                     {nextValidationItems.length > 0 && (
                       <>
-                      <h3>Next Validation</h3>
+                      <h3>다음 검증</h3>
                       <ul>
                         {nextValidationItems.map((item) => (
                           <li key={item} className="todo"><span aria-hidden="true">→</span>{item}</li>
@@ -495,13 +531,15 @@ export default function ProjectDetail() {
 
             {readmeMedia.length > 0 && (
               <section className="readme-media-panel" aria-labelledby="readme-media-title">
-                <div className="notes-kicker">Demo Highlights</div>
+                <div className="notes-kicker">화면 기록</div>
                 <h2 id="readme-media-title">
                   {isCoffee
                     ? "Caffeine flow in motion"
                     : isWeldVision
                       ? "RT · VT detection evidence"
-                      : "Interaction and posture preview"}
+                      : isWeldVisionQA
+                        ? "Dataset QA result in motion"
+                        : "Interaction and posture preview"}
                 </h2>
                 <div className={`readme-media-grid ${isCoffee ? "coffee-media-grid" : ""} ${isWeldVision ? "weldvision-media-grid" : ""}`}>
                   {readmeMedia.map((item) => (
@@ -551,15 +589,15 @@ export default function ProjectDetail() {
 
             {troubleshootingItems.length > 0 && (
               <section className="troubleshooting-panel" aria-labelledby="troubleshooting-title">
-                <div className="notes-kicker">Troubleshooting</div>
-                <h2 id="troubleshooting-title">Problems I traced and fixed</h2>
+                <div className="notes-kicker">문제 해결 기록</div>
+                <h2 id="troubleshooting-title">확인하고 수정한 문제</h2>
                 <div className="troubleshooting-list">
                   {troubleshootingItems.map((item, index) => (
                     <article key={item.title} className="troubleshooting-card">
                       <span>{String(index + 1).padStart(2, "0")}</span>
                       <h3>{item.title}</h3>
-                      <p><strong>Problem</strong>{item.problem}</p>
-                      <p><strong>Fix</strong>{item.solution}</p>
+                      <p><strong>문제</strong>{item.problem}</p>
+                      <p><strong>해결</strong>{item.solution}</p>
                     </article>
                   ))}
                 </div>
@@ -568,8 +606,8 @@ export default function ProjectDetail() {
 
             {isMoodDNA && (
               <section className="mood-dna-role-panel" aria-labelledby="mood-dna-role-title">
-                <div className="notes-kicker">My Role</div>
-                <h2 id="mood-dna-role-title">AI design partner, built end to end</h2>
+                <div className="notes-kicker">담당 범위</div>
+                <h2 id="mood-dna-role-title">분석 화면부터 비평 결과까지</h2>
                 <p>
                   Mood-DNA V3는 감으로만 설명하던 디자인 판단을 수치와 근거로 번역하는 도구입니다.
                   React 분석 UI, FastAPI 이미지 분석 서버, OpenCV 지표 추출, Gemini/YIE GraphRAG 비평 흐름을 하나의 경험으로 엮었습니다.
@@ -587,8 +625,8 @@ export default function ProjectDetail() {
 
             {isMoodDNA && (
               <section className="mood-dna-demo-panel" aria-labelledby="mood-dna-demo-title">
-                <div className="notes-kicker">Demo Preview</div>
-                <h2 id="mood-dna-demo-title">From visual metrics to AI critique</h2>
+                <div className="notes-kicker">화면 기록</div>
+                <h2 id="mood-dna-demo-title">무드 선택부터 AI 비평까지</h2>
                 <div className="mood-dna-demo-grid">
                   <article className="mood-dna-demo-card live-analysis">
                     <img
@@ -596,8 +634,17 @@ export default function ProjectDetail() {
                       alt="생성예술 전시 포스터 4안을 실제 Mood-DNA 백엔드로 분석하는 화면"
                       loading="lazy"
                     />
-                    <h3>Live poster critique</h3>
+                    <h3>포스터 분석 비교</h3>
                     <p>직접 제작한 포스터 4안을 실제 백엔드에 입력해 OpenCV 지표와 YIE GraphRAG 논문 근거, EXAONE 비평까지 확인한 기록입니다.</p>
+                  </article>
+                  <article className="mood-dna-demo-card">
+                    <img
+                      src="/media/mood-dna/demo-preview.gif"
+                      alt="무드와 업종 선택이 목표 DNA와 분석 화면에 반영되는 Mood-DNA 사용 흐름"
+                      loading="lazy"
+                    />
+                    <h3>무드 선택과 분석 흐름</h3>
+                    <p>현재 버전의 무드·업종·태그 선택이 목표 DNA를 바꾸고, 업로드 이미지의 지표와 AI 비평으로 이어지는 과정을 보여줍니다.</p>
                   </article>
                   <article className="mood-dna-demo-card">
                     <video
@@ -610,7 +657,7 @@ export default function ProjectDetail() {
                       preload="metadata"
                       aria-label="Mood-DNA V3 full demo video"
                     />
-                    <h3>Full analysis flow</h3>
+                    <h3>전체 분석 흐름</h3>
                     <p>이미지 업로드부터 DNA 지표, 레이더 차트, AI 비평 결과까지 이어지는 전체 시연입니다.</p>
                   </article>
                   <article className="mood-dna-demo-card">
@@ -624,7 +671,7 @@ export default function ProjectDetail() {
                       preload="metadata"
                       aria-label="Mood-DNA V3 splash video"
                     />
-                    <h3>Splash motion</h3>
+                    <h3>시작 화면 모션</h3>
                     <p>무드 분석 도구의 정체성을 보여주는 짧은 시작 모션입니다.</p>
                   </article>
                 </div>
@@ -773,8 +820,8 @@ export default function ProjectDetail() {
 
             {displayedNoteSections.length > 0 && (
               <section className="project-notes-panel" aria-labelledby="project-notes-title">
-                <div className="notes-kicker">Project Notes</div>
-                <h2 id="project-notes-title">What I Built</h2>
+                <div className="notes-kicker">프로젝트 기록</div>
+                <h2 id="project-notes-title">구현 상세</h2>
                 <div className="notes-badge-row" aria-label="Project type tags">
                   {displayedProjectBadges.map((badge) => (
                     <span key={badge} className="project-pill compact">

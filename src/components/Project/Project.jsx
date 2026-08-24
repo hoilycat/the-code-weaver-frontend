@@ -1,5 +1,5 @@
 import React, { useCallback, useLayoutEffect, useRef, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { API_BASE_URL, getImageUrl } from '../../config';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -25,7 +25,11 @@ const PROJECT_IDS_BY_FILTER = {
 
 export default function Project() {
   const [projects, setProjects] = useState(() => mergeEditorialProjects());
-  const [filter, setFilter] = useState('Machine Vision');
+  const location = useLocation();
+  const initialFilter = new URLSearchParams(location.search).get('projectFilter');
+  const [filter, setFilter] = useState(
+    FILTERS.includes(initialFilter) ? initialFilter : 'Machine Vision'
+  );
   const navigate = useNavigate();
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
@@ -160,7 +164,7 @@ export default function Project() {
                   key={project.id}
                   ref={el => cardsRef.current[index] = el}
                   className={`project-card ${isFeatured ? 'featured' : (project.size || 'small')}`}
-                  onClick={() => navigate(`/project/${project.id}`)}
+                  onClick={() => navigate(`/project/${project.id}?from=${encodeURIComponent(filter)}`)}
                   style={{ "--bg-image": `url(${getImageUrl(project.snapshot)})` }}
                 >
                   <div className="card-info">

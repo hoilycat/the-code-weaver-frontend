@@ -235,10 +235,12 @@
 }
 
 .back-btn-minimal {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.94);
   color: #213448;
-  border: none;
-  padding: 8px 0;
+  border: 1px solid rgba(33, 52, 72, 0.2);
+  border-radius: 999px;
+  padding: 10px 15px;
+  box-shadow: 0 8px 22px rgba(33, 52, 72, 0.12);
   font-family: "Superclarendon", serif;
   font-size: 0.78rem;
   cursor: pointer;
@@ -247,6 +249,35 @@
   gap: 12px;
   text-transform: uppercase;
   transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.project-resource-list {
+  display: grid;
+  gap: 9px;
+  margin: -18px 0 28px;
+}
+
+.project-resource-list a {
+  color: #213448;
+  font-family: "RIDIBatang", serif;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.desktop-notice {
+  margin: -20px 0 28px;
+  padding: 11px 12px;
+  border-left: 3px solid #547792;
+  background: rgba(255, 255, 255, 0.48);
+  color: #334;
+  font-size: 0.76rem;
+  line-height: 1.6;
+}
+
+.dataviz-page :is(h1, h2, h3, h4, p, span, a, button, li, label) {
+  font-family: "RIDIBatang", serif;
 }
 
 .back-btn-minimal:hover {
@@ -691,6 +722,15 @@
 .readme-media-grid.weldvision-media-grid .readme-media-frame img {
   aspect-ratio: 1800 / 1429;
   background: #070c12;
+}
+
+.readme-media-grid.weldvision-media-grid .readme-media-card.weldvision-overview {
+  grid-column: 1 / -1;
+}
+
+.readme-media-grid.weldvision-media-grid .readme-media-card.weldvision-overview .readme-media-frame,
+.readme-media-grid.weldvision-media-grid .readme-media-card.weldvision-overview .readme-media-frame img {
+  aspect-ratio: 960 / 762;
 }
 
 .readme-media-card {
@@ -1493,7 +1533,7 @@
 @media (max-width: 768px) {
   /* 1. 배경 및 컨테이너 */
   .mag-clean-page {
-    padding-bottom: 100px;
+    padding-bottom: 0;
   }
   .mag-main-container {
     padding: 0 20px !important;
@@ -1654,14 +1694,21 @@
   .sidebar-sticky {
     position: static !important;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
+    gap: 14px;
   }
 
   .mag-visit-btn {
     margin: 0 !important;
     padding: 10px 20px !important;
     font-size: 0.7rem !important;
+  }
+
+  .desktop-notice,
+  .project-resource-list {
+    margin: 0;
   }
 
   .editor-credit label {
@@ -1772,7 +1819,7 @@
     left: 18px !important;
   }
   .back-btn-minimal {
-    padding: 8px 0 !important;
+    padding: 9px 12px !important;
     font-size: 0.62rem !important;
     gap: 8px;
   }

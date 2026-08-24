@@ -30,6 +30,23 @@ export const fallbackProjects = [
       "RT 및 언더컷 성능 개선",
       "SVM 결과는 이미지 단위 분할로 재평가",
     ],
+    troubleshooting: [
+      {
+        title: "RT·VT 도메인 분리",
+        problem: "방사선 이미지와 표면 사진을 같은 모델과 임계값으로 처리하면 영상 특성과 결함 클래스가 섞였습니다.",
+        solution: "RT와 VT 데이터셋·모델·기본 신뢰도를 분리하고, 검사 방식에 따라 전용 설정을 불러오도록 구성했습니다.",
+      },
+      {
+        title: "Polygon 라벨 변환",
+        problem: "원본 RIAWELC 라벨은 Polygon JSON이라 YOLO 검출 학습에 바로 사용할 수 없었습니다.",
+        solution: "좌표와 클래스 규칙을 검증한 뒤 결함 영역을 YOLO 바운딩 박스로 변환하는 파이프라인을 만들었습니다.",
+      },
+      {
+        title: "작은 결함 검토",
+        problem: "언더컷처럼 작고 이어지는 결함은 여러 박스로 나뉘거나 낮은 신뢰도에서 누락됐습니다.",
+        solution: "확정 검출과 낮은 신뢰도 검토 후보를 구분하고 Recall과 중복 검출을 함께 확인하도록 결과 화면을 정리했습니다.",
+      },
+    ],
     resources: [
       { label: "GitHub", url: "https://github.com/hoilycat/welding-defect-detection" },
       { label: "Technical Report", url: "https://github.com/hoilycat/welding-defect-detection/blob/main/docs/final-project-report.md" },
@@ -96,6 +113,18 @@ VT 최종 모델은 Precision 0.849, Recall 0.780, mAP50 0.838, mAP50-95 0.585�
       "밝기·크롭·해상도 변화에 대한 지표 안정성 확인",
       "사람 평가와 시스템 지표의 비교 실험",
       "AI 비평 문장과 검색 근거의 대응 표시 강화",
+    ],
+    troubleshooting: [
+      {
+        title: "지표 척도 통일",
+        problem: "밝기처럼 255 범위를 쓰는 값과 100점 범위의 지표를 그대로 비교하면 레이더 차트가 왜곡됐습니다.",
+        solution: "지표별 범위를 정규화하고 실제 분석값과 목표 DNA가 같은 척도에서 비교되도록 계산을 분리했습니다.",
+      },
+      {
+        title: "근거가 보이는 AI 비평",
+        problem: "LLM 비평만 보여주면 어떤 수치와 근거에서 나온 설명인지 확인하기 어려웠습니다.",
+        solution: "OpenCV 지표와 YIE GraphRAG 논문 근거를 비평 입력과 결과 카드에 함께 연결했습니다.",
+      },
     ],
     resources: [
       { label: "GitHub", url: "https://github.com/hoilycat/Mood-DNA-V3" },
@@ -215,6 +244,23 @@ Results & Limitations
       "실제 CVAT 데이터와 QA 대시보드 자동 연결 확대",
       "검출 결과와 Annotation 일치율 계산",
       "백업→복원 전체 과정 반복 검증",
+    ],
+    troubleshooting: [
+      {
+        title: "라벨 별칭 불일치",
+        problem: "같은 결함이 한글·영문·철자 변형으로 기록되어 클래스 통계와 변환 결과가 달라졌습니다.",
+        solution: "여섯 개 canonical label과 alias 규칙을 taxonomy 파일로 분리해 입력 단계에서 표준 이름으로 정규화했습니다.",
+      },
+      {
+        title: "Annotation 덮어쓰기 방지",
+        problem: "기존 CVAT Task에 작업자 어노테이션이 있을 때 자동 동기화가 데이터를 덮어쓸 위험이 있었습니다.",
+        solution: "기본 동작은 교체를 거부하고 native backup과 명시적인 교체 옵션이 있을 때만 업로드하도록 보호 장치를 추가했습니다.",
+      },
+      {
+        title: "데이터셋 충돌 검사",
+        problem: "단일 JSON 검증만으로는 이미지 중복과 Polygon 충돌·중첩을 찾을 수 없었습니다.",
+        solution: "perceptual hash와 Polygon 비교를 데이터셋 검사에 추가하고 검토 근거를 QA 대시보드와 manifest에 남겼습니다.",
+      },
     ],
     resources: [
       { label: "GitHub", url: "https://github.com/hoilycat/welding-annotation-qa" },
@@ -457,7 +503,7 @@ Results & Limitations
       { label: "Tableau", url: "https://public.tableau.com/app/profile/kim.seoyoung6184/viz/_17675712350940/sheet6" },
       { label: "GitHub Collection", url: "https://github.com/hoilycat/data-visualization" },
     ],
-    description: "국립중앙박물관 공개 자료 9,000개 이상을 수집하고 21차례 반복 정제해 5,259개 분석 데이터로 만들었습니다. 분류 규칙과 Human-in-the-loop 검수를 거쳐 유물의 발견지와 소장 박물관 흐름을 Tableau로 시각화했습니다.",
+    description: "국립중앙박물관 공개 자료 9,000개 이상을 수집하고 중복·결측·분류 예외를 21차례 정제해 5,259개 분석 데이터로 만들었습니다. 일곱 개 대분류와 Human-in-the-loop 검수를 적용한 결과, 분류가 어려운 ‘기타’ 항목을 1,000개에서 288개로 줄였고 유물의 발견지와 소장 박물관 흐름을 Tableau로 시각화했습니다.",
   },
   {
     id: 6,
@@ -479,7 +525,7 @@ Results & Limitations
       { label: "Tableau", url: "https://public.tableau.com/app/profile/kim.seoyoung6184/viz/_17675283241480/sheet7" },
       { label: "GitHub Collection", url: "https://github.com/hoilycat/data-visualization" },
     ],
-    description: "한국도로공사 공공데이터 5종을 이용해 휴게소의 교통량, 소비, 체류시간을 분리해 분석했습니다. 소비 규모 1위와 오래 머무는 곳, 이용객당 소비 효율이 높은 곳이 서로 다르다는 점을 Tableau로 보여줍니다.",
+    description: "한국도로공사 공공데이터 5종을 이용해 휴게소를 시간대, 소비 규모, 체류시간, 이용객당 소비 효율로 비교했습니다. 오전에는 짧은 휴식, 식사 시간에는 식음료 소비, 야간에는 적은 이용객과 긴 체류가 나타났으며 소비 규모·체류시간·소비 효율의 1위 휴게소도 서로 달랐습니다.",
   },
   {
     id: 7,
@@ -501,7 +547,7 @@ Results & Limitations
       { label: "Tableau", url: "https://public.tableau.com/app/profile/kim.seoyoung6184/viz/_17675710943530/sheet5" },
       { label: "GitHub Collection", url: "https://github.com/hoilycat/data-visualization" },
     ],
-    description: "문화체육관광부 국민여가활동조사 데이터를 시간, 지역, 연령 관점으로 나누어 문화생활과 접근성의 차이를 시각화했습니다.",
+    description: "문화체육관광부 국민여가활동조사 데이터를 시간·지역·연령 기준으로 재구성해 문화시설 이용과 접근성의 차이를 시각화했습니다. 분석 결과 문화생활은 평일과 휴일, 대도시와 지방, 연령과 생활 단계에 따라 선호 활동과 이용 가능한 시설이 다르게 나타났습니다.",
   },
   {
     id: 9,
@@ -523,7 +569,7 @@ Results & Limitations
       { label: "Tableau", url: "https://public.tableau.com/app/profile/kim.seoyoung6184/viz/_17681820857810/12" },
       { label: "GitHub Collection", url: "https://github.com/hoilycat/data-visualization" },
     ],
-    description: "1880년부터 2010년까지 미국 신생아 이름 데이터를 바탕으로 Top 10 점유율 하락, 고유 이름의 증가, 성별 경계와 세대교체를 Tableau 스토리로 구성했습니다.",
+    description: "1880년부터 2010년까지 미국 신생아 이름 데이터를 분석해 인기 이름의 집중도, 성별 경계, 이름 길이와 세대교체를 살펴봤습니다. Top 10 점유율은 낮아지고 고유 이름은 늘었으며 Mary·Jennifer에서 Noah·Emma로 이어지는 변화를 기승전결 구조의 Tableau 스토리로 구성했습니다.",
   },
 ];
 
