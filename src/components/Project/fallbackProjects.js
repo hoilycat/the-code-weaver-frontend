@@ -422,32 +422,33 @@ Results & Limitations
     link: "https://github.com/ryuh2929/SceneDiary",
     period: "2026.06–2026.07",
     cardSummary: "비주얼 디렉션부터 A1 학술 포스터 재설계·발표자료·최종 QA까지 디자인을 총괄한 협업 프로젝트",
-    proofSummary: "팀의 피드백과 공동 첨삭은 협업 과정으로 구분하고, 직접 맡은 시각 설계·포스터 제작·문장 교정·최종 QA를 작업물과 함께 기록합니다.",
+    proofSummary: "팀의 정기 회의·화면 연결·교차 QA는 협업 과정으로 구분하고, 직접 맡은 시각 설계·담당 화면 구현·포스터 제작·최종 검수를 작업물과 함께 기록합니다.",
     implemented: [
       "브랜드·소개 이미지·포스터·발표자료의 비주얼 디렉션",
       "생성 이미지의 바다·구름 확장과 경계 리터칭, 앱 화면 합성",
       "AI 초안을 A1 학술 포스터로 전면 재설계하고 문장·오탈자 최종 검수",
       "PPT 도형으로 다이어그램을 재구성하고 GraphRAG·AI 흐름 설명 보강",
       "로고·앱 아이콘과 3초 MP4 스플래시 설계",
-      "사진 업로드·EXIF/GPS 전처리와 생성 상태 polling UI",
+      "사진 추가·EXIF/GPS 전처리와 이미지 로딩·생성 대기 화면 구현",
+      "앱 디자인 방향 제안, 담당 팀원과 화면 연결 협업 및 교차 QA",
     ],
     evidence: [
       "Hero·Sub 소개 이미지와 A1 포스터 공개",
       "19장 발표자료의 핵심 기술 장표 시퀀스",
       "브랜드 보드·스토리보드·프로토타입",
       "Dark·Light 스플래시 영상",
-      "협업 순서와 개인 담당 범위 명시",
+      "정기 회의·담당 화면·화면 연결·교차 QA 등 협업 범위 명시",
     ],
     nextValidation: ["릴리스 빌드 QA와 팀 인수인계 문서 정리"],
     resources: [
       { label: "Team Repository", url: "https://github.com/ryuh2929/SceneDiary" },
     ],
-    description: `SceneDiary는 여행 사진을 AI가 해석해 날짜별 일기로 구성하는 팀 프로젝트입니다. 저는 Visual Design Lead로서 브랜드와 스플래시, 소개 이미지, A1 학술 포스터, 19장 발표자료의 시각 체계를 설계하고 최종 제작과 문장 QA를 맡았습니다. 프론트엔드에서는 사진 업로드·EXIF/GPS 전처리와 생성 상태 연결 흐름을 구현했습니다.
+    description: `SceneDiary는 여행 사진을 AI가 해석해 날짜별 일기로 구성하는 팀 프로젝트입니다. 저는 Visual Design Lead로서 브랜드와 스플래시, 소개 이미지, A1 학술 포스터, 19장 발표자료의 시각 체계를 설계하고 최종 제작과 문장 QA를 맡았습니다. 프론트엔드에서는 사진 추가와 이미지 로딩·생성 대기 화면을 구현하고, 담당 팀원과 화면 연결 및 교차 QA를 진행했습니다.
 
 [Project Notes]
 
 Role
-Visual Direction, Poster Design Lead, Information Design, Presentation Design, Retouching, Copy Editing, Frontend Flow, Final QA
+Visual Direction, Poster Design Lead, Information Design, Presentation Design, Retouching, Copy Editing, Frontend Screens, Cross QA
 
 Visual Direction
 GPT로 만든 이미지는 초안 소재로 사용했습니다. 바다와 구름 영역을 직접 확장하고 연결부를 리터칭한 뒤, 로고·카피·실제 앱 화면을 편집해 Hero와 기능 소개 이미지를 완성했습니다.
@@ -456,13 +457,13 @@ Poster & Presentation
 초기 AI 생성 포스터는 방향을 확인하는 초안으로만 활용했습니다. 팀의 학술 포스터 형식 제안을 반영해 본선 진출 여부가 정해지기 전인 7월 중순부터 이미지와 정보 구조를 전면 재설계하고, 서비스 흐름·기술 구조·다이어그램을 다시 구성했습니다. 문장 교정과 오탈자 검수, A1 출력 기준 가독성 확인, 최종 제작까지 직접 맡았으며 팀원들은 중간 확인에 참여했습니다. 발표자료는 팀원이 넣은 초기 내용을 바탕으로 PPT 도형을 이용해 이미지와 다이어그램을 재구성하고, 빠져 있던 GraphRAG와 AI 생성 흐름 설명을 보강했습니다.
 
 Collaboration
-포스터는 AI 초안 → 학술 포스터 형식 피드백 → 화면과 정보 구조 전면 재설계 → 팀 중간 확인 → 문장·오탈자 최종 검수 순서로 제작했습니다. 발표자료는 팀원 초안 → 시각 자료 재구성과 기술 설명 보강 → 팀 공동 첨삭 → 팀원의 후속 편집 → 최종 QA 순서로 완성했습니다.
+팀장이 진행한 정기 회의에서 개발 현황과 수정 사항을 공유하고, 프론트엔드 담당 팀원들과 앱 디자인 방향을 논의했습니다. 저는 사진 추가와 이미지 로딩·생성 대기 화면을 맡았으며, 다음 화면 연결은 담당 팀원과 협업했습니다. 페이지 이동과 사용자 흐름은 팀원들과 교차 QA했습니다. 포스터는 AI 초안 → 학술 포스터 형식 피드백 → 화면과 정보 구조 전면 재설계 → 팀 중간 확인 → 문장·오탈자 최종 검수 순서로 제작했습니다. 발표자료는 팀원 초안 → 시각 자료 재구성과 기술 설명 보강 → 팀 공동 첨삭 → 팀원의 후속 편집 → 최종 QA 순서로 완성했습니다.
 
 Project Type
 Team Project, Visual Design Lead, Full-stack, AI Storytelling
 
 Results & Limitations
-팀의 방향 제안과 공동 첨삭은 협업 과정으로 구분하고, 제가 직접 수행한 포스터 전면 재설계·이미지 리터칭·문장 교정·기술 설명 보강·프론트엔드 구현 범위를 작업물과 함께 공개합니다.`,
+팀의 정기 회의·화면 연결·공동 첨삭·교차 QA는 협업 과정으로 구분하고, 제가 직접 수행한 포스터 재설계·이미지 리터칭·문장 교정·기술 설명 보강·담당 화면 구현 범위를 작업물과 함께 공개합니다.`,
   },
   {
     id: 5,
