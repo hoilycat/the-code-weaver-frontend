@@ -75,7 +75,7 @@ export default function ProjectDetail() {
   const displayedProjectBadges = projectBadges.filter(
     (badge) => badge !== "Solo Project" && badge !== "Team Project"
   );
-  const sceneDiaryIntro = "SceneDiary는 여행 사진을 하루의 장면으로 읽고, 선택한 페르소나의 문체로 그 순간을 일기처럼 풀어내는 앱입니다. 저는 로고/아이콘 브랜딩과 3초 mp4 스플래시, 사진 업로드와 생성 상태 연결 흐름을 맡아 첫인상과 사용 흐름이 끊기지 않도록 구현했습니다.";
+  const sceneDiaryIntro = "SceneDiary는 여행 사진을 하루의 장면으로 읽고, 선택한 페르소나의 문체로 그 순간을 일기처럼 구성하는 앱입니다. 저는 Visual Design Lead로서 브랜드와 스플래시, 소개 이미지, A1 포스터, 19장 발표자료의 시각 체계와 최종 QA를 맡았습니다. 프론트엔드에서는 사진 업로드·EXIF/GPS 전처리와 생성 상태 연결 흐름을 구현했습니다.";
   const fixieIntro = "가전제품 매뉴얼은 필요한 순간일수록 멀리 있습니다. Fixie는 QR 코드나 모델명으로 기기를 등록하고, 매뉴얼을 학습한 AI와 대화하며 필요한 해결 방법을 바로 찾도록 설계한 팀 프로젝트입니다. 저는 서비스 디자인과 기기 등록·대시보드·AI 채팅·API 상태 연결을 포함한 프론트엔드 전반을 맡았습니다. 백엔드와 AI 검색 엔진은 팀원의 기여입니다.";
   const focusMateIntro = "Focus Mate Berry는 사용자의 학습 상태를 감지하고, 이를 캐릭터의 반응으로 보여주는 집중 관리 서비스입니다. MediaPipe와 OpenCV로 자세와 자리 비움 상태를 감지하고, 결과에 따라 Berry의 성장, 경고, 수면 상태가 달라지도록 구성했습니다. 캐릭터와의 상호작용을 통해 사용자가 자신의 학습 상태를 자연스럽게 인식하도록 설계했습니다.";
   const coffeeIntro = "Cof/fee는 카페인을 마신 시각과 양을 기록하고, 시간에 따른 체내 잔존량을 확인하는 생활 기록 대시보드입니다. React와 Jotai로 섭취 기록과 상태를 관리하며 반감기 계산, 수면 신호, 금단 위험 알림을 하나의 흐름으로 구성했습니다. v3에서는 YIE GraphRAG를 연결해 기록 패턴과 관련된 논문 근거를 참고 정보로 제공합니다.";
@@ -110,6 +110,18 @@ export default function ProjectDetail() {
       title: "Particle Iteration",
       src: "/media/scenediary-process/particle-iteration.png",
       caption: "앱 적용 시 무거워지는 문제를 줄이기 위해 실시간 파티클 대신 3초 mp4로 마무리하는 방향을 비교했습니다.",
+    },
+  ];
+  const sceneDiaryVisualAssets = [
+    {
+      title: "Hero Image",
+      src: "/media/scenediary-presentation/hero-image.webp",
+      caption: "GPT로 생성한 이미지를 초안 소재로 삼아 바다와 구름을 직접 확장·리터칭하고, 로고와 카피를 배치해 서비스의 첫인상을 완성했습니다.",
+    },
+    {
+      title: "Feature Flow Image",
+      src: "/media/scenediary-presentation/feature-flow.webp",
+      caption: "배경을 다시 편집한 뒤 실제 앱 화면을 합성해 사진 선택 → AI 분석 → 일기 생성 → 저장·조회 흐름이 한눈에 읽히도록 구성했습니다.",
     },
   ];
   const moodDnaRoleItems = [
@@ -702,6 +714,77 @@ export default function ProjectDetail() {
                     <h3>Claude Refinement</h3>
                     <p>로맨틱 페르소나에 맞게 더 달콤하고 부드러운 문장으로 첨삭했습니다.</p>
                   </article>
+                </div>
+              </section>
+            )}
+
+            {isSceneDiary && (
+              <section className="scene-diary-visual-panel" aria-labelledby="scene-diary-visual-title">
+                <div className="notes-kicker">Visual Direction</div>
+                <h2 id="scene-diary-visual-title">Generated as a base, directed by hand</h2>
+                <p className="scene-diary-section-lead">
+                  이미지 생성 결과를 그대로 사용하지 않았습니다. 필요한 요소를 골라 바다와 구름을 화면 비율에 맞게 연장하고,
+                  연결부와 밀도를 직접 리터칭했습니다. 이후 브랜드 문구와 실제 앱 화면을 합성해 두 장의 소개 이미지로 완성했습니다.
+                </p>
+                <div className="scene-diary-asset-grid">
+                  {sceneDiaryVisualAssets.map((item) => (
+                    <article className="scene-diary-asset-card" key={item.title}>
+                      <button type="button" onClick={() => setZoomImg(item.src)} aria-label={`${item.title} 이미지 크게 보기`}>
+                        <img src={item.src} alt={`SceneDiary ${item.title}`} />
+                      </button>
+                      <h3>{item.title}</h3>
+                      <p>{item.caption}</p>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {isSceneDiary && (
+              <section className="scene-diary-poster-panel" aria-labelledby="scene-diary-poster-title">
+                <div className="scene-diary-poster-copy">
+                  <div className="notes-kicker">Poster Design</div>
+                  <h2 id="scene-diary-poster-title">Prepared before the result</h2>
+                  <p>
+                    본선 진출 여부가 정해지기 전인 7월 중순부터 A1 포스터를 준비했습니다. AI 초안은 완성본으로 쓰지 않고
+                    요소별로 분해한 뒤, 서비스 흐름과 기술 구조가 먼저 읽히도록 정보 위계와 레이아웃을 다시 설계했습니다.
+                  </p>
+                  <ol className="scene-diary-workflow-list">
+                    <li><span>01</span> AI 초안을 시각 요소 단위로 분해</li>
+                    <li><span>02</span> 핵심 기능과 기술 구조의 정보 위계 재설계</li>
+                    <li><span>03</span> 소개 이미지·앱 화면·다이어그램 재편집</li>
+                    <li><span>04</span> A1 출력 기준으로 밀도와 가독성 최종 조정</li>
+                  </ol>
+                </div>
+                <button className="scene-diary-poster-image" type="button" onClick={() => setZoomImg("/media/scenediary-presentation/a1-poster.webp")} aria-label="SceneDiary A1 포스터 크게 보기">
+                  <img src="/media/scenediary-presentation/a1-poster.webp" alt="SceneDiary A1 final poster" />
+                </button>
+              </section>
+            )}
+
+            {isSceneDiary && (
+              <section className="scene-diary-deck-panel" aria-labelledby="scene-diary-deck-title">
+                <div className="notes-kicker">Presentation Design Lead</div>
+                <h2 id="scene-diary-deck-title">19 slides, one visual and technical narrative</h2>
+                <p className="scene-diary-section-lead">
+                  팀원들이 넣은 초기 내용을 바탕으로 PPT 도형 도구를 이용해 이미지와 다이어그램을 다시 만들고,
+                  설명이 빠져 있던 GraphRAG와 AI 생성 흐름을 보강했습니다. 이후 팀 공동 첨삭과 팀원(팅커벨)의 후속 편집을 거쳐
+                  전체 장표의 흐름과 표현을 최종 확인했습니다.
+                </p>
+                <div className="scene-diary-deck-frame">
+                  <video
+                    src="/media/scenediary-presentation/presentation-flow.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls
+                    preload="metadata"
+                    aria-label="SceneDiary 발표자료 핵심 장표 시퀀스"
+                  />
+                </div>
+                <div className="scene-diary-collab-flow" aria-label="SceneDiary 발표자료 협업 과정">
+                  <span>팀원 초기 내용</span><b>→</b><span>도형·다이어그램 재구성</span><b>→</b><span>기술 설명 보강</span><b>→</b><span>팀 공동 첨삭</span><b>→</b><span>최종 QA</span>
                 </div>
               </section>
             )}

@@ -416,40 +416,52 @@ Results & Limitations
     title: "SceneDiary",
     subtitle: "여행 사진을 페르소나 일기로 바꾸는 팀 프로젝트",
     category: "Team Project",
-    editorialLabel: "Team · Full-stack",
+    editorialLabel: "Team · Visual Design Lead",
     disciplines: ["AI", "Full-stack"],
     snapshot: "https://hqefyvwzlhytnmhqbggt.supabase.co/storage/v1/object/public/images/uploads/1781057615264_effa159c-48a0-4312-b635-52651a1d3741.png",
     link: "https://github.com/ryuh2929/SceneDiary",
     period: "2026.06–2026.07",
-    cardSummary: "브랜딩·스플래시와 사진 업로드→EXIF/GPS→생성 상태 흐름을 맡은 협업 프로젝트",
-    proofSummary: "팀 전체 아키텍처와 개인 기여를 분리해, 직접 담당한 브랜딩·모션·업로드 흐름을 중심으로 설명합니다.",
+    cardSummary: "비주얼 디렉션부터 소개 이미지·A1 포스터·발표자료까지 디자인을 총괄한 협업 프로젝트",
+    proofSummary: "팀의 초기 내용과 공동 첨삭 과정은 구분하고, 직접 맡은 시각 설계·기술 설명 보강·최종 QA를 작업물과 함께 기록합니다.",
     implemented: [
-      "로고·앱 아이콘과 브랜드 보드",
-      "3초 MP4 스플래시와 경량화 의사결정",
-      "사진 업로드·썸네일·EXIF/GPS 흐름",
-      "생성 상태 polling과 화면 연결",
+      "브랜드·소개 이미지·포스터·발표자료의 비주얼 디렉션",
+      "생성 이미지의 바다·구름 확장과 경계 리터칭, 앱 화면 합성",
+      "PPT 도형으로 다이어그램을 재구성하고 GraphRAG·AI 흐름 설명 보강",
+      "로고·앱 아이콘과 3초 MP4 스플래시 설계",
+      "사진 업로드·EXIF/GPS 전처리와 생성 상태 polling UI",
     ],
     evidence: [
-      "브랜드 보드·스토리보드·프로토타입 공개",
+      "Hero·Sub 소개 이미지와 A1 포스터 공개",
+      "19장 발표자료의 핵심 기술 장표 시퀀스",
+      "브랜드 보드·스토리보드·프로토타입",
       "Dark·Light 스플래시 영상",
-      "팀 저장소와 담당 범위 명시",
+      "협업 순서와 개인 담당 범위 명시",
     ],
     nextValidation: ["릴리스 빌드 QA와 팀 인수인계 문서 정리"],
     resources: [
       { label: "Team Repository", url: "https://github.com/ryuh2929/SceneDiary" },
     ],
-    description: `SceneDiary는 여행 사진을 AI가 해석해 일기 초안으로 바꾸는 팀 프로젝트입니다. 저는 로고·아이콘 브랜딩과 3초 MP4 스플래시, 사진 업로드와 생성 상태 연결 흐름을 맡았습니다.
+    description: `SceneDiary는 여행 사진을 AI가 해석해 날짜별 일기로 구성하는 팀 프로젝트입니다. 저는 Visual Design Lead로서 브랜드와 스플래시, 소개 이미지, A1 포스터, 19장 발표자료의 시각 체계와 최종 QA를 맡았습니다. 프론트엔드에서는 사진 업로드·EXIF/GPS 전처리와 생성 상태 연결 흐름을 구현했습니다.
 
 [Project Notes]
 
 Role
-브랜딩, 스플래시, 사진 업로드·EXIF/GPS 전처리와 생성 상태 polling UI를 담당했습니다.
+Visual Direction, Information Design, Presentation Design, Retouching, Frontend Flow, Final QA
+
+Visual Direction
+GPT로 만든 이미지는 초안 소재로 사용했습니다. 바다와 구름 영역을 직접 확장하고 연결부를 리터칭한 뒤, 로고·카피·실제 앱 화면을 편집해 Hero와 기능 소개 이미지를 완성했습니다.
+
+Poster & Presentation
+본선 진출 여부가 정해지기 전인 7월 중순부터 A1 포스터를 준비했습니다. AI 초안을 그대로 사용하지 않고 요소별로 분해해 정보 위계와 화면 구성을 다시 만들었습니다. 발표자료는 팀원이 넣은 초기 내용을 바탕으로 PPT 도형을 이용해 이미지와 다이어그램을 재구성하고, 빠져 있던 GraphRAG와 AI 생성 흐름 설명을 보강했습니다.
+
+Collaboration
+팀원 초안 → 시각 자료 재구성과 기술 설명 보강 → 팀 공동 첨삭 → 팀원(팅커벨)의 후속 편집 → 최종 QA 순서로 완성했습니다.
 
 Project Type
-Full-stack, AI, Storytelling, UX
+Team Project, Visual Design Lead, Full-stack, AI Storytelling
 
 Results & Limitations
-팀 전체 기능과 제 개인 기여를 분리해 공개하며, 릴리스 QA는 팀 후속 작업으로 남아 있습니다.`,
+팀의 초기 콘텐츠와 공동 첨삭은 협업 과정으로 구분하고, 제가 직접 수행한 시각 설계·리터칭·기술 설명 보강·프론트엔드 구현 범위를 작업물과 함께 공개합니다.`,
   },
   {
     id: 5,
