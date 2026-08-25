@@ -736,6 +736,10 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.readme-media-grid.fixie-media-grid .readme-media-card:last-child {
+  grid-column: 1 / -1;
+}
+
 .readme-media-grid.weldvision-media-grid .readme-media-frame,
 .readme-media-grid.weldvision-media-grid .readme-media-frame img {
   aspect-ratio: 1800 / 1429;
@@ -1041,7 +1045,8 @@
 }
 
 .scene-diary-visual-panel,
-.scene-diary-deck-panel {
+.scene-diary-deck-panel,
+.fixie-work-panel {
   box-sizing: border-box;
   margin: 0 auto 84px;
   padding: 48px 44px;
@@ -1051,7 +1056,8 @@
 
 .scene-diary-visual-panel h2,
 .scene-diary-poster-panel h2,
-.scene-diary-deck-panel h2 {
+.scene-diary-deck-panel h2,
+.fixie-work-panel h2 {
   margin: 10px auto 24px;
   font-family: "Superclarendon", serif;
   font-size: clamp(2rem, 4vw, 3.35rem);
@@ -1067,6 +1073,15 @@
   line-height: 1.9;
   text-align: left;
   color: #333;
+}
+
+.fixie-deployment-note {
+  margin: 28px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid rgba(33, 52, 72, 0.24);
+  font-size: 0.92rem;
+  line-height: 1.8;
+  color: rgba(33, 52, 72, 0.78);
 }
 
 .scene-diary-asset-grid {
@@ -1801,7 +1816,8 @@
   }
 
   .scene-diary-visual-panel,
-  .scene-diary-deck-panel {
+  .scene-diary-deck-panel,
+  .fixie-work-panel {
     margin-bottom: 64px;
     padding: 34px 18px;
   }

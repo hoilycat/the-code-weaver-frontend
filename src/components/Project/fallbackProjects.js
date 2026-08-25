@@ -471,33 +471,73 @@ Results & Limitations
     id: 5,
     priority: 8,
     title: "Fixie",
-    subtitle: "AI 가전 매뉴얼 서비스의 디자인·프론트엔드",
+    subtitle: "AI 가전 매뉴얼 서비스의 디자인·프론트엔드·Azure 배포",
     category: "Team Project",
-    editorialLabel: "Team · Design & Frontend",
-    disciplines: ["AI"],
+    editorialLabel: "Team · Design, Frontend & Deployment",
+    disciplines: ["AI", "Full-stack"],
     snapshot: "https://hqefyvwzlhytnmhqbggt.supabase.co/storage/v1/object/public/images/uploads/1778142181960_5efe036a-769c-4a0b-bd32-778c9cba0190.png",
-    link: "https://github.com/asd9244/Easy_Manual",
+    link: "https://github.com/asd9244/Easy_Manual/tree/deploy/azure-setup",
     period: "2026",
-    cardSummary: "서비스 디자인부터 기기 등록·대시보드·AI 채팅까지 프론트엔드 전반 담당",
-    proofSummary: "팀의 백엔드·AI 엔진과 구분해, 직접 맡은 서비스 디자인과 프론트엔드 전반을 중심으로 보여줍니다.",
-    implemented: ["서비스 UX·UI와 화면 구조 설계", "기기 등록과 대시보드 프론트엔드", "AI 매뉴얼 채팅 인터페이스", "API 상태 연결과 반응형 화면"],
-    evidence: ["공개 팀 저장소", "디자인·프론트엔드 담당 범위 명시", "주요 화면과 팀 데모 흐름"],
-    nextValidation: ["공개 가능한 개인 기여 화면과 데모 증거 보강"],
-    resources: [
-      { label: "Team Repository", url: "https://github.com/asd9244/Easy_Manual" },
+    cardSummary: "앱 구조·UX/UI·프론트엔드에서 Azure 운영 구성까지 연결한 협업 프로젝트",
+    proofSummary: "팀원이 주도한 백엔드·GraphRAG와 제가 맡은 앱 구성·디자인·프론트엔드·Azure 배포 대응, 함께 진행한 통합·교차 QA를 구분해 기록합니다.",
+    implemented: [
+      "앱 뼈대와 모바일·데스크톱 반응형 화면 흐름 설계",
+      "스플래시·튜토리얼·기기 등록·홈·AI 채팅·이력·설정 UI",
+      "Axios·JWT 세션·OAuth 콜백·Vercel 프록시를 포함한 API 연결",
+      "Azure VM의 Spring Boot·FastAPI·PostgreSQL·Neo4j 운영 구성",
+      "Docker Compose·Cloudflare Tunnel 연결과 Gemini API 전환",
+      "팀원과 프론트·백엔드 오류 수정 및 교차 QA",
     ],
-    description: `Fixie는 QR 코드나 모델명으로 기기를 등록하고, 매뉴얼을 학습한 AI와 대화하며 필요한 해결 방법을 찾도록 설계한 팀 프로젝트입니다. 저는 서비스 디자인과 프론트엔드 전반을 담당했습니다.
+    evidence: [
+      "deploy/azure-setup 브랜치의 작성자 커밋과 배포 문서",
+      "Dockerfile 2종·5개 서비스 Docker Compose·Vercel rewrite 공개",
+      "실제 앱 스플래시·기기 등록·AI 대화 데모 영상",
+      "팀 main 저장소와 개인 배포 브랜치를 함께 공개",
+    ],
+    nextValidation: ["Azure for Students 크레딧 소진으로 중단된 상시 서버 재배포"],
+    troubleshooting: [
+      {
+        title: "3GB VM의 로컬 LLM 메모리 한계",
+        problem: "Azure VM에서 Ollama·Gemma를 함께 실행하자 메모리 부족으로 AI 서비스가 안정적으로 올라오지 않았습니다.",
+        solution: "로컬 추론 대신 Gemini API를 사용하도록 AI 백엔드를 조정하고, 제한된 VM에서는 애플리케이션 서비스 운영에 자원을 집중했습니다.",
+      },
+      {
+        title: "Vercel과 Azure의 HTTPS 연결",
+        problem: "Vercel 프론트엔드와 Azure의 Spring·FastAPI 서비스를 연결하려면 CORS, HTTPS, API 경로와 OAuth 콜백을 함께 정리해야 했습니다.",
+        solution: "Cloudflare Tunnel과 Vercel rewrite를 구성하고 Axios 인증·오류 처리, OAuth 성공 콜백 경로를 운영 환경에 맞게 조정했습니다.",
+      },
+      {
+        title: "소셜 로그인 실행 환경 불일치",
+        problem: "소셜 로그인이 연결되지 않아 개발이 막혔고, 프론트엔드와 백엔드가 서로 다른 실행 환경과 리다이렉트 주소를 바라보고 있었습니다.",
+        solution: "실행 환경 차이를 원인으로 의심해 API 주소와 OAuth 콜백 설정을 비교하고 환경 변수를 맞춘 결과, 다음 날 로그인이 정상적으로 동작했습니다.",
+      },
+    ],
+    resources: [
+      { label: "Azure Branch", url: "https://github.com/asd9244/Easy_Manual/tree/deploy/azure-setup" },
+      { label: "Team Repository · main", url: "https://github.com/asd9244/Easy_Manual" },
+      { label: "Azure Deployment Guide", url: "https://github.com/asd9244/Easy_Manual/blob/deploy/azure-setup/README.md" },
+    ],
+    description: `Fixie는 QR 코드나 모델명으로 기기를 등록하고, 매뉴얼을 학습한 AI와 대화하며 필요한 해결 방법을 찾도록 설계한 팀 프로젝트입니다. 저는 앱의 기본 구조와 서비스 디자인, 프론트엔드 흐름을 구성하고 Azure 배포 환경을 정리했습니다.
 
 [Project Notes]
 
 Role
-서비스 UX·UI 디자인, 화면 구조, 기기 등록과 대시보드, AI 채팅 인터페이스, API 상태 연결을 포함한 프론트엔드 전반을 맡았습니다.
+팀장이 요청한 앱의 기본 뼈대에서 시작해 서비스 UX·UI, 화면 구조, 스플래시와 튜토리얼, 기기 등록·홈·AI 채팅·이력·설정 화면, 반응형 내비게이션과 API 상태 연결을 맡았습니다. 이후 deploy/azure-setup 브랜치에서 Vercel 프론트엔드와 Azure VM의 Spring Boot·FastAPI·PostgreSQL·Neo4j를 연결하는 운영 구성을 정리했습니다.
+
+Collaboration
+팀장은 정기 회의를 주도하며 진행 상황과 수정 사항을 조율했고, 팀원은 백엔드와 GraphRAG 핵심을 주도했습니다. 저는 앱 구성과 디자인 방향을 제안하고 프론트엔드를 구현했으며, API 연결과 자잘한 오류는 역할 구분에 갇히지 않고 함께 수정했습니다. 소셜 로그인이 막혔을 때는 실행 환경 차이를 원인으로 짚어 설정을 함께 확인했고, 다음 날 정상 동작을 확인했습니다. 서로의 화면과 기능을 교차 QA하며 사용자 흐름을 점검했습니다.
+
+Deployment
+Azure VM에서 Spring Boot·FastAPI·PostgreSQL·Neo4j·Cloudflare Tunnel을 Docker Compose로 운영하도록 구성했습니다. 3GB VM에서 로컬 LLM 실행 중 메모리 문제가 발생해 Gemini API 기반으로 전환하고, Vercel rewrite와 OAuth 콜백·인증 오류 처리를 운영 환경에 맞게 조정했습니다.
 
 Project Type
-Team Project, Frontend, Product Design, AI UX
+Team Project, Product Design, Frontend, Full-stack Deployment, AI UX
+
+Tech Stack
+React, TypeScript, Axios, Spring Boot, FastAPI, PostgreSQL, Neo4j, Docker Compose, Azure VM, Vercel, Cloudflare Tunnel, Google Gemini
 
 Results & Limitations
-디자인과 프론트엔드 사용자 흐름을 구현했습니다. 백엔드와 AI 검색 엔진은 팀원의 기여이며 제 구현 범위와 구분해 설명합니다.`,
+앱 구조·디자인·프론트엔드와 Azure 배포 대응은 제 구현 범위이며, GraphRAG 핵심과 백엔드는 팀원의 기여입니다. 데모 영상은 팀 main 애플리케이션에서 촬영했고 deploy/azure-setup은 같은 앱의 배포 구성 버전입니다. Azure for Students 크레딧 소진으로 상시 서버는 현재 중단되어 있으며, 로컬 실행 코드와 배포 문서를 공개합니다.`,
   },
   {
     id: 8,

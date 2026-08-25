@@ -76,7 +76,7 @@ export default function ProjectDetail() {
     (badge) => badge !== "Solo Project" && badge !== "Team Project"
   );
   const sceneDiaryIntro = "SceneDiary는 여행 사진을 하루의 장면으로 읽고, 선택한 페르소나의 문체로 그 순간을 일기처럼 구성하는 앱입니다. 저는 Visual Design Lead로서 브랜드와 스플래시, 소개 이미지, A1 학술 포스터, 19장 발표자료의 시각 체계를 설계하고 최종 제작과 문장 QA를 맡았습니다. 프론트엔드에서는 사진 추가와 이미지 로딩·생성 대기 화면을 구현했으며, 백엔드 팀과는 데이터베이스 구조를 검토했습니다. 화면 연결과 교차 QA는 담당 팀원들과 함께 진행했습니다.";
-  const fixieIntro = "가전제품 매뉴얼은 필요한 순간일수록 멀리 있습니다. Fixie는 QR 코드나 모델명으로 기기를 등록하고, 매뉴얼을 학습한 AI와 대화하며 필요한 해결 방법을 바로 찾도록 설계한 팀 프로젝트입니다. 저는 서비스 디자인과 기기 등록·대시보드·AI 채팅·API 상태 연결을 포함한 프론트엔드 전반을 맡았습니다. 백엔드와 AI 검색 엔진은 팀원의 기여입니다.";
+  const fixieIntro = "Fixie는 QR 코드나 모델명으로 가전제품을 등록하고, 매뉴얼을 학습한 AI와 대화하며 필요한 해결 방법을 찾는 팀 프로젝트입니다. 저는 앱의 기본 구조와 서비스 디자인, 기기 등록·홈·AI 채팅·이력·설정 화면을 포함한 프론트엔드를 맡았습니다. 이후 Azure 배포 브랜치에서 Docker 기반 운영 환경과 Vercel·API 연결을 구성했습니다. GraphRAG 핵심과 백엔드는 팀원이 주도했으며, 오류 수정과 교차 QA는 함께 진행했습니다.";
   const focusMateIntro = "Focus Mate Berry는 사용자의 학습 상태를 감지하고, 이를 캐릭터의 반응으로 보여주는 집중 관리 서비스입니다. MediaPipe와 OpenCV로 자세와 자리 비움 상태를 감지하고, 결과에 따라 Berry의 성장, 경고, 수면 상태가 달라지도록 구성했습니다. 캐릭터와의 상호작용을 통해 사용자가 자신의 학습 상태를 자연스럽게 인식하도록 설계했습니다.";
   const coffeeIntro = "Cof/fee는 카페인을 마신 시각과 양을 기록하고, 시간에 따른 체내 잔존량을 확인하는 생활 기록 대시보드입니다. React와 Jotai로 섭취 기록과 상태를 관리하며 반감기 계산, 수면 신호, 금단 위험 알림을 하나의 흐름으로 구성했습니다. v3에서는 YIE GraphRAG를 연결해 기록 패턴과 관련된 논문 근거를 참고 정보로 제공합니다.";
   const groupedGalleryProjectIds = [1, 2, 3];
@@ -266,6 +266,30 @@ export default function ProjectDetail() {
     },
   ];
 
+  const fixieReadmeMedia = [
+    {
+      title: "Splash & onboarding",
+      type: "video",
+      aspect: "wide",
+      src: "https://raw.githubusercontent.com/asd9244/Easy_Manual/deploy/azure-setup/media/Fixie_Model_01splash.mp4",
+      caption: "직접 구성한 앱의 시작 화면과 브랜드 컬러, 스플래시·온보딩 흐름을 보여주는 팀 앱 시연입니다.",
+    },
+    {
+      title: "Device registration flow",
+      type: "video",
+      aspect: "wide",
+      src: "https://raw.githubusercontent.com/asd9244/Easy_Manual/deploy/azure-setup/media/Fixie_Model_02.mp4",
+      caption: "기기 목록에서 모델을 검색하고 등록하는 사용자 흐름입니다. 앱 구조와 프론트엔드 화면을 중심으로 확인할 수 있습니다.",
+    },
+    {
+      title: "GraphRAG manual conversation",
+      type: "video",
+      aspect: "wide",
+      src: "https://raw.githubusercontent.com/asd9244/Easy_Manual/deploy/azure-setup/media/Fixie_Model_03_communication.mp4",
+      caption: "팀 main 앱에서 촬영한 AI 매뉴얼 질의·응답 시연입니다. GraphRAG 검색과 백엔드는 팀원의 기여이며, 채팅 화면과 사용자 흐름을 연결했습니다.",
+    },
+  ];
+
   const readmeMedia = isFocusMate
     ? focusMateReadmeMedia
     : isCoffee
@@ -274,7 +298,9 @@ export default function ProjectDetail() {
         ? weldVisionReadmeMedia
         : isWeldVisionQA
           ? weldVisionQaMedia
-          : [];
+          : isFixie
+            ? fixieReadmeMedia
+            : [];
   const characterCompanions = isFocusMate ? [
     {
       name: "Berry studying",
@@ -551,9 +577,11 @@ export default function ProjectDetail() {
                       ? "RT · VT detection evidence"
                       : isWeldVisionQA
                         ? "Dataset QA result in motion"
-                        : "Interaction and posture preview"}
+                        : isFixie
+                          ? "From app structure to manual conversation"
+                          : "Interaction and posture preview"}
                 </h2>
-                <div className={`readme-media-grid ${isCoffee ? "coffee-media-grid" : ""} ${isWeldVision ? "weldvision-media-grid" : ""}`}>
+                <div className={`readme-media-grid ${isCoffee ? "coffee-media-grid" : ""} ${isWeldVision ? "weldvision-media-grid" : ""} ${isFixie ? "fixie-media-grid" : ""}`}>
                   {readmeMedia.map((item) => (
                     <article className={`readme-media-card ${item.aspect || ""}`} key={item.title}>
                       <div className="readme-media-frame">
@@ -613,6 +641,54 @@ export default function ProjectDetail() {
                     </article>
                   ))}
                 </div>
+              </section>
+            )}
+
+            {isFixie && (
+              <section className="fixie-work-panel" aria-labelledby="fixie-work-title">
+                <div className="notes-kicker">Design · Deployment · Collaboration</div>
+                <h2 id="fixie-work-title">One app, clearly shared ownership</h2>
+                <p className="scene-diary-section-lead">
+                  팀장이 주도한 회의에서 앱의 기본 구조를 맡아 화면 디자인과 프론트엔드 흐름을 만들었습니다.
+                  팀원은 GraphRAG와 백엔드 핵심을 맡았고, API 연결·오류 수정·교차 QA는 함께 진행했습니다.
+                  이후 개인 배포 브랜치에서 Azure 운영 환경을 구성하고 실제 서버 제약에 맞춰 애플리케이션을 조정했습니다.
+                </p>
+                <div className="persona-process-grid">
+                  <article>
+                    <span>01</span>
+                    <h3>App Structure &amp; UX</h3>
+                    <p>앱 뼈대와 반응형 내비게이션을 만들고 스플래시·등록·홈·채팅·이력·설정 화면 흐름을 설계했습니다.</p>
+                  </article>
+                  <article>
+                    <span>02</span>
+                    <h3>API &amp; Auth Flow</h3>
+                    <p>Axios 요청, JWT 세션, OAuth 콜백과 Vercel 프록시를 실제 사용자 흐름에 맞춰 연결했습니다.</p>
+                  </article>
+                  <article>
+                    <span>03</span>
+                    <h3>Azure Deployment</h3>
+                    <p>Spring Boot·FastAPI·PostgreSQL·Neo4j·Cloudflare Tunnel을 Azure VM과 Docker Compose로 구성했습니다.</p>
+                  </article>
+                  <article>
+                    <span>04</span>
+                    <h3>Production Recovery</h3>
+                    <p>3GB VM의 로컬 LLM 메모리 부족 문제를 확인하고 Gemini API 기반으로 AI 실행 구조를 조정했습니다.</p>
+                  </article>
+                  <article>
+                    <span>05</span>
+                    <h3>Shared QA</h3>
+                    <p>정기 회의에서 진행 상황을 공유하고, 프론트엔드와 백엔드의 자잘한 문제는 팀원과 함께 고쳤습니다.</p>
+                  </article>
+                  <article>
+                    <span>06</span>
+                    <h3>Environment Diagnosis</h3>
+                    <p>로그인이 막히자 실행 환경 차이를 의심해 API 주소와 OAuth 콜백 설정을 확인했고, 다음 날 정상 동작을 확인했습니다.</p>
+                  </article>
+                </div>
+                <p className="fixie-deployment-note">
+                  Azure for Students 크레딧 소진으로 상시 서버는 현재 중단됐습니다. 데모는 팀 main 앱에서 촬영했으며,
+                  deploy/azure-setup 브랜치에서 같은 앱의 배포 구성과 수정 내역을 확인할 수 있습니다.
+                </p>
               </section>
             )}
 
