@@ -522,10 +522,10 @@ Results & Limitations
 [Project Notes]
 
 Role
-팀장이 요청한 앱의 기본 뼈대에서 시작해 서비스 UX·UI, 화면 구조, 스플래시와 튜토리얼, 기기 등록·홈·AI 채팅·이력·설정 화면, 반응형 내비게이션과 API 상태 연결을 맡았습니다. 이후 deploy/azure-setup 브랜치에서 Vercel 프론트엔드와 Azure VM의 Spring Boot·FastAPI·PostgreSQL·Neo4j를 연결하는 운영 구성을 정리했습니다.
+초기 회의에서 정한 앱의 기본 구조를 바탕으로 서비스 UX·UI와 화면 흐름을 구체화했습니다. 스플래시와 튜토리얼, 기기 등록·홈·AI 채팅·이력·설정 화면, 반응형 내비게이션과 API 상태 연결을 맡았습니다. 이후 deploy/azure-setup 브랜치에서 Vercel 프론트엔드와 Azure VM의 Spring Boot·FastAPI·PostgreSQL·Neo4j를 연결하는 운영 구성을 정리했습니다.
 
 Collaboration
-팀장은 정기 회의를 주도하며 진행 상황과 수정 사항을 조율했고, 팀원은 백엔드와 GraphRAG 핵심을 주도했습니다. 저는 앱 구성과 디자인 방향을 제안하고 프론트엔드를 구현했으며, API 연결과 자잘한 오류는 역할 구분에 갇히지 않고 함께 수정했습니다. 소셜 로그인이 막혔을 때는 실행 환경 차이를 원인으로 짚어 설정을 함께 확인했고, 다음 날 정상 동작을 확인했습니다. 서로의 화면과 기능을 교차 QA하며 사용자 흐름을 점검했습니다.
+2인 팀으로 역할을 나누어 작업했습니다. 팀원은 백엔드와 GraphRAG 핵심을 주도하고, 저는 앱 구성과 디자인, 프론트엔드를 중심으로 구현했습니다. 정기적으로 진행 상황과 수정 사항을 공유했으며, API 연결과 자잘한 오류는 담당 영역을 구분하지 않고 함께 수정했습니다. 소셜 로그인이 막혔을 때는 실행 환경 차이를 원인으로 짚어 설정을 함께 확인했고, 다음 날 정상 동작을 확인했습니다. 서로의 화면과 기능을 교차 QA하며 전체 사용자 흐름을 점검했습니다.
 
 Deployment
 Azure VM에서 Spring Boot·FastAPI·PostgreSQL·Neo4j·Cloudflare Tunnel을 Docker Compose로 운영하도록 구성했습니다. 3GB VM에서 로컬 LLM 실행 중 메모리 문제가 발생해 Gemini API 기반으로 전환하고, Vercel rewrite와 OAuth 콜백·인증 오류 처리를 운영 환경에 맞게 조정했습니다.

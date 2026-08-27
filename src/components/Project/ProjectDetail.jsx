@@ -649,8 +649,8 @@ export default function ProjectDetail() {
                 <div className="notes-kicker">Design · Deployment · Collaboration</div>
                 <h2 id="fixie-work-title">One app, clearly shared ownership</h2>
                 <p className="scene-diary-section-lead">
-                  팀장이 주도한 회의에서 앱의 기본 구조를 맡아 화면 디자인과 프론트엔드 흐름을 만들었습니다.
-                  팀원은 GraphRAG와 백엔드 핵심을 맡았고, API 연결·오류 수정·교차 QA는 함께 진행했습니다.
+                  2인 팀으로 역할을 나누어 작업하며 앱의 기본 구조와 화면 디자인, 프론트엔드 흐름을 만들었습니다.
+                  팀원은 GraphRAG와 백엔드 핵심을 주도했고, API 연결·오류 수정·교차 QA는 함께 진행했습니다.
                   이후 개인 배포 브랜치에서 Azure 운영 환경을 구성하고 실제 서버 제약에 맞춰 애플리케이션을 조정했습니다.
                 </p>
                 <div className="persona-process-grid">
