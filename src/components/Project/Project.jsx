@@ -19,7 +19,7 @@ const FEATURED_PROJECT_IDS = {
 const PROJECT_IDS_BY_FILTER = {
   'Machine Vision': [11, 12, 1, 3],
   AI: [3, 4, 11, 2],
-  'Full-stack': [2, 3, 10, 4],
+  'Full-stack': [2, 3, 10, 4, -1],
   Data: [8, 6, 7, 9],
 };
 
@@ -165,7 +165,7 @@ export default function Project() {
                   ref={el => cardsRef.current[index] = el}
                   className={`project-card ${isFeatured ? 'featured' : (project.size || 'small')}`}
                   onClick={() => navigate(`/project/${project.id}?from=${encodeURIComponent(filter)}`)}
-                  style={{ "--bg-image": `url(${getImageUrl(project.snapshot)})` }}
+                  style={{ "--bg-image": `url(${getImageUrl(project.snapshot)})`, "--bg-position": project.localOnly ? 'center 4%' : 'center' }}
                 >
                   <div className="card-info">
                     <span className="tag">

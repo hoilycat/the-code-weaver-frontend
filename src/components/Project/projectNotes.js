@@ -410,7 +410,7 @@ export const getProjectBadges = (project, sections = []) => {
   const matched = BADGES_BY_PROJECT.find(({ match }) => project.title?.includes(match));
   if (matched) return matched.badges;
 
-  if (project.category === "Data Visualization") return ["Data Visualization", "Frontend"];
+  if (project.category === "Data Visualization") return ["Data Visualization"];
   if (project.category === "Team Project") return ["Frontend", "UX"];
   return ["Full-stack"];
 };
