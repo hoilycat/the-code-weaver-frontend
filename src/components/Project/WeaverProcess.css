@@ -1,0 +1,31 @@
+.weaver-process { margin: 3rem 0; color: #23334b; }
+.weaver-process h2 { font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.4; }
+.weaver-process p { line-height: 1.85; word-break: keep-all; }
+.weaver-process-kicker { font-size: .75rem; letter-spacing: .16em; }
+.weaver-authorship { padding: 1rem 1.5rem; border-left: 3px solid #23334b; background: #eeeae2; }
+.weaver-stage { margin: 2.5rem 0 1rem; }
+.weaver-process-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.weaver-process figure { margin: 0; min-width: 0; }
+.weaver-process figure button { width: 100%; padding: 0; border: 1px solid #d8d3c9; background: #f5f1e8; cursor: zoom-in; }
+.weaver-process figure img { display: block; width: 100%; object-fit: contain; }
+.weaver-sketches img { height: 280px; }
+.weaver-drafts img { height: auto; }
+.weaver-process figcaption h3 { font-size: 1rem; margin-bottom: .4rem; }
+.weaver-process figcaption p { font-size: .9rem; }
+.weaver-process a { color: inherit; text-underline-offset: 4px; }
+.weaver-source-link { display: inline-block; margin-top: 1rem; }
+.weaver-selection { margin: 1.5rem 0; padding: 1rem 1.25rem; border-left: 3px solid #547696; background: #edf1f4; }
+.weaver-selection h3 { margin: 0 0 .5rem; font-size: 1rem; }
+.weaver-selection p { margin: 0; }
+.weaver-code-scope article { border-top: 1px solid #a5a8ab; padding-top: .5rem; }
+.weaver-scope-note { font-size: .85rem; padding-top: 1.5rem; }
+.weaver-motion-steps { padding-left: 1.5rem; margin: 1.5rem 0; }
+.weaver-motion-steps li { padding: .6rem 0 .6rem .5rem; border-bottom: 1px solid #d8d3c9; }
+.weaver-motion-steps li p { margin: .4rem 0; }
+.weaver-motion-process h4 { font-size: 1rem; }
+.weaver-image-dialog { width: min(1000px, 94vw); max-height: 94vh; padding: 0; border: 0; overflow: auto; background: #f5f1e8; }
+.weaver-image-dialog::backdrop { background: rgb(0 0 0 / 85%); }
+.weaver-image-dialog img { display: block; width: 100%; height: auto; }
+.weaver-image-dialog button { position: sticky; top: 0; display: block; margin-left: auto; padding: .8rem 1.2rem; background: #23334b; color: white; border: 0; cursor: pointer; }
+.weaver-process button:focus-visible, .weaver-process a:focus-visible { outline: 3px solid #547696; outline-offset: 4px; }
+@media (max-width: 640px) { .weaver-process-grid { grid-template-columns: 1fr; } .weaver-authorship { padding: .8rem 1rem; } }

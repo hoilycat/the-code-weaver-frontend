@@ -1,0 +1,43 @@
+.character-design { display: block; min-height: 0; box-sizing: border-box; margin: 2.5rem 0; color: #23334b; text-align: left; }
+.design-overview { margin-bottom: 24px; }
+.design-chapter { margin: 24px 0; padding: clamp(18px, 3vw, 32px); border: 1px solid #c5bcae; border-radius: 12px; background: #f5f0e7; }
+.character-design .design-chapter-label { margin: 0 0 10px; font-size: .75rem; font-weight: 700; letter-spacing: .12em; color: #725039; }
+.character-design .design-chapter-title { margin: 0 0 18px; font-size: clamp(1.2rem, 2.4vw, 1.65rem); line-height: 1.5; }
+.design-chapter-lead { padding: 14px 18px; border-left: 3px solid #725039; background: #eae3d7; }
+.character-design-group { margin-top: 28px; padding-top: 8px; border-top: 1px solid #d5ccbe; }
+.character-design-group h3 { margin-bottom: 18px; }
+.character-design p { line-height: 1.85; word-break: keep-all; }
+.character-design h2 { font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.4; }
+.character-design h3 { font-size: 1rem; margin-top: 1.8rem; }
+.character-design-kicker { font-size: .72rem; letter-spacing: .12em; }
+.character-design-group { width: 100%; min-width: 0; }
+.character-design-grid { display: grid; width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px 16px; }
+.character-design .character-design-grid button { box-sizing: border-box; padding: 12px; }
+.character-design .character-design-grid img { height: clamp(150px, 18vw, 210px); }
+.character-design figure { min-width: 0; margin: 0; text-align: center; }
+.character-design button { display: block; width: 100%; padding: 8px; border: 1px solid #ded6cb; border-radius: 8px; background: #fffaf2; cursor: zoom-in; }
+.character-design img { display: block; width: 100%; height: 130px; object-fit: contain; }
+.character-design figcaption { margin-top: 8px; font-size: .85rem; }
+.character-design a { color: inherit; text-underline-offset: 4px; }
+.character-design button:focus-visible { outline: 3px solid #547696; outline-offset: 3px; }
+.coffee-logo-process { display: grid; grid-template-columns: minmax(160px, 1fr) minmax(0, 2fr); gap: 24px; align-items: center; margin: 24px 0; }
+.coffee-logo-process img { height: auto; max-height: 280px; padding: 16px; box-sizing: border-box; }
+.coffee-design-exploration { margin: 24px 0; padding: 16px; border: 1px solid #c5bcae; border-radius: 8px; }
+.coffee-design-exploration summary { cursor: pointer; font-weight: 600; line-height: 1.6; }
+.coffee-design-exploration summary:focus-visible { outline: 3px solid #547696; outline-offset: 4px; }
+.character-design .coffee-exploration-image { height: auto; max-height: 520px; }
+.coffee-palette { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 0; list-style: none; }
+.coffee-palette li { display: flex; align-items: center; gap: 10px; font-size: .85rem; line-height: 1.6; }
+.coffee-swatch { width: 36px; height: 36px; flex-shrink: 0; border: 1px solid #b8ad9d; border-radius: 50%; }
+.coffee-state-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.character-design .coffee-state-image { height: auto; }
+.coffee-state-dot { display: inline-block; width: 10px; height: 10px; margin-right: 6px; border: 1px solid #b8ad9d; border-radius: 50%; }
+.coffee-state-note { font-size: .8rem; }
+.coffee-state-decision { display: block; margin-top: 10px; line-height: 1.65; word-break: keep-all; text-align: left; }
+.coffee-my-scope { display: block; min-height: 0; box-sizing: border-box; margin: 24px 0; padding: clamp(16px, 3vw, 24px); border: 1px solid #c5bcae; border-left: 4px solid #5c3d2e; background: #f5f0e7; color: #23334b; }
+.coffee-my-scope h2 { margin: 0 0 10px; font-size: .85rem; letter-spacing: .08em; line-height: 1.5; }
+.coffee-my-scope p { margin: 8px 0 0; font-size: .95rem; line-height: 1.8; word-break: keep-all; }
+.coffee-my-scope .coffee-scope-roles { font-weight: 600; }
+@media (max-width: 900px) { .coffee-state-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .coffee-logo-process { grid-template-columns: 1fr; } .coffee-logo-process figure { max-width: 260px; margin: auto; } }
+@media (max-width: 640px) { .character-design-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; } .character-design .character-design-grid img { height: 150px; } }

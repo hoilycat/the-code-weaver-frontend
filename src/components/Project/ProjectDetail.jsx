@@ -3,7 +3,10 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { API_BASE_URL, getImageUrl } from '../../config';
 import { BADGE_ICONS, getProjectBadges, getTechBadges, parseProjectNotes, splitDescription } from './projectNotes';
 import { fallbackProjects, mergeEditorialProject } from './fallbackProjects';
-import './ProjectDetail.css'; 
+import './ProjectDetail.css';
+import WeaverProcess from './WeaverProcess';
+import WeaverImageDialog from './WeaverImageDialog';
+import CharacterDesign from './CharacterDesign';
 
 export default function ProjectDetail() {
   const { id } = useParams(); 
@@ -22,6 +25,11 @@ export default function ProjectDetail() {
 
     window.scrollTo(0, 0);
     setProject(fallbackProject || null);
+
+    if (fallbackProject?.localOnly) {
+      clearTimeout(timeoutId);
+      return () => controller.abort();
+    }
 
     fetch(`${API_BASE_URL}/api/projects/${id}`, { signal: controller.signal })
       .then(res => {
@@ -197,7 +205,7 @@ export default function ProjectDetail() {
       src: "/media/coffee/cof-fee-splash-only.mp4",
       startAt: 0,
       endAt: 3.1,
-      caption: "앱 진입 시 로고와 캐릭터가 등장하는 3초 스플래시 과정을 보여줍니다.",
+      caption: "직접 그린 Cof/fee 로고를 적용하고 구현한 3초 스플래시입니다. 앱 진입 시 로고와 캐릭터가 등장하는 흐름을 보여줍니다.",
     },
     {
       title: "Onboarding Flow",
@@ -450,11 +458,11 @@ export default function ProjectDetail() {
               aria-label={`${project.title} hero demo video`}
             />
           ) : (
-            <img src={heroMedia} alt="Main Wide" />
+            <img src={heroMedia} alt={project.localOnly ? 'The Weaver 직접 제작한 두 번째 디자인 시안' : 'Main Wide'} style={project.localOnly ? { objectPosition: 'center 4%', animation: 'none' } : undefined} />
           )}
         </div>
-        <div className="hero-titles">
-          <span className="mag-issue-no">ISSUE NO. 0{project.id}</span>
+        <div className="hero-titles" style={project.localOnly ? { marginTop: '24px' } : undefined}>
+          <span className="mag-issue-no">{project.localOnly ? 'PORTFOLIO & CMS' : `ISSUE NO. 0${project.id}`}</span>
           <h1 className="mag-title-large">{project.title}</h1>
           <div className="hero-meta-info">
             <span>{project.editorialLabel || project.category}</span>
@@ -478,6 +486,11 @@ export default function ProjectDetail() {
 
       {/* 3. 전체 너비를 1200px로 제한하는 중앙 컨테이너 */}
       <div className="mag-main-container">
+        {isCoffee && <section className="coffee-my-scope" aria-labelledby="coffee-scope-title">
+          <h2 id="coffee-scope-title">MY SCOPE — SOLO PROJECT</h2>
+          <p className="coffee-scope-roles">Service concept · UI/UX · Visual design · Frontend · Caffeine logic · AI integration</p>
+          <p>화면 구조 초안에는 AI를 활용했으며, 실제 화면의 정보 위계·배치·간격·상태 표현은 구현 과정에서 직접 확인하고 조정했습니다.</p>
+        </section>}
         
         {/* 5. 본문 레이아웃 (사이드바 + 지그재그 스토리) */}
         <main className="mag-main-grid">
@@ -521,6 +534,9 @@ export default function ProjectDetail() {
                 </p>
               </div>
             )}
+
+            {project.localOnly && <WeaverProcess onZoom={setZoomImg} />}
+            {(isFocusMate || isCoffee) && <CharacterDesign kind={isFocusMate ? 'berry' : 'coffee'} onZoom={setZoomImg} />}
 
             {(implementedItems.length > 0 || evidenceItems.length > 0) && (
               <section className="development-status-panel" aria-labelledby="project-proof-title">
@@ -1069,7 +1085,7 @@ export default function ProjectDetail() {
         </main>
 
         {/* 6. 관리자 액션바 */}
-        {isAdmin && (
+        {isAdmin && !project.localOnly && (
           <div className="admin-actions-bar">
             <button onClick={() => navigate(`/admin/edit/${id}`)} className="edit-btn">EDIT</button>
             <button className="del-btn">DELETE</button>
@@ -1096,7 +1112,8 @@ export default function ProjectDetail() {
       </footer>
 
       {/* 사진 확대 모달 */}
-      {zoomImg && (
+      {zoomImg && project.localOnly && <WeaverImageDialog src={zoomImg} onClose={() => setZoomImg(null)} />}
+      {zoomImg && !project.localOnly && (
               <div className="image-modal" onClick={() => setZoomImg(null)}>
                 {/* 까만 배경 아무 데나 클릭하면 스위치가 꺼짐(null) */}
                 <img src={zoomImg} alt="Enlarged Detail" />
