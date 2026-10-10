@@ -520,7 +520,10 @@
   gap: 9px;
 }
 
-.project-content-tablist button {
+.project-content-tablist a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 132px;
   padding: 10px 16px;
   border: 1px solid rgba(33, 52, 72, 0.55);
@@ -531,22 +534,23 @@
   font-size: 0.78rem;
   letter-spacing: 0.04em;
   cursor: pointer;
+  text-decoration: none;
   transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
 }
 
-.project-content-tablist button:hover {
+.project-content-tablist a:hover {
   border-color: #213448;
   background: #dbe7ea;
   transform: translateY(-1px);
 }
 
-.project-content-tablist button.is-active {
+.project-content-tablist a.is-active {
   border-color: #213448;
   background: #213448;
   color: #fffaf0;
 }
 
-.project-content-tablist button:focus-visible {
+.project-content-tablist a:focus-visible {
   outline: 3px solid #547792;
   outline-offset: 3px;
 }
@@ -559,9 +563,8 @@
   text-align: center;
 }
 
-.project-content-panel:focus-visible {
-  outline: 2px solid #547792;
-  outline-offset: 8px;
+[id^="project-section-"] {
+  scroll-margin-top: 32px;
 }
 
 .story-intro-label {
@@ -1810,14 +1813,14 @@
     gap: 8px;
   }
 
-  .project-content-tablist button {
+  .project-content-tablist a {
     min-width: 0;
     min-height: 42px;
     padding: 8px 10px;
     font-size: 0.72rem;
   }
 
-  .project-content-tablist button:last-child:nth-child(odd) {
+  .project-content-tablist a:last-child:nth-child(odd) {
     grid-column: span 2;
   }
 
