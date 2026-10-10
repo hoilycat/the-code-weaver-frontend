@@ -616,6 +616,14 @@ export default function ProjectDetail() {
 
           {/* [글-사진] 편집형 리스트  */}
           <section className="mag-content-flow">
+            {introParagraph && (
+              <div className="story-intro-block">
+                <span className="story-intro-label">프로젝트 소개</span>
+                <p className="para-text intro-text drop-cap" style={{ whiteSpace: 'pre-wrap' }}>
+                  {renderTextWithLinks(isSceneDiary ? sceneDiaryIntro : isFixie ? fixieIntro : isFocusMate ? focusMateIntro : isCoffee ? coffeeIntro : introParagraph)}
+                </p>
+              </div>
+            )}
             <ProjectContentTabs tabs={contentTabs} activeTab={activeTab} onChange={setActiveTab} />
             <div
               id="project-content-panel"
@@ -624,15 +632,6 @@ export default function ProjectDetail() {
               tabIndex={0}
               aria-labelledby={`project-content-tab-${activeTab}`}
             >
-            {activeTab === 'overview' && introParagraph && (
-              <div className="story-intro-block">
-                <span className="story-intro-label">프로젝트 소개</span>
-                <p className="para-text intro-text drop-cap" style={{ whiteSpace: 'pre-wrap' }}>
-                  {renderTextWithLinks(isSceneDiary ? sceneDiaryIntro : isFixie ? fixieIntro : isFocusMate ? focusMateIntro : isCoffee ? coffeeIntro : introParagraph)}
-                </p>
-              </div>
-            )}
-
             {activeTab === 'decisions' && project.localOnly && <WeaverProcess onZoom={setZoomImg} />}
             {activeTab === 'decisions' && (isFocusMate || isCoffee) && <CharacterDesign kind={isFocusMate ? 'berry' : 'coffee'} onZoom={setZoomImg} />}
 

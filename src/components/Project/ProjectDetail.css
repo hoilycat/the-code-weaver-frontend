@@ -493,15 +493,21 @@
 
 .story-intro-block {
   max-width: 760px;
-  margin: 0 auto 92px;
+  margin: 0 auto 30px;
   padding: 0 32px 42px;
   border-bottom: 1px solid rgba(33, 52, 72, 0.25);
 }
 
 .project-content-tabs {
+  position: static;
+  top: auto;
+  z-index: auto;
+  display: block;
+  width: min(100%, 960px);
   max-width: 960px;
   margin: 0 auto 58px;
   padding: 18px 24px 16px;
+  box-sizing: border-box;
   border-top: 1px solid rgba(33, 52, 72, 0.42);
   border-bottom: 1px solid rgba(33, 52, 72, 0.28);
   background: rgba(246, 239, 228, 0.6);
@@ -1793,7 +1799,7 @@
   }
 
   .project-content-tabs {
-    margin: 68px auto 42px;
+    margin: 0 auto 42px;
     padding: 14px 12px;
   }
 
