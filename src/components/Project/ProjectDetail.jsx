@@ -8,11 +8,61 @@ import WeaverProcess from './WeaverProcess';
 import WeaverImageDialog from './WeaverImageDialog';
 import CharacterDesign from './CharacterDesign';
 
+const CONTENT_TABS = [
+  { id: 'overview', label: '개요' },
+  { id: 'implementation', label: '구조 · 구현' },
+  { id: 'decisions', label: '설계 · 과정' },
+  { id: 'evidence', label: '화면 · 검증' },
+];
+
+function ProjectContentTabs({ tabs, activeTab, onChange }) {
+  const moveToTab = (event, index) => {
+    const key = event.key;
+    if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(key)) return;
+
+    event.preventDefault();
+    const nextIndex = key === 'Home'
+      ? 0
+      : key === 'End'
+        ? tabs.length - 1
+        : (index + (key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+    const nextTab = tabs[nextIndex];
+
+    onChange(nextTab.id);
+    document.getElementById(`project-content-tab-${nextTab.id}`)?.focus();
+  };
+
+  return (
+    <nav className="project-content-tabs" aria-label="프로젝트 내용">
+      <div className="project-content-tablist" role="tablist" aria-label="프로젝트 내용 분류">
+        {tabs.map((tab, index) => (
+          <button
+            key={tab.id}
+            id={`project-content-tab-${tab.id}`}
+            type="button"
+            role="tab"
+            aria-selected={activeTab === tab.id}
+            aria-controls="project-content-panel"
+            className={activeTab === tab.id ? 'is-active' : ''}
+            tabIndex={activeTab === tab.id ? 0 : -1}
+            onClick={() => onChange(tab.id)}
+            onKeyDown={(event) => moveToTab(event, index)}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+      <p>관심 있는 내용을 골라 바로 읽을 수 있습니다.</p>
+    </nav>
+  );
+}
+
 export default function ProjectDetail() {
   const { id } = useParams(); 
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [project, setProject] = useState(null); 
+  const [activeTab, setActiveTab] = useState('overview');
   const isAdmin = localStorage.getItem("adminToken") === "secret-key-12345";
 
   // 사진 확대 모달 상태
@@ -48,6 +98,10 @@ export default function ProjectDetail() {
     };
   }, [id]);
 
+  useEffect(() => {
+    setActiveTab('overview');
+  }, [id]);
+
   if (!project) return <div className="loading">아카이브 여는 중... 🕯️</div>;
 
   const { storyText, notesText } = splitDescription(project.description);
@@ -69,6 +123,20 @@ export default function ProjectDetail() {
   if (!hasTechStackSection && techBadges.length > 0) {
     displayedNoteSections.unshift({ title: "Tech Stack", lines: techBadges });
   }
+  const decisionNoteTitles = new Set(['Visual Decision', 'Technical Challenge']);
+  const evidenceNoteTitles = new Set(['Results & Limitations', 'Result / Status']);
+  const implementationNoteSections = displayedNoteSections.filter(
+    (section) => !decisionNoteTitles.has(section.title) && !evidenceNoteTitles.has(section.title)
+  );
+  const decisionNoteSections = displayedNoteSections.filter((section) => decisionNoteTitles.has(section.title));
+  const evidenceNoteSections = displayedNoteSections.filter((section) => evidenceNoteTitles.has(section.title));
+  const activeNoteSections = activeTab === 'implementation'
+    ? implementationNoteSections
+    : activeTab === 'decisions'
+      ? decisionNoteSections
+      : activeTab === 'evidence'
+        ? evidenceNoteSections
+        : [];
   const isDataVisualization = project.category === "Data Visualization";
   const isSceneDiary = Number(project.id) === 10 || project.title?.toLowerCase().includes("scenediary");
   const isFixie = project.title?.toLowerCase().includes("fixie");
@@ -381,6 +449,28 @@ export default function ProjectDetail() {
       solution: "map 구조와 닫는 태그 위치를 정리하고 AnimatePresence를 리스트 바깥에 배치해 삭제 애니메이션을 안정화했습니다.",
     },
   ] : []);
+  const hasImplementationContent = bodyParagraphs.length > 0
+    || implementationNoteSections.length > 0
+    || isFixie
+    || isMoodDNA
+    || isSceneDiary;
+  const hasDecisionContent = project.localOnly
+    || isFocusMate
+    || isCoffee
+    || troubleshootingItems.length > 0
+    || decisionNoteSections.length > 0
+    || isSceneDiary;
+  const hasEvidenceContent = readmeMedia.length > 0
+    || galleryImages.length > inlineImageLimit
+    || evidenceNoteSections.length > 0
+    || isMoodDNA
+    || isSceneDiary;
+  const contentTabs = CONTENT_TABS.filter((tab) => (
+    tab.id === 'overview'
+    || (tab.id === 'implementation' && hasImplementationContent)
+    || (tab.id === 'decisions' && hasDecisionContent)
+    || (tab.id === 'evidence' && hasEvidenceContent)
+  ));
 
   const trimTrailingPunctuation = (url = "") => {
     const match = url.match(/[.,!?)]*$/);
@@ -526,7 +616,15 @@ export default function ProjectDetail() {
 
           {/* [글-사진] 편집형 리스트  */}
           <section className="mag-content-flow">
-            {introParagraph && (
+            <ProjectContentTabs tabs={contentTabs} activeTab={activeTab} onChange={setActiveTab} />
+            <div
+              id="project-content-panel"
+              className="project-content-panel"
+              role="tabpanel"
+              tabIndex={0}
+              aria-labelledby={`project-content-tab-${activeTab}`}
+            >
+            {activeTab === 'overview' && introParagraph && (
               <div className="story-intro-block">
                 <span className="story-intro-label">프로젝트 소개</span>
                 <p className="para-text intro-text drop-cap" style={{ whiteSpace: 'pre-wrap' }}>
@@ -535,10 +633,10 @@ export default function ProjectDetail() {
               </div>
             )}
 
-            {project.localOnly && <WeaverProcess onZoom={setZoomImg} />}
-            {(isFocusMate || isCoffee) && <CharacterDesign kind={isFocusMate ? 'berry' : 'coffee'} onZoom={setZoomImg} />}
+            {activeTab === 'decisions' && project.localOnly && <WeaverProcess onZoom={setZoomImg} />}
+            {activeTab === 'decisions' && (isFocusMate || isCoffee) && <CharacterDesign kind={isFocusMate ? 'berry' : 'coffee'} onZoom={setZoomImg} />}
 
-            {(implementedItems.length > 0 || evidenceItems.length > 0) && (
+            {activeTab === 'overview' && (implementedItems.length > 0 || evidenceItems.length > 0) && (
               <section className="development-status-panel" aria-labelledby="project-proof-title">
                 <div className="development-status-head">
                   <div>
@@ -583,7 +681,7 @@ export default function ProjectDetail() {
               </section>
             )}
 
-            {readmeMedia.length > 0 && (
+            {activeTab === 'evidence' && readmeMedia.length > 0 && (
               <section className="readme-media-panel" aria-labelledby="readme-media-title">
                 <div className="notes-kicker">화면 기록</div>
                 <h2 id="readme-media-title">
@@ -643,7 +741,7 @@ export default function ProjectDetail() {
               </section>
             )}
 
-            {troubleshootingItems.length > 0 && (
+            {activeTab === 'decisions' && troubleshootingItems.length > 0 && (
               <section className="troubleshooting-panel" aria-labelledby="troubleshooting-title">
                 <div className="notes-kicker">문제 해결 기록</div>
                 <h2 id="troubleshooting-title">확인하고 수정한 문제</h2>
@@ -660,7 +758,7 @@ export default function ProjectDetail() {
               </section>
             )}
 
-            {isFixie && (
+            {activeTab === 'implementation' && isFixie && (
               <section className="fixie-work-panel" aria-labelledby="fixie-work-title">
                 <div className="notes-kicker">Design · Deployment · Collaboration</div>
                 <h2 id="fixie-work-title">One app, clearly shared ownership</h2>
@@ -708,7 +806,7 @@ export default function ProjectDetail() {
               </section>
             )}
 
-            {isMoodDNA && (
+            {activeTab === 'implementation' && isMoodDNA && (
               <section className="mood-dna-role-panel" aria-labelledby="mood-dna-role-title">
                 <div className="notes-kicker">담당 범위</div>
                 <h2 id="mood-dna-role-title">분석 화면부터 비평 결과까지</h2>
@@ -727,7 +825,7 @@ export default function ProjectDetail() {
               </section>
             )}
 
-            {isMoodDNA && (
+            {activeTab === 'evidence' && isMoodDNA && (
               <section className="mood-dna-demo-panel" aria-labelledby="mood-dna-demo-title">
                 <div className="notes-kicker">화면 기록</div>
                 <h2 id="mood-dna-demo-title">무드 선택부터 AI 비평까지</h2>
@@ -782,7 +880,7 @@ export default function ProjectDetail() {
               </section>
             )}
 
-            {isSceneDiary && (
+            {activeTab === 'implementation' && isSceneDiary && (
               <section className="scene-diary-role-panel" aria-labelledby="scene-diary-role-title">
                 <div className="notes-kicker">My Role</div>
                 <h2 id="scene-diary-role-title">Romantic Persona Writing</h2>
@@ -810,7 +908,7 @@ export default function ProjectDetail() {
               </section>
             )}
 
-            {isSceneDiary && (
+            {activeTab === 'decisions' && isSceneDiary && (
               <section className="scene-diary-visual-panel" aria-labelledby="scene-diary-visual-title">
                 <div className="notes-kicker">Visual Direction</div>
                 <h2 id="scene-diary-visual-title">Generated as a base, directed by hand</h2>
@@ -832,7 +930,7 @@ export default function ProjectDetail() {
               </section>
             )}
 
-            {isSceneDiary && (
+            {activeTab === 'decisions' && isSceneDiary && (
               <section className="scene-diary-poster-panel" aria-labelledby="scene-diary-poster-title">
                 <div className="scene-diary-poster-copy">
                   <div className="notes-kicker">Poster Design Lead</div>
@@ -856,7 +954,7 @@ export default function ProjectDetail() {
               </section>
             )}
 
-            {isSceneDiary && (
+            {activeTab === 'implementation' && isSceneDiary && (
               <section className="scene-diary-deck-panel" aria-labelledby="scene-diary-deck-title">
                 <div className="notes-kicker">Presentation Design Lead</div>
                 <h2 id="scene-diary-deck-title">19 slides, one visual and technical narrative</h2>
@@ -883,7 +981,7 @@ export default function ProjectDetail() {
               </section>
             )}
 
-            {isSceneDiary && (
+            {activeTab === 'decisions' && isSceneDiary && (
               <section className="scene-diary-visual-panel" aria-labelledby="scene-diary-teamwork-title">
                 <div className="notes-kicker">Team Collaboration</div>
                 <h2 id="scene-diary-teamwork-title">Built together, reviewed together</h2>
@@ -929,7 +1027,7 @@ export default function ProjectDetail() {
               </section>
             )}
 
-            {isSceneDiary && (
+            {activeTab === 'decisions' && isSceneDiary && (
               <section className="scene-diary-process-panel" aria-labelledby="scene-diary-process-title">
                 <div className="notes-kicker">Brand & Splash Process</div>
                 <h2 id="scene-diary-process-title">Logo, storyboard, and motion decisions</h2>
@@ -963,7 +1061,7 @@ export default function ProjectDetail() {
               </section>
             )}
 
-            {isSceneDiary && (
+            {activeTab === 'evidence' && isSceneDiary && (
               <section className="scene-diary-motion-panel" aria-labelledby="scene-diary-motion-title">
                 <div className="notes-kicker">Motion Preview</div>
                 <h2 id="scene-diary-motion-title">SceneDiary Splash</h2>
@@ -989,7 +1087,7 @@ export default function ProjectDetail() {
               </section>
             )}
 
-            {bodyParagraphs.map((para, index) => {
+            {activeTab === 'implementation' && bodyParagraphs.map((para, index) => {
               const hasImage = index < inlineImageLimit && !!galleryImages[index];
 
               if (hasImage) {
@@ -1026,7 +1124,7 @@ export default function ProjectDetail() {
             })}
 
             {/* 남은 사진들 하단 갤러리 처리 */}
-            {galleryImages.length > inlineImageLimit && (
+            {activeTab === 'evidence' && galleryImages.length > inlineImageLimit && (
               <div className={`extra-gallery-grid ${isDataVisualization ? "dataviz-extra-icons" : ""}`}>
                 {galleryImages.slice(inlineImageLimit).map((img, idx) => (
                   <div key={idx} className="extra-img-box">
@@ -1041,20 +1139,24 @@ export default function ProjectDetail() {
               </div>
             )}
 
-            {displayedNoteSections.length > 0 && (
+            {activeNoteSections.length > 0 && (
               <section className="project-notes-panel" aria-labelledby="project-notes-title">
                 <div className="notes-kicker">프로젝트 기록</div>
-                <h2 id="project-notes-title">구현 상세</h2>
-                <div className="notes-badge-row" aria-label="Project type tags">
-                  {displayedProjectBadges.map((badge) => (
-                    <span key={badge} className="project-pill compact">
-                      <span className="pill-icon">{BADGE_ICONS[badge] || badge.slice(0, 2).toUpperCase()}</span>
-                      <span>{badge}</span>
-                    </span>
-                  ))}
-                </div>
+                <h2 id="project-notes-title">
+                  {activeTab === 'implementation' ? '구조와 구현' : activeTab === 'decisions' ? '설계 판단' : '검증과 한계'}
+                </h2>
+                {activeTab === 'implementation' && (
+                  <div className="notes-badge-row" aria-label="Project type tags">
+                    {displayedProjectBadges.map((badge) => (
+                      <span key={badge} className="project-pill compact">
+                        <span className="pill-icon">{BADGE_ICONS[badge] || badge.slice(0, 2).toUpperCase()}</span>
+                        <span>{badge}</span>
+                      </span>
+                    ))}
+                  </div>
+                )}
                 <div className="notes-grid">
-                  {displayedNoteSections.map((section) => (
+                  {activeNoteSections.map((section) => (
                     <article key={section.title} className="note-block">
                       <h3>{section.title}</h3>
                       {section.title === "Tech Stack" ? (
@@ -1081,6 +1183,7 @@ export default function ProjectDetail() {
                 </div>
               </section>
             )}
+            </div>
           </section>
         </main>
 
