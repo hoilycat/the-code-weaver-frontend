@@ -16,6 +16,21 @@ const CONTENT_TABS = [
 ];
 
 function ProjectContentTabs({ tabs, activeTab, onChange }) {
+  const moveToSection = (event, tab) => {
+    event.preventDefault();
+    onChange(tab.id);
+
+    const section = document.getElementById(`project-section-${tab.id}`);
+    if (!section) return;
+
+    const menu = event.currentTarget.closest('.project-content-tabs');
+    const offset = (menu?.getBoundingClientRect().height || 0) + 28;
+    const destination = section.getBoundingClientRect().top + window.scrollY - offset;
+
+    window.history.pushState(null, '', `#project-section-${tab.id}`);
+    window.scrollTo({ top: Math.max(0, destination), behavior: 'smooth' });
+  };
+
   return (
     <nav className="project-content-tabs" aria-label="프로젝트 내용">
       <div className="project-content-tablist" aria-label="프로젝트 내용 분류">
@@ -25,7 +40,7 @@ function ProjectContentTabs({ tabs, activeTab, onChange }) {
             href={`#project-section-${tab.id}`}
             aria-current={activeTab === tab.id ? 'location' : undefined}
             className={activeTab === tab.id ? 'is-active' : ''}
-            onClick={() => onChange(tab.id)}
+            onClick={(event) => moveToSection(event, tab)}
           >
             {tab.label}
           </a>

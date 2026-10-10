@@ -499,9 +499,9 @@
 }
 
 .project-content-tabs {
-  position: static;
-  top: auto;
-  z-index: auto;
+  position: sticky;
+  top: 14px;
+  z-index: 950;
   display: block;
   width: min(100%, 960px);
   max-width: 960px;
@@ -510,7 +510,9 @@
   box-sizing: border-box;
   border-top: 1px solid rgba(33, 52, 72, 0.42);
   border-bottom: 1px solid rgba(33, 52, 72, 0.28);
-  background: rgba(246, 239, 228, 0.6);
+  background: rgba(246, 239, 228, 0.94);
+  box-shadow: 0 10px 24px rgba(33, 52, 72, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .project-content-tablist {
@@ -564,7 +566,7 @@
 }
 
 [id^="project-section-"] {
-  scroll-margin-top: 32px;
+  scroll-margin-top: 132px;
 }
 
 .story-intro-label {
@@ -1803,8 +1805,13 @@
   }
 
   .project-content-tabs {
+    top: 8px;
     margin: 0 auto 42px;
     padding: 14px 12px;
+  }
+
+  [id^="project-section-"] {
+    scroll-margin-top: 168px;
   }
 
   .project-content-tablist {
