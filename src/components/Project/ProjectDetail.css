@@ -1578,6 +1578,7 @@
 }
 
 .project-notes-panel {
+  box-sizing: border-box;
   margin: 120px 0 40px;
   padding: 48px 52px;
   border-top: 2px solid #213448;
