@@ -1,0 +1,46 @@
+/* About 애니메이션 건너뛰기 버튼 */
+.skip-to-projects {
+  position: absolute;
+  right: 32px;
+  bottom: 32px;
+  z-index: 10;
+
+  padding: 8px 16px;
+  border: 1px solid var(--dark-color);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--dark-color);
+
+  font-family: inherit;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.skip-to-projects span {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.skip-to-projects:hover {
+  background-color: var(--dark-color);
+  color: var(--bg-color);
+}
+
+.skip-to-projects:hover span {
+  transform: translateX(3px);
+}
+
+.skip-to-projects:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+  .skip-to-projects {
+    right: 16px;
+    bottom: 24px;
+    font-size: 0.75rem;
+  }
+}
