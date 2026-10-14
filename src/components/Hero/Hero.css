@@ -12,6 +12,7 @@
 .hero-sticky {
   position: sticky !important;
   top: 0;
+  width: 100%; /* 내용 폭만큼 줄어들어 메뉴가 화면 오른쪽 끝에 붙지 않던 문제 */
   height: 100vh;
   display: flex;
   flex-direction: column;
