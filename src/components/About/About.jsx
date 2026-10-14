@@ -4,6 +4,7 @@ import yarnImg from "../../assets/images/yarn.svg";
 import pantsImg from "../../assets/images/pants.svg";
 import tshirtImg from "../../assets/images/tshirt.svg";
 import socksImg from "../../assets/images/socks.svg";
+import SkipToProjects from "./SkipToProjects";
 
 // 숫자를 넣으면 항상 똑같은 0~1 사이 값을 뱉는 '순수 함수'
 // 이 함수는 Math.random 대신 사용되어 리액트 19의 잔소리를 막아줌
@@ -147,6 +148,9 @@ export default function About() {
 
         <YarnBall progress={smoothProgress} />
         <ClothingStack progress={smoothProgress} />
+
+        {/* 애니메이션 건너뛰기 버튼 */}
+        <SkipToProjects progress={scrollYProgress} />
       </div>
     </section>
   );
