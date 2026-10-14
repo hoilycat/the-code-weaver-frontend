@@ -1,8 +1,10 @@
 /* About 애니메이션 건너뛰기 버튼 */
 .skip-to-projects {
+  /* 위로 가기 털실 버튼(오른쪽 40px, 아래 40px, 80px 크기)의 왼쪽에 나란히 둔다.
+     right: 40 + 80 + 간격 16 = 136px / bottom: 털실 가운데(80px)에 버튼 가운데를 맞춤 */
   position: absolute;
-  right: 32px;
-  bottom: 32px;
+  right: 136px;
+  bottom: 63px;
   z-index: 10;
 
   padding: 8px 16px;
@@ -39,8 +41,8 @@
 
 @media (max-width: 768px) {
   .skip-to-projects {
-    right: 16px;
-    bottom: 24px;
+    right: 132px;
+    bottom: 64px;
     font-size: 0.75rem;
   }
 }
