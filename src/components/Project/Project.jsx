@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './Project.css';
 import { mergeEditorialProjects } from './fallbackProjects';
+import { saveMainScroll } from '../ScrollManager/scrollMemory';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,18 @@ const FEATURED_PROJECT_IDS = {
   'Full-stack': 2,
   Data: 8,
 };
+const FILTER_STORAGE_KEY = 'weaver:projectFilter';
+
+// 브라우저 뒤로 가기로 돌아오면 주소에 필터가 없어서 기본값으로 바뀌고,
+// 카드 배치가 달라져 저장한 스크롤 위치가 어긋난다. 그래서 마지막 필터도 기억해 둔다.
+const getStoredFilter = () => {
+  try {
+    return sessionStorage.getItem(FILTER_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+};
+
 const PROJECT_IDS_BY_FILTER = {
   'Machine Vision': [11, 12, 1, 3],
   AI: [3, 4, 11, 2],
@@ -26,10 +39,12 @@ const PROJECT_IDS_BY_FILTER = {
 export default function Project() {
   const [projects, setProjects] = useState(() => mergeEditorialProjects());
   const location = useLocation();
-  const initialFilter = new URLSearchParams(location.search).get('projectFilter');
-  const [filter, setFilter] = useState(
-    FILTERS.includes(initialFilter) ? initialFilter : 'Machine Vision'
-  );
+  const [filter, setFilter] = useState(() => {
+    const fromUrl = new URLSearchParams(location.search).get('projectFilter');
+    if (FILTERS.includes(fromUrl)) return fromUrl;
+    const stored = getStoredFilter();
+    return FILTERS.includes(stored) ? stored : 'Machine Vision';
+  });
   const navigate = useNavigate();
   const sectionRef = useRef(null);
   const cardsRef = useRef([]);
@@ -38,13 +53,22 @@ export default function Project() {
 
   const refreshProjectLayout = useCallback(() => {
     setTimeout(() => {
+      // 위치 복원은 ScrollManager가 담당한다.
+      // 여기서 다시 scrollTo를 하면 서버 응답이 늦게 올 때 화면이 한 번 더 미끄러진다.
       ScrollTrigger.refresh();
-      if (window.location.hash === '#Projects' && sectionRef.current) {
-        const top = sectionRef.current.getBoundingClientRect().top + window.scrollY - 24;
-        window.scrollTo({ top, behavior: 'auto' });
-      }
     }, 100);
   }, []);
+
+  // 상세로 떠나기 직전에 지금 위치와 필터를 저장 → 돌아오면 이 카드 자리로 복원
+  const openProject = (projectId) => {
+    saveMainScroll();
+    try {
+      sessionStorage.setItem(FILTER_STORAGE_KEY, filter);
+    } catch {
+      // 저장소를 못 쓰면 주소의 ?from 값으로 필터를 복원한다
+    }
+    navigate(`/project/${projectId}?from=${encodeURIComponent(filter)}`);
+  };
 
   const fetchWithTimeout = useCallback(async (url, timeoutMs = 12000) => {
     const controller = new AbortController();
@@ -164,7 +188,7 @@ export default function Project() {
                   key={project.id}
                   ref={el => cardsRef.current[index] = el}
                   className={`project-card ${isFeatured ? 'featured' : (project.size || 'small')}`}
-                  onClick={() => navigate(`/project/${project.id}?from=${encodeURIComponent(filter)}`)}
+                  onClick={() => openProject(project.id)}
                   style={{ "--bg-image": `url(${getImageUrl(project.snapshot)})`, "--bg-position": project.localOnly ? 'center 4%' : 'center' }}
                 >
                   <div className="card-info">

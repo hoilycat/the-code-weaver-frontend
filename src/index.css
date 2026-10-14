@@ -10,6 +10,13 @@ html{
   scroll-behavior: smooth;
 }
 
+/* 상단 메뉴(#About, #Projects, #Footer)로 이동할 때 위쪽에 24px 여유를 둔다 */
+#About,
+#Projects,
+#Footer {
+  scroll-margin-top: 24px;
+}
+
 @font-face {
   font-family: "Superclarendon";
   src: url("./assets/fonts/superclarendon-bl-587272f656611.ttf") format("truetype");
