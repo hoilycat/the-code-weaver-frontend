@@ -32,11 +32,11 @@
   font-size: 0.6rem;
   letter-spacing: 2px;
   color: #94B4C1;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
 }
 
 .login-title {
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 2.2rem;
   color: #213448;
   margin-bottom: 40px;
@@ -75,7 +75,7 @@
   color: #EAE0CF;
   padding: 15px;
   border: none;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-weight: bold;
   letter-spacing: 2px;
   cursor: pointer;

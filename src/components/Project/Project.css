@@ -14,7 +14,7 @@
   grid-auto-rows: 250px;
   gap: 20px;
   max-width: 1200px;
-  margin: 50px auto 300px auto;
+  margin: 50px auto 160px auto;
 }
 
 .project-card {
@@ -71,7 +71,7 @@
 }
 
 .project-card h3 {
-  font-family: 'Myeongjo', serif; /* 제목 명조체 [cite: 278] */
+  font-family: "RIDIBatang", serif; /* 제목 명조체 ('Myeongjo'는 정의된 적 없는 폰트라 Times로 떨어지고 있었음) */
   font-size: clamp(1.05rem, 1.35vw, 1.28rem);
   font-weight: 300;
   line-height: 1.2;
@@ -81,7 +81,7 @@
   word-break: keep-all;
 }
 
-/* 카드 배경 이미지 (snapshot) */
+/* 카드 배경 이미지 (snapshot): 기본으로 보이고, 호버하면 천천히 확대 */
 .project-card::before {
   content: "";
   position: absolute;
@@ -89,14 +89,32 @@
   background-image: var(--bg-image); /* 인라인 스타일로 넣어줄 예정 */
   background-size: cover;
   background-position: var(--bg-position, center);
-  opacity: 0; /* 평소엔 안 보임 */
+  transform: scale(1.001);
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 1;
+}
+
+/* 글자가 어떤 사진 위에서도 읽히도록 아래쪽에 남색 그라데이션을 깐다 */
+.project-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(33, 52, 72, 0.94) 0%,
+    rgba(33, 52, 72, 0.72) 55%,
+    rgba(33, 52, 72, 0.18) 100%
+  );
   transition: opacity 0.5s ease;
   z-index: 1;
 }
 
-/* 호버 시 배경 이미지 살리기 */
 .project-card:hover::before {
-  opacity: 0.3; /* 사진이 은은하게 깔림 */
+  transform: scale(1.05);
+}
+
+.project-card:hover::after {
+  opacity: 0.92;
 }
 
 /* 호버 시 정보창 애니메이션 */
@@ -123,6 +141,7 @@
 
 /* 요약 설명 (평소엔 숨김) */
 .card-summary {
+  font-family: "RIDIBatang", serif; /* 본문은 리디바탕으로만 (영문도 섞이지 않게) */
   font-size: 0.85rem;
   line-height: 1.4;
   margin-top: 10px;
@@ -134,6 +153,19 @@
 .project-card:hover .card-summary {
   opacity: 1;
   max-height: 100px; /* 슥 나타남 */
+}
+
+/* 호버가 없는 터치 기기(폰·태블릿)에서는 요약을 처음부터 보여준다 */
+@media (hover: none) {
+  .card-summary {
+    opacity: 1;
+    max-height: 100px;
+  }
+}
+
+/* 필터 버튼: 브라우저 기본(Arial) 대신 상단 메뉴와 같은 사이트 기본 폰트 */
+.filter-nav button {
+  font-family: inherit;
 }
 
 
@@ -155,7 +187,7 @@
 }
 
 .announcement-border h4 {
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 1.5rem;
   margin-bottom: 15px;
   letter-spacing: 5px;

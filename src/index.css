@@ -44,6 +44,9 @@ body {
     "RIDIBatang",
     sans-serif;
   color: var(--text-main);
+  /* 한글이 단어 중간('파이프라/인')에서 끊기지 않게, 긴 영문·URL은 넘치지 않게 */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 

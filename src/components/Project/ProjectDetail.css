@@ -154,7 +154,7 @@
 }
 
 .mag-hero-title {
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: clamp(3rem, 6vw, 5rem);
   text-transform: uppercase;
   border-bottom: 2px solid #213448;
@@ -181,6 +181,17 @@
   display: inline-flex;
   align-items: center;
   width: fit-content;
+  /* 브라우저 기본 파란 링크 대신 사이트 남색 */
+  color: #213448;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+}
+
+.mag-visit-btn:hover {
+  color: #547792;
 }
 
 .private-repo-card {
@@ -194,7 +205,7 @@
 .private-repo-card span {
   display: block;
   margin-bottom: 10px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.68rem;
   letter-spacing: 1.6px;
   color: #547792;
@@ -247,7 +258,7 @@
   border-radius: 999px;
   padding: 10px 15px;
   box-shadow: 0 8px 22px rgba(33, 52, 72, 0.12);
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.78rem;
   cursor: pointer;
   display: inline-flex;
@@ -315,7 +326,7 @@
 .mag-wide-hero {
   width: 100%;
   margin: 0;
-  padding: 0;
+  padding: 92px 0 0; /* 고정 BACK 버튼이 대표 이미지를 가리지 않도록 위쪽 띠 확보 */
   overflow: hidden;
   margin-bottom: 24px;
 }
@@ -378,7 +389,7 @@
 }
 
 .mag-title-large {
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: clamp(2rem, 6vw, 4.5rem); /* 👈 한 치수 줄여서 더 정갈하게 */
   margin: 0;
   line-height: 1.1;
@@ -392,17 +403,22 @@
 
 
 .mag-issue-no {
-  display: block;
-  font-family: "Superclarendon", serif;
+  /* 제목 박스가 이미지에 걸쳐 올라가므로, 라벨도 종이 배경을 깔아 어두운 사진 위에서 읽히게 */
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px 14px;
+  background-color: #EAE0CF;
+  border: 1px solid rgba(33, 52, 72, 0.35);
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.9rem;
   letter-spacing: 3px;
   color: #213448;
   margin-bottom: 10px;
-  opacity: 0.8;
 }
 
 .hero-meta-info {
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.85rem;
   opacity: 0.6;
   display: flex;
@@ -466,7 +482,7 @@
   border-radius: 50%;
   background: #213448;
   color: #EAE0CF;
-  font-family: "Superclarendon", sans-serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.56rem;
   line-height: 1;
 }
@@ -532,7 +548,7 @@
   border-radius: 999px;
   background: rgba(255, 252, 246, 0.72);
   color: #213448;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.78rem;
   letter-spacing: 0.04em;
   cursor: pointer;
@@ -572,7 +588,7 @@
 .story-intro-label {
   display: block;
   margin-bottom: 18px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.72rem;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -689,7 +705,7 @@
 
 .development-status-head h2 {
   margin: 10px 0 14px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: clamp(2rem, 4vw, 3.35rem);
   line-height: 1.05;
   color: #213448;
@@ -715,14 +731,14 @@
 }
 
 .development-progress strong {
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 1.7rem;
   color: #213448;
 }
 
 .development-progress span {
   margin-top: 6px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.7rem;
   letter-spacing: 1.6px;
   text-transform: uppercase;
@@ -743,6 +759,7 @@
 
 .roadmap-grid article {
   min-width: 0;
+  text-align: left; /* 아이콘(왼쪽)과 글자의 시작점을 맞춘다 */
   padding: 24px 22px;
   border-left: 1px solid rgba(33, 52, 72, 0.32);
   background: rgba(246, 239, 228, 0.5);
@@ -750,7 +767,7 @@
 
 .roadmap-grid h3 {
   margin: 0 0 18px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 1.05rem;
   color: #213448;
 }
@@ -776,8 +793,15 @@
 }
 
 .roadmap-grid li span {
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   color: #547792;
+}
+
+/* 목록 바로 다음에 오는 소제목(예: '다음 검증')은 새 묶음으로 보이게 간격과 구분선 */
+.roadmap-grid ul + h3 {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px dashed rgba(33, 52, 72, 0.28);
 }
 
 .roadmap-grid li.todo {
@@ -789,7 +813,7 @@
 .mood-dna-demo-panel h2 {
   max-width: 820px;
   margin: 10px auto 24px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: clamp(2rem, 4vw, 3.45rem);
   line-height: 1.05;
   text-align: center;
@@ -881,7 +905,7 @@
 
 .readme-media-card h3 {
   margin: 18px 0 8px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 1rem;
   color: #213448;
 }
@@ -905,7 +929,7 @@
 .troubleshooting-panel h2 {
   max-width: 780px;
   margin: 10px auto 30px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: clamp(2rem, 4vw, 3.35rem);
   line-height: 1.05;
   text-align: center;
@@ -935,7 +959,7 @@
   margin-bottom: 18px;
   border: 1px solid rgba(33, 52, 72, 0.45);
   border-radius: 50%;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.7rem;
   color: #213448;
 }
@@ -943,7 +967,7 @@
 .troubleshooting-card h3 {
   min-height: 2.6em;
   margin: 0 0 14px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 1.02rem;
   line-height: 1.3;
   color: #213448;
@@ -963,7 +987,7 @@
 .troubleshooting-card strong {
   display: block;
   margin-bottom: 4px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.68rem;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -994,7 +1018,7 @@
 
 .mood-dna-role-grid h3 {
   margin: 0 0 12px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 1.02rem;
   color: #213448;
 }
@@ -1042,7 +1066,7 @@
 
 .mood-dna-demo-card h3 {
   margin: 18px 0 8px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 1rem;
   color: #213448;
 }
@@ -1065,7 +1089,7 @@
 
 .scene-diary-role-panel h2 {
   margin: 10px 0 22px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: clamp(2rem, 4vw, 3.35rem);
   line-height: 1;
   text-align: center;
@@ -1096,14 +1120,14 @@
 }
 
 .persona-process-grid span {
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.72rem;
   color: #547792;
 }
 
 .persona-process-grid h3 {
   margin: 12px 0 10px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 1rem;
   color: #213448;
 }
@@ -1130,7 +1154,7 @@
 .scene-diary-deck-panel h2,
 .fixie-work-panel h2 {
   margin: 10px auto 24px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: clamp(2rem, 4vw, 3.35rem);
   line-height: 1.05;
   text-align: center;
@@ -1186,7 +1210,7 @@
 
 .scene-diary-asset-card h3 {
   margin: 20px 0 10px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 1rem;
   color: #213448;
 }
@@ -1240,7 +1264,7 @@
 
 .scene-diary-workflow-list span {
   flex: 0 0 auto;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   color: #547792;
 }
 
@@ -1306,7 +1330,7 @@
 .scene-diary-process-panel h2 {
   max-width: 780px;
   margin: 10px auto 34px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: clamp(2rem, 4vw, 3.35rem);
   line-height: 1.05;
   text-align: center;
@@ -1371,7 +1395,7 @@
 
 .scene-diary-process-card h3 {
   margin: 20px 0 10px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 1rem;
   color: #213448;
 }
@@ -1398,7 +1422,7 @@
 
 .scene-diary-motion-panel h2 {
   margin: 10px 0 34px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: clamp(2rem, 4vw, 3.5rem);
   line-height: 1;
   text-align: center;
@@ -1439,7 +1463,7 @@
 .scene-diary-video-card span {
   display: block;
   margin-top: 16px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.76rem;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -1556,7 +1580,7 @@
   background: rgba(234, 224, 207, 0.86);
   border: 1px solid rgba(33, 52, 72, 0.18);
   font-size: 0.65rem;
-  font-family: "Superclarendon";
+  font-family: "Superclarendon", "RIDIBatang", serif;
   opacity: 0.68;
 }
 
@@ -1596,7 +1620,7 @@
 }
 
 .notes-kicker {
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.72rem;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -1606,7 +1630,7 @@
 
 .project-notes-panel h2 {
   margin: 10px 0 0;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: clamp(2rem, 4vw, 3.5rem);
   line-height: 1;
   text-align: center;
@@ -1629,7 +1653,7 @@
   margin: 0 0 14px;
   padding-bottom: 7px;
   border-bottom: 1px solid #94B4C1;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.9rem;
   letter-spacing: 1px;
   color: #213448;
@@ -1687,7 +1711,7 @@
 
 .project-form-card h3 {
   margin: 8px 0 20px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 1.55rem;
   line-height: 1;
   color: #213448;
@@ -1710,7 +1734,7 @@
 
 .option-group-label {
   margin: 20px 0 10px;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.7rem;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -1733,7 +1757,7 @@
   border-radius: 999px;
   background: rgba(234, 224, 207, 0.9);
   color: #213448;
-  font-family: "Superclarendon", serif;
+  font-family: "Superclarendon", "RIDIBatang", serif;
   font-size: 0.68rem;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
@@ -1777,7 +1801,7 @@
 .admin-actions-bar button {
   padding: 10px 40px;
   cursor: pointer;
-  font-family: "Superclarendon";
+  font-family: "Superclarendon", "RIDIBatang", serif;
   border: none;
 }
 .edit-btn { background: #94B4C1; color: white; }
@@ -1834,6 +1858,7 @@
   /* 2. 헤더 섹션 (슬림화) */
   .mag-wide-hero {
     margin-bottom: 40px;
+    padding-top: 64px; /* 모바일 BACK 버튼(top 14px) 높이에 맞춘 띠 */
   }
   .hero-img-wrapper {
     height: 35vh;
@@ -2035,7 +2060,7 @@
 
   .mag-visit-btn {
     margin: 0 !important;
-    padding: 10px 20px !important;
+    padding: 0 !important; /* 아래 관련 링크들과 시작점을 맞춘다 */
     font-size: 0.7rem !important;
   }
 
