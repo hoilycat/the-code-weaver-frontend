@@ -81,7 +81,7 @@
   word-break: keep-all;
 }
 
-/* 카드 배경 이미지 (snapshot): 기본으로 보이고, 호버하면 천천히 확대 */
+/* 카드 배경 이미지 (snapshot) */
 .project-card::before {
   content: "";
   position: absolute;
@@ -89,32 +89,14 @@
   background-image: var(--bg-image); /* 인라인 스타일로 넣어줄 예정 */
   background-size: cover;
   background-position: var(--bg-position, center);
-  transform: scale(1.001);
-  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  z-index: 1;
-}
-
-/* 글자가 어떤 사진 위에서도 읽히도록 아래쪽에 남색 그라데이션을 깐다 */
-.project-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(33, 52, 72, 0.94) 0%,
-    rgba(33, 52, 72, 0.72) 55%,
-    rgba(33, 52, 72, 0.18) 100%
-  );
+  opacity: 0; /* 평소엔 안 보임 */
   transition: opacity 0.5s ease;
   z-index: 1;
 }
 
+/* 호버 시 배경 이미지 살리기 */
 .project-card:hover::before {
-  transform: scale(1.05);
-}
-
-.project-card:hover::after {
-  opacity: 0.92;
+  opacity: 0.3; /* 사진이 은은하게 깔림 */
 }
 
 /* 호버 시 정보창 애니메이션 */
@@ -155,8 +137,27 @@
   max-height: 100px; /* 슥 나타남 */
 }
 
-/* 호버가 없는 터치 기기(폰·태블릿)에서는 요약을 처음부터 보여준다 */
+/* 호버가 없는 터치 기기(폰·태블릿): 사진이 영영 안 보이는 문제를 막기 위해
+   처음부터 사진을 보여주고, 글자가 읽히도록 아래쪽에 남색 그라데이션을 깐다.
+   마우스가 있는 기기는 위의 '호버 시 은은하게' 연출을 그대로 쓴다. */
 @media (hover: none) {
+  .project-card::before {
+    opacity: 1;
+  }
+
+  .project-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(33, 52, 72, 0.94) 0%,
+      rgba(33, 52, 72, 0.72) 55%,
+      rgba(33, 52, 72, 0.18) 100%
+    );
+    z-index: 1;
+  }
+
   .card-summary {
     opacity: 1;
     max-height: 100px;
