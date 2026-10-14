@@ -831,6 +831,21 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+/* 화면 기록이 하나뿐이면(예: Annotation QA) 왼쪽 칸에 작게 두지 않고 가운데 전체 폭으로 크게 보여준다.
+   틀도 고정 비율(7:3 등) 대신 영상·이미지 원래 비율을 따라 위아래가 잘리거나 띠가 생기지 않게 한다. */
+.readme-media-grid > .readme-media-card:only-child {
+  grid-column: 1 / -1;
+}
+
+.readme-media-grid > .readme-media-card:only-child .readme-media-frame {
+  aspect-ratio: auto;
+}
+
+.readme-media-grid > .readme-media-card:only-child .readme-media-frame img,
+.readme-media-grid > .readme-media-card:only-child .readme-media-frame video {
+  height: auto;
+}
+
 .readme-media-grid.fixie-media-grid .readme-media-card:last-child {
   grid-column: 1 / -1;
 }
