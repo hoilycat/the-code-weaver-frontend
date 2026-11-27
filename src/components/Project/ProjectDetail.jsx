@@ -138,7 +138,7 @@ export default function ProjectDetail() {
   const displayedProjectBadges = projectBadges.filter(
     (badge) => badge !== "Solo Project" && badge !== "Team Project"
   );
-  const sceneDiaryIntro = "SceneDiary는 여행 사진을 하루의 장면으로 읽고, 선택한 페르소나의 문체로 그 순간을 일기처럼 구성하는 앱입니다. 저는 Visual Design Lead로서 브랜드와 스플래시, 소개 이미지, A1 학술 포스터, 19장 발표자료의 시각 체계를 설계하고 최종 제작과 문장 QA를 맡았습니다. 프론트엔드에서는 사진 추가와 이미지 로딩·생성 대기 화면을 구현했으며, 백엔드 팀과는 데이터베이스 구조를 검토했습니다. 화면 연결과 교차 QA는 담당 팀원들과 함께 진행했습니다.";
+  const sceneDiaryIntro = "SceneDiary는 여행 사진을 하루의 장면으로 읽고, 선택한 페르소나의 문체로 그 순간을 일기처럼 구성하는 앱입니다. 저는 Visual Design Lead로서 브랜드와 스플래시, 소개 이미지, A1 학술 포스터, 19장 발표자료의 시각 체계를 설계하고 최종 제작과 문장 QA를 맡았습니다. 사진 추가와 이미지 로딩·생성 대기 화면은 프론트엔드와 백엔드를 모두 맡아 구현했으며, 백엔드 팀과는 데이터베이스 구조를 검토했습니다. 화면 연결과 교차 QA는 담당 팀원들과 함께 진행했습니다.";
   const fixieIntro = "Fixie는 QR 코드나 모델명으로 가전제품을 등록하고, 매뉴얼을 학습한 AI와 대화하며 필요한 해결 방법을 찾는 팀 프로젝트입니다. 저는 앱의 기본 구조와 서비스 디자인, 기기 등록·홈·AI 채팅·이력·설정 화면을 포함한 프론트엔드를 맡았습니다. 이후 Azure 배포 브랜치에서 Docker 기반 운영 환경과 Vercel·API 연결을 구성했습니다. GraphRAG 핵심과 백엔드는 팀원이 주도했으며, 오류 수정과 교차 QA는 함께 진행했습니다.";
   const focusMateIntro = "Focus Mate Berry는 사용자의 학습 상태를 감지하고, 이를 캐릭터의 반응으로 보여주는 집중 관리 서비스입니다. MediaPipe와 OpenCV로 자세와 자리 비움 상태를 감지하고, 결과에 따라 Berry의 성장, 경고, 수면 상태가 달라지도록 구성했습니다. 캐릭터와의 상호작용을 통해 사용자가 자신의 학습 상태를 자연스럽게 인식하도록 설계했습니다.";
   const coffeeIntro = "Cof/fee는 카페인을 마신 시각과 양을 기록하고, 시간에 따른 체내 잔존량을 확인하는 생활 기록 대시보드입니다. React와 Jotai로 섭취 기록과 상태를 관리하며 반감기 계산, 수면 신호, 금단 위험 알림을 하나의 흐름으로 구성했습니다. v3에서는 YIE GraphRAG를 연결해 기록 패턴과 관련된 논문 근거를 참고 정보로 제공합니다.";
@@ -1001,7 +1001,7 @@ export default function ProjectDetail() {
                   <article>
                     <span>03</span>
                     <h3>Owned Screens</h3>
-                    <p>사진 추가와 이미지 로딩·생성 대기 화면을 구현하고 앱 디자인 방향을 논의했습니다.</p>
+                    <p>사진 추가와 이미지 로딩·생성 대기 화면을 프론트엔드부터 백엔드까지 구현하고 앱 디자인 방향을 논의했습니다.</p>
                   </article>
                   <article>
                     <span>04</span>
